@@ -6,7 +6,7 @@ const double subtitleFontSize = 16;
 const double signInMainFontSize = 40;
 
 const TextStyle titleStyle = TextStyle(
-  color: Colors.teal,
+  color: Color.fromRGBO(236, 129, 49, 1),
   fontSize: mainFontSize,
 );
 

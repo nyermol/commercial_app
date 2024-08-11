@@ -19,9 +19,10 @@ class MeasurementsDisplay extends StatelessWidget {
     required this.units,
     required this.labels,
   }) : assert(
-            measurementKeys.length == units.length &&
-                units.length == labels.length,
-            S.current.listLength,);
+          measurementKeys.length == units.length &&
+              units.length == labels.length,
+          S.current.listLength,
+        );
 
   String format(BuildContext context, String? value, String unit) {
     if (value == null || value.isEmpty) {
@@ -39,18 +40,20 @@ class MeasurementsDisplay extends StatelessWidget {
         for (int i = 0; i < measurementKeys.length; i++) {
           String measurement =
               format(context, state[measurementKeys[i]], units[i]);
-          measurementWidgets.add(Row(
-            children: <Widget>[
-              Text(
-                '${labels[i]}:',
-                style: mainLabelStyle,
-              ),
-              Text(
-                ' $measurement',
-                style: secondaryLabelStyle,
-              ),
-            ],
-          ),);
+          measurementWidgets.add(
+            Row(
+              children: <Widget>[
+                Text(
+                  '${labels[i]}:',
+                  style: mainLabelStyle,
+                ),
+                Text(
+                  ' $measurement',
+                  style: secondaryLabelStyle,
+                ),
+              ],
+            ),
+          );
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

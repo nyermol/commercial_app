@@ -19,7 +19,10 @@ class SelectedRoomList extends StatelessWidget {
         return ListTile(
           title: Text(
             selectedRooms[index],
-            style: const TextStyle(color: Colors.teal, fontSize: mainFontSize),
+            style: const TextStyle(
+              color: Color.fromRGBO(236, 129, 49, 1),
+              fontSize: mainFontSize,
+            ),
           ),
           visualDensity: const VisualDensity(vertical: -4),
         );

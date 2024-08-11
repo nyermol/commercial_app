@@ -19,12 +19,13 @@ class RemarksList extends StatefulWidget {
   final String itemsKey;
   final bool isListEmpty;
   final Function(int) onItemDismiss;
-  const RemarksList(
-      {super.key,
-      required this.title,
-      required this.itemsKey,
-      this.isListEmpty = false,
-      required this.onItemDismiss,});
+  const RemarksList({
+    super.key,
+    required this.title,
+    required this.itemsKey,
+    this.isListEmpty = false,
+    required this.onItemDismiss,
+  });
   @override
   State<RemarksList> createState() => _RemarksListState();
 }
@@ -126,8 +127,13 @@ class _RemarksListState extends State<RemarksList> {
       int size = width < height ? width : height;
       int xOffset = (width - size) ~/ 2;
       int yOffset = (height - size) ~/ 2;
-      img.Image croppedImage = img.copyCrop(originalImage,
-          x: xOffset, y: yOffset, width: size, height: size,);
+      img.Image croppedImage = img.copyCrop(
+        originalImage,
+        x: xOffset,
+        y: yOffset,
+        width: size,
+        height: size,
+      );
       List<int> encodedImage = img.encodeJpg(croppedImage);
       String extension = image.path.split('.').last;
       String shortName =
@@ -144,11 +150,12 @@ class _RemarksListState extends State<RemarksList> {
     }
   }
 
-  Future<void> _showEditDialog(
-      {required BuildContext context,
-      required String currentItem,
-      required int index,
-      required Function(String, int) onSave,}) async {
+  Future<void> _showEditDialog({
+    required BuildContext context,
+    required String currentItem,
+    required int index,
+    required Function(String, int) onSave,
+  }) async {
     final TextEditingController editItemController =
         TextEditingController(text: currentItem);
     await showDialog<void>(
@@ -170,12 +177,20 @@ class _RemarksListState extends State<RemarksList> {
             ],
             minLines: 1,
             maxLines: 5,
+            decoration: const InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color.fromRGBO(236, 129, 49, 1)),
+              ),
+            ),
           ),
           actions: <Widget>[
             TextButton(
               child: Text(
                 S.of(context).save,
-                style: const TextStyle(fontSize: mainFontSize),
+                style: const TextStyle(
+                  fontSize: mainFontSize,
+                  color: Color.fromRGBO(236, 129, 49, 1),
+                ),
               ),
               onPressed: () {
                 onSave(editItemController.text, index);
@@ -188,11 +203,12 @@ class _RemarksListState extends State<RemarksList> {
     );
   }
 
-  Future<void> _showOptionsDialog(
-      {required BuildContext context,
-      required String? currentItem,
-      required int index,
-      required Function(String, int) addSubtitle,}) async {
+  Future<void> _showOptionsDialog({
+    required BuildContext context,
+    required String? currentItem,
+    required int index,
+    required Function(String, int) addSubtitle,
+  }) async {
     await showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -208,13 +224,15 @@ class _RemarksListState extends State<RemarksList> {
                   textAlign: TextAlign.center,
                 ),
                 content: SingleChildScrollView(
-                  child: ListBody(children: <Widget>[
-                    Text(
-                      S.of(context).roomsNotSelected,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: mainFontSize),
-                    ),
-                  ],),
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(
+                        S.of(context).roomsNotSelected,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: mainFontSize),
+                      ),
+                    ],
+                  ),
                 ),
               );
             } else {
@@ -265,51 +283,56 @@ class _RemarksListState extends State<RemarksList> {
         return Container(
           margin: getContainerMargin(context, 0.01),
           child: SingleChildScrollView(
-              child: Column(
-            children: <Widget>[
-              Text(widget.title,
+            child: Column(
+              children: <Widget>[
+                Text(
+                  widget.title,
                   style: const TextStyle(
                     fontSize: mainFontSize,
                     fontStyle: FontStyle.italic,
-                  ),),
-              RemarksListTextField(
-                controller: _listController,
-                onAdd: _addItem,
-                errorText: errorText,
-                onSuggestionSelected: (String remarkText, String gost) {
-                  _addRemark(remarkText, gost);
-                },
-              ),
-              itemList.isEmpty
-                  ? Padding(
-                      padding:
-                          EdgeInsets.only(top: SizeConfig.screenHeight * 0.01),
-                      child: Center(
+                  ),
+                ),
+                RemarksListTextField(
+                  controller: _listController,
+                  onAdd: _addItem,
+                  errorText: errorText,
+                  onSuggestionSelected: (String remarkText, String gost) {
+                    _addRemark(remarkText, gost);
+                  },
+                ),
+                itemList.isEmpty
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                          top: SizeConfig.screenHeight * 0.01,
+                        ),
+                        child: Center(
                           child: Text(
-                        S.of(context).listEmpty,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: mainFontSize),
-                      ),),
-                    )
-                  : RemarksListDisplay(
-                      items: itemList,
-                      onDismissed: widget.onItemDismiss,
-                      onTap: (int index) => _showEditDialog(
-                        context: context,
-                        currentItem: itemList[index]['title']!,
-                        index: index,
-                        onSave: _onTitleSave,
+                            S.of(context).listEmpty,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: mainFontSize),
+                          ),
+                        ),
+                      )
+                    : RemarksListDisplay(
+                        items: itemList,
+                        onDismissed: widget.onItemDismiss,
+                        onTap: (int index) => _showEditDialog(
+                          context: context,
+                          currentItem: itemList[index]['title']!,
+                          index: index,
+                          onSave: _onTitleSave,
+                        ),
+                        onLongPress: (int index) => _showOptionsDialog(
+                          context: context,
+                          currentItem: itemList[index]['subtitle'] ?? '',
+                          index: index,
+                          addSubtitle: _addSubtitle,
+                        ),
+                        iconPressed: (int index) => _onPickImage(index),
                       ),
-                      onLongPress: (int index) => _showOptionsDialog(
-                        context: context,
-                        currentItem: itemList[index]['subtitle'] ?? '',
-                        index: index,
-                        addSubtitle: _addSubtitle,
-                      ),
-                      iconPressed: (int index) => _onPickImage(index),
-                    ),
-            ],
-          ),),
+              ],
+            ),
+          ),
         );
       },
     );

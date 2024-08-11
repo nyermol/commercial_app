@@ -26,6 +26,11 @@ class _RoomsState extends State<Rooms> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _initializeData();
   }
 
@@ -60,64 +65,70 @@ class _RoomsState extends State<Rooms> {
   }) {
     final rooms = _getLocalizedRooms(context);
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              S.of(context).selectRoom,
-              textAlign: TextAlign.center,
-            ),
-            content: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setStateDialog) {
-                return SizedBox(
-                  width: double.maxFinite,
-                  child: ListView(
-                    children: rooms.map((String room) {
-                      return ListTile(
-                        title: Text(
-                          room,
-                          style: const TextStyle(fontSize: mainFontSize),
-                        ),
-                        trailing: _checkedRooms[room]!
-                            ? SizedBox(
-                                width: SizeConfig.screenWidth * 0.1,
-                                child: TextField(
-                                  controller: _roomController[room],
-                                  keyboardType: TextInputType.number,
-                                  textAlign: TextAlign.center,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        numberRegExp,),
-                                    LengthLimitingTextInputFormatter(2),
-                                  ],
-                                  style:
-                                      const TextStyle(fontSize: mainFontSize),
-                                ),
-                              )
-                            : null,
-                        selected: _checkedRooms[room]!,
-                        onTap: () {
-                          setStateDialog(() {
-                            _checkedRooms[room] = !_checkedRooms[room]!;
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
-                );
-              },
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: onSave,
-                child: Text(
-                  S.of(context).save,
-                  style: const TextStyle(fontSize: mainFontSize),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            S.of(context).selectRoom,
+            textAlign: TextAlign.center,
+          ),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setStateDialog) {
+              return SizedBox(
+                width: double.maxFinite,
+                child: ListView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  children: rooms.map((String room) {
+                    return ListTile(
+                      title: Text(
+                        room,
+                        style: const TextStyle(fontSize: mainFontSize),
+                      ),
+                      trailing: _checkedRooms[room] == true
+                          ? SizedBox(
+                              width: SizeConfig.screenWidth * 0.1,
+                              child: TextField(
+                                controller: _roomController[room],
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.center,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                    numberRegExp,
+                                  ),
+                                  LengthLimitingTextInputFormatter(2),
+                                ],
+                                style: const TextStyle(fontSize: mainFontSize),
+                              ),
+                            )
+                          : null,
+                      selected: _checkedRooms[room] == true,
+                      onTap: () {
+                        setStateDialog(() {
+                          _checkedRooms[room] = !_checkedRooms[room]!;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              );
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: onSave,
+              child: Text(
+                S.of(context).save,
+                style: const TextStyle(
+                  fontSize: mainFontSize,
+                  color: Color.fromRGBO(236, 129, 49, 1),
                 ),
               ),
-            ],
-          );
-        },);
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _onRoomSave() {

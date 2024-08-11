@@ -1,4 +1,4 @@
-// ignore_for_file: always_specify_types
+// ignore_for_file: always_specify_types, use_build_context_synchronously
 
 import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/domain/usecases/usecases_export.dart';
@@ -11,22 +11,30 @@ class ButtonCubit extends Cubit<Map<String, String>> {
   final GetSelectionUsecase getSelectionUsecase;
 
   ButtonCubit(
-      super.initialState, this.saveSelectionUsecase, this.getSelectionUsecase,);
+    super.initialState,
+    this.saveSelectionUsecase,
+    this.getSelectionUsecase,
+  );
 
   Future<void> initializeDefaults(BuildContext context) async {
     for (String key in keys) {
       if (!state.containsKey(key)) {
-        String value = getSelection(context, key);
-        if (value == S.of(context).no) {
-          state[key] = value;
+        String value = await getSelectionUsecase.call(key);
+        if (value.isEmpty) {
+          value = S.of(context).no;
+          await saveSelectionUsecase.call(key, value);
         }
+        state[key] = value;
       }
     }
     emit(Map.from(state));
   }
 
   Future<void> saveSelection(
-      BuildContext context, String key, String value,) async {
+    BuildContext context,
+    String key,
+    String value,
+  ) async {
     await saveSelectionUsecase.call(key, value);
     state[key] = value;
     emit(Map.from(state));

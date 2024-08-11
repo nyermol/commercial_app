@@ -8,9 +8,10 @@ class ListRepositoryImpl implements ListRepository {
   final ListLocalDatasourse listLocalDatasourse;
   final RemarksRemoteDatasource remarksRemoteDatasource;
 
-  ListRepositoryImpl(
-      {required this.listLocalDatasourse,
-      required this.remarksRemoteDatasource,});
+  ListRepositoryImpl({
+    required this.listLocalDatasourse,
+    required this.remarksRemoteDatasource,
+  });
 
   @override
   Future<void> removeItem(String key, int index) async {
@@ -38,7 +39,9 @@ class ListRepositoryImpl implements ListRepository {
 
   @override
   Future<void> saveDataList(
-      String key, List<Map<String, dynamic>> dataList,) async {
+    String key,
+    List<Map<String, dynamic>> dataList,
+  ) async {
     await listLocalDatasourse.saveDataList(key, dataList);
   }
 

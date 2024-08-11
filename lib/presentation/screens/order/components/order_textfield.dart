@@ -41,6 +41,7 @@ class OrderTextField extends StatefulWidget {
 
 class _OrderTextFieldState extends State<OrderTextField> {
   late TextEditingController _controller;
+  late FocusNode _focusNode;
 
   @override
   void initState() {
@@ -50,13 +51,21 @@ class _OrderTextFieldState extends State<OrderTextField> {
           context.read<DataCubit>().state[widget.dataKey] ??
           '',
     );
+    _focusNode = FocusNode();
     _controller.addListener(_updateTextField);
+    _focusNode.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
     _controller.removeListener(_updateTextField);
+    _focusNode.removeListener(() {
+      setState(() {});
+    });
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -66,7 +75,9 @@ class _OrderTextFieldState extends State<OrderTextField> {
   }
 
   Future<void> _selectDate(
-      BuildContext context, TextEditingController controller,) async {
+    BuildContext context,
+    TextEditingController controller,
+  ) async {
     DateTime initialDate = DateTime.now();
     DateTime? picked;
 
@@ -112,29 +123,39 @@ class _OrderTextFieldState extends State<OrderTextField> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Container(
-      margin: getContainerMargin(context, 0.02),
-      child: TextField(
-        style: const TextStyle(fontSize: mainFontSize),
-        keyboardType: widget.keyboardType,
-        textCapitalization: widget.textCapitalization,
-        controller: _controller,
-        inputFormatters: widget.inputFormatters,
-        decoration: baseInputDecoration.copyWith(
-          labelText: widget.labelText,
-          hintText: widget.hintText,
-          errorText: widget.showError ? S.of(context).requiredField : null,
-          errorBorder: widget.showError
-              ? const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),)
+      child: Container(
+        margin: getContainerMargin(context, 0.02),
+        child: TextField(
+          focusNode: _focusNode,
+          style: const TextStyle(fontSize: mainFontSize),
+          keyboardType: widget.keyboardType,
+          textCapitalization: widget.textCapitalization,
+          controller: _controller,
+          inputFormatters: widget.inputFormatters,
+          decoration: baseInputDecoration.copyWith(
+            labelText: widget.labelText,
+            hintText: widget.hintText,
+            labelStyle: TextStyle(
+              fontSize: mainFontSize,
+              color: _focusNode.hasFocus
+                  ? const Color.fromRGBO(236, 129, 49, 1)
+                  : null,
+            ),
+            errorText: widget.showError ? S.of(context).requiredField : null,
+            errorBorder: widget.showError
+                ? const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  )
+                : null,
+            errorStyle: const TextStyle(fontSize: textFontSize),
+          ),
+          readOnly: widget.isDateField,
+          onTap: widget.isDateField
+              ? () => _selectDate(context, _controller)
               : null,
-          errorStyle: const TextStyle(fontSize: textFontSize),
         ),
-        readOnly: widget.isDateField,
-        onTap:
-            widget.isDateField ? () => _selectDate(context, _controller) : null,
       ),
-    ),);
+    );
   }
 }

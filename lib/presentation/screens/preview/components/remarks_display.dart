@@ -18,7 +18,11 @@ class RemarksDisplay extends StatefulWidget {
 
 class _RemarksDisplayState extends State<RemarksDisplay> {
   Future<void> _showImagePreview(
-      BuildContext context, String imagePath, String key, int itemIndex,) async {
+    BuildContext context,
+    String imagePath,
+    String key,
+    int itemIndex,
+  ) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -38,7 +42,10 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
             TextButton(
               child: Text(
                 S.of(context).delete,
-                style: const TextStyle(fontSize: mainFontSize),
+                style: const TextStyle(
+                  fontSize: mainFontSize,
+                  color: Color.fromRGBO(236, 129, 49, 1),
+                ),
               ),
               onPressed: () async {
                 await context
@@ -49,8 +56,13 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
               },
             ),
             TextButton(
-              child: Text(S.of(context).leave,
-                  style: const TextStyle(fontSize: mainFontSize),),
+              child: Text(
+                S.of(context).leave,
+                style: const TextStyle(
+                  fontSize: mainFontSize,
+                  color: Color.fromRGBO(236, 129, 49, 1),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -62,19 +74,26 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
   }
 
   Widget _buildCategoryList(
-      List<Map<String, dynamic>> items, String key, String sectionTitle,) {
+    List<Map<String, dynamic>> items,
+    String key,
+    String sectionTitle,
+  ) {
     List<Widget> children = <Widget>[
       Text(
         '$sectionTitle:',
         style: const TextStyle(
-            fontWeight: FontWeight.bold, fontSize: mainFontSize,),
+          fontWeight: FontWeight.bold,
+          fontSize: mainFontSize,
+        ),
       ),
     ];
     if (items.isEmpty) {
-      children.add(Text(
-        S.of(context).listEmpty,
-        style: const TextStyle(fontSize: textFontSize),
-      ),);
+      children.add(
+        Text(
+          S.of(context).listEmpty,
+          style: const TextStyle(fontSize: textFontSize),
+        ),
+      );
     } else {
       for (int i = 0; i < items.length; i++) {
         var title = items[i]['title'] ?? '';
@@ -84,14 +103,15 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
         String displayText = '${i + 1}. $title';
         TextSpan subtitleSpan = TextSpan(
           text: subtitle,
-          style: const TextStyle(color: Colors.teal),
+          style: const TextStyle(color: Color.fromRGBO(236, 129, 49, 1)),
         );
         List<Widget> childrenList = <Widget>[
           Text.rich(
             TextSpan(
-                text: displayText,
-                children: <InlineSpan>[subtitleSpan],
-                style: secondaryLabelStyle,),
+              text: displayText,
+              children: <InlineSpan>[subtitleSpan],
+              style: secondaryLabelStyle,
+            ),
           ),
         ];
         if (items[i]['images'] != null) {
@@ -103,10 +123,11 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
                 child: Text(
                   basename(image),
                   style: const TextStyle(
-                      color: Colors.teal,
-                      fontSize: textFontSize,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.teal,),
+                    color: Color.fromRGBO(236, 129, 49, 1),
+                    fontSize: textFontSize,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Color.fromRGBO(236, 129, 49, 1),
+                  ),
                 ),
               ),
             );
@@ -151,18 +172,31 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
                   style: titleStyle,
                 ),
               ),
-              _buildCategoryList(electricsItems, 'electricsItems',
-                  S.of(context).electricsItems,),
               _buildCategoryList(
-                  geometryItems, 'geometryItems', S.of(context).geometryItems,),
+                electricsItems,
+                'electricsItems',
+                S.of(context).electricsItems,
+              ),
               _buildCategoryList(
-                  plumbingEquipmentItems,
-                  'plumbingEquipmentItems',
-                  S.of(context).plumbingEquipmentItems,),
-              _buildCategoryList(windowsAndDoorsItems, 'windowsAndDoorsItems',
-                  S.of(context).windowsAndDoorsItems,),
-              _buildCategoryList(finishingItems, 'finishingItems',
-                  S.of(context).finishingItems,),
+                geometryItems,
+                'geometryItems',
+                S.of(context).geometryItems,
+              ),
+              _buildCategoryList(
+                plumbingEquipmentItems,
+                'plumbingEquipmentItems',
+                S.of(context).plumbingEquipmentItems,
+              ),
+              _buildCategoryList(
+                windowsAndDoorsItems,
+                'windowsAndDoorsItems',
+                S.of(context).windowsAndDoorsItems,
+              ),
+              _buildCategoryList(
+                finishingItems,
+                'finishingItems',
+                S.of(context).finishingItems,
+              ),
             ],
           ),
         );

@@ -14,20 +14,26 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ButtonCubit(<String, String>{}, sl(), sl()));
   sl.registerLazySingleton(() => ClearCubit(clearAllDataUsecase: sl()));
   sl.registerLazySingleton(() => ValidationCubit());
-  sl.registerLazySingleton(() => DataCubit(
+  sl.registerLazySingleton(
+    () => DataCubit(
       saveTextUsecase: sl(),
       saveListUsecase: sl(),
       loadListUsecase: sl(),
       saveCheckedRoomsUsecase: sl(),
       loadCheckedRoomsUsecase: sl(),
       saveRommControllerUsecase: sl(),
-      loadRommControllerUsecase: sl(),),);
-  sl.registerLazySingleton(() => ListCubit(
+      loadRommControllerUsecase: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => ListCubit(
       removeItemUsecase: sl(),
       restoreItemUsecase: sl(),
       saveDataListUsecase: sl(),
       loadDataListUsecase: sl(),
-      removeImageUsecase: sl(),),);
+      removeImageUsecase: sl(),
+    ),
+  );
 
   // Usecases
   sl.registerLazySingleton(() => SaveSelectionUsecase(sl()));
@@ -50,26 +56,38 @@ Future<void> init() async {
   // Repositories
   sl.registerLazySingleton<OptionRepository>(() => OptionRepositoryImpl(sl()));
   sl.registerLazySingleton<ClearRepository>(
-      () => ClearRepositoryImpl(localDatasource: sl()),);
+    () => ClearRepositoryImpl(localDatasource: sl()),
+  );
   sl.registerLazySingleton<DataRepository>(
-      () => DataRepositoryImpl(dataLocalDatasource: sl()),);
-  sl.registerLazySingleton<ListRepository>(() => ListRepositoryImpl(
-      listLocalDatasourse: sl(), remarksRemoteDatasource: sl(),),);
+    () => DataRepositoryImpl(dataLocalDatasource: sl()),
+  );
+  sl.registerLazySingleton<ListRepository>(
+    () => ListRepositoryImpl(
+      listLocalDatasourse: sl(),
+      remarksRemoteDatasource: sl(),
+    ),
+  );
 
   // Data Sources
   sl.registerLazySingleton<OptionsLocalDatasource>(
-      () => OptionsLocalDatasourceImpl(sl()),);
+    () => OptionsLocalDatasourceImpl(sl()),
+  );
   sl.registerLazySingleton<ClearLocalDatasource>(
-      () => ClearLocalDatasourceImpl(databaseServices: sl()),);
+    () => ClearLocalDatasourceImpl(databaseServices: sl()),
+  );
   sl.registerLazySingleton<DataLocalDatasource>(
-      () => DataLocalDatasourceImpl(sharedPreferences: sl()),);
+    () => DataLocalDatasourceImpl(sharedPreferences: sl()),
+  );
   sl.registerLazySingleton<ListLocalDatasourse>(
-      () => ListLocalDatasourseImpl(databaseServices: sl()),);
+    () => ListLocalDatasourseImpl(databaseServices: sl()),
+  );
   sl.registerLazySingleton<RemarksRemoteDatasource>(
-      () => RemarksRemoteDatasourceImpl(),);
+    () => RemarksRemoteDatasourceImpl(),
+  );
 
   // External
-  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
   final DatabaseServices databaseServices = DatabaseServices.instance;
   sl.registerLazySingleton(() => databaseServices);

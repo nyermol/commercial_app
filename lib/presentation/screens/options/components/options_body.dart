@@ -9,25 +9,30 @@ class OptionsScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: getHorizontalPadding(context, 0.05),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    OptionsSelection(
-                        title: S.of(context).thermalImagingInspection,
-                        selectionKey: 'thermalImagingInspection',),
-                    OptionsSelection(
-                        title: S.of(context).thermalImagingConclusion,
-                        selectionKey: 'thermalImagingConclusion',),
-                    OptionsSelection(
-                        title: S.of(context).underfloorHeating,
-                        selectionKey: 'underfloorHeating',),
-                  ],
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: getHorizontalPadding(context, 0.05),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                OptionsSelection(
+                  title: S.of(context).thermalImagingInspection,
+                  selectionKey: 'thermalImagingInspection',
                 ),
-              ),
-            ),),);
+                OptionsSelection(
+                  title: S.of(context).thermalImagingConclusion,
+                  selectionKey: 'thermalImagingConclusion',
+                ),
+                OptionsSelection(
+                  title: S.of(context).underfloorHeating,
+                  selectionKey: 'underfloorHeating',
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

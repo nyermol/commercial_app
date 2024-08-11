@@ -27,8 +27,10 @@ class FormError extends StatelessWidget {
     return Container(
       margin: getContainerMargin(context, 0.01),
       child: Column(
-        children: List.generate(errors.length,
-            (int index) => _formErrorText(error: errors[index]!),),
+        children: List.generate(
+          errors.length,
+          (int index) => _formErrorText(error: errors[index]!),
+        ),
       ),
     );
   }

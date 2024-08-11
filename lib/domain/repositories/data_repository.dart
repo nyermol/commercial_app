@@ -8,7 +8,9 @@ abstract class DataRepository {
   Future<void> saveCheckedRooms(Map<String, bool> checkedRooms);
   Future<Map<String, bool>> loadCheckedRooms(List<String> rooms);
   Future<void> saveRoomControllers(
-      Map<String, TextEditingController> roomController,);
+    Map<String, TextEditingController> roomController,
+  );
   Future<Map<String, TextEditingController>> loadRoomControllers(
-      List<String> rooms,);
+    List<String> rooms,
+  );
 }

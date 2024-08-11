@@ -39,13 +39,15 @@ class DataRepositoryImpl implements DataRepository {
 
   @override
   Future<void> saveRoomControllers(
-      Map<String, TextEditingController> roomController,) async {
+    Map<String, TextEditingController> roomController,
+  ) async {
     await dataLocalDatasource.saveRoomControllers(roomController);
   }
 
   @override
   Future<Map<String, TextEditingController>> loadRoomControllers(
-      List<String> rooms,) async {
+    List<String> rooms,
+  ) async {
     return await dataLocalDatasource.loadRoomControllers(rooms);
   }
 }

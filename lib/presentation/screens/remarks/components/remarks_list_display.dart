@@ -23,54 +23,61 @@ class RemarksListDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          Map<String, dynamic> item = items[index];
-          return Dismissible(
-              key: Key(item.toString()),
-              onDismissed: (DismissDirection direction) {
-                Future.delayed(Duration.zero, () {
-                  onDismissed(index);
-                });
-              },
-              background: Container(color: Colors.red),
-              direction: DismissDirection.endToStart,
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  item['title'],
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: items.length,
+      itemBuilder: (BuildContext context, int index) {
+        Map<String, dynamic> item = items[index];
+        return Dismissible(
+          key: Key(item.toString()),
+          onDismissed: (DismissDirection direction) {
+            Future.delayed(Duration.zero, () {
+              onDismissed(index);
+            });
+          },
+          background: Container(color: Colors.red),
+          direction: DismissDirection.endToStart,
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              item['title'],
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: textFontSize,
+              ),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  item['subtitle'] ?? '',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: textFontSize,),
+                    color: Color.fromRGBO(236, 129, 49, 1),
+                    fontSize: subtitleFontSize,
+                  ),
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      item['subtitle'] ?? '',
-                      style: const TextStyle(
-                          color: Colors.teal, fontSize: subtitleFontSize,),
-                    ),
-                    if (item['images'] != null)
-                      ...item['images']
-                          .map((path) => Text(
-                                basename(path),
-                                style:
-                                    const TextStyle(fontSize: subtitleFontSize),
-                              ),)
-                          .toList(),
-                  ],
-                ),
-                isThreeLine: true,
-                onTap: () => onTap(index),
-                onLongPress: () => onLongPress(index),
-                trailing: IconButton(
-                  icon: const Icon(Icons.camera_alt),
-                  onPressed: () => iconPressed(index),
-                ),
-                visualDensity: const VisualDensity(vertical: -4),
-              ),);
-        },);
+                if (item['images'] != null)
+                  ...item['images']
+                      .map(
+                        (path) => Text(
+                          basename(path),
+                          style: const TextStyle(fontSize: subtitleFontSize),
+                        ),
+                      )
+                      .toList(),
+              ],
+            ),
+            isThreeLine: true,
+            onTap: () => onTap(index),
+            onLongPress: () => onLongPress(index),
+            trailing: IconButton(
+              icon: const Icon(Icons.camera_alt),
+              onPressed: () => iconPressed(index),
+            ),
+            visualDensity: const VisualDensity(vertical: -4),
+          ),
+        );
+      },
+    );
   }
 }

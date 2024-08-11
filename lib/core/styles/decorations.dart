@@ -5,11 +5,10 @@ const InputDecoration baseInputDecoration = InputDecoration(
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(15)),
   ),
-  labelStyle: TextStyle(fontSize: mainFontSize),
   hintStyle: TextStyle(fontSize: mainFontSize),
   floatingLabelBehavior: FloatingLabelBehavior.always,
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.teal),
+    borderSide: BorderSide(color: Color.fromRGBO(236, 129, 49, 1)),
     borderRadius: BorderRadius.all(Radius.circular(15)),
   ),
 );

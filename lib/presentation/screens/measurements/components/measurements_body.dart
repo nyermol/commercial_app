@@ -22,18 +22,21 @@ class _MeasurementsScreenBodyState extends State<MeasurementsScreenBody> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: SafeArea(
-            child: SizedBox(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: SafeArea(
+        child: SizedBox(
           width: double.infinity,
           child: Padding(
-              padding: getHorizontalPadding(context, 0.05),
-              child: SingleChildScrollView(
-                child: Column(children: <Widget>[
-                  Text(S.of(context).additionalOptions,
-                      style: const TextStyle(fontSize: mainFontSize),),
+            padding: getHorizontalPadding(context, 0.05),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    S.of(context).additionalOptions,
+                    style: const TextStyle(fontSize: mainFontSize),
+                  ),
                   MeasurementsTextField(
                     labelText: S.of(context).radiationLevel,
                     onTextChanged: (String value) =>
@@ -55,8 +58,10 @@ class _MeasurementsScreenBodyState extends State<MeasurementsScreenBody> {
                     dataKey: 'electromagneticField',
                     hintText: S.of(context).electromagneticFieldSI,
                   ),
-                  Text(S.of(context).airflowSpeed,
-                      style: const TextStyle(fontSize: mainFontSize),),
+                  Text(
+                    S.of(context).airflowSpeed,
+                    style: const TextStyle(fontSize: mainFontSize),
+                  ),
                   MeasurementsTextField(
                     labelText: S.of(context).airflowKitchen,
                     onTextChanged: (String value) =>
@@ -65,25 +70,32 @@ class _MeasurementsScreenBodyState extends State<MeasurementsScreenBody> {
                     hintText: S.of(context).airflowSI,
                   ),
                   MeasurementsTextField(
-                      labelText: S.of(context).bath1,
-                      onTextChanged: (String value) =>
-                          setState(() => airflowSU1 = value),
-                      dataKey: 'airflowSU1',
-                      hintText: S.of(context).airflowSI,),
+                    labelText: S.of(context).bath1,
+                    onTextChanged: (String value) =>
+                        setState(() => airflowSU1 = value),
+                    dataKey: 'airflowSU1',
+                    hintText: S.of(context).airflowSI,
+                  ),
                   MeasurementsTextField(
-                      labelText: S.of(context).bath2,
-                      onTextChanged: (String value) =>
-                          setState(() => airflowSU2 = value),
-                      dataKey: 'airflowSU2',
-                      hintText: S.of(context).airflowSI,),
+                    labelText: S.of(context).bath2,
+                    onTextChanged: (String value) =>
+                        setState(() => airflowSU2 = value),
+                    dataKey: 'airflowSU2',
+                    hintText: S.of(context).airflowSI,
+                  ),
                   MeasurementsTextField(
-                      labelText: S.of(context).bath3,
-                      onTextChanged: (String value) =>
-                          setState(() => airflowSU2 = value),
-                      dataKey: 'airflowSU3',
-                      hintText: S.of(context).airflowSI,),
-                ],),
-              ),),
-        ),),);
+                    labelText: S.of(context).bath3,
+                    onTextChanged: (String value) =>
+                        setState(() => airflowSU2 = value),
+                    dataKey: 'airflowSU3',
+                    hintText: S.of(context).airflowSI,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

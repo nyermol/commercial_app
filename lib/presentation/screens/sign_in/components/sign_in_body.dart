@@ -14,38 +14,41 @@ class SignInBody extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: SafeArea(
-          child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: SizedBox(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: SizedBox(
                   width: double.infinity,
                   child: Padding(
                     padding: getHorizontalPadding(context, 0.05),
                     child: SingleChildScrollView(
-                      child: Column(children: <Widget>[
-                        Text(
-                          S.of(context).welcomeBack,
-                          style: const TextStyle(
-                            fontSize: signInMainFontSize,
-                            fontWeight: FontWeight.bold,
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            S.of(context).welcomeBack,
+                            style: const TextStyle(
+                              fontSize: signInMainFontSize,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          S.of(context).welcomeBackInf,
-                          style: const TextStyle(fontSize: textFontSize),
-                        ),
-                        SizedBox(height: SizeConfig.screenHeight * 0.06),
-                        const SignInForm(),
-                        SizedBox(height: SizeConfig.screenHeight * 0.01),
-                      ],),
+                          Text(
+                            S.of(context).welcomeBackInf,
+                            style: const TextStyle(fontSize: textFontSize),
+                          ),
+                          SizedBox(height: SizeConfig.screenHeight * 0.06),
+                          const SignInForm(),
+                          SizedBox(height: SizeConfig.screenHeight * 0.01),
+                        ],
+                      ),
                     ),
-                  ),),
+                  ),
+                ),
+              ),
             ),
-          ),
-          const SignatureWidget(),
-        ],
-      ),),
+          ],
+        ),
+      ),
     );
   }
 }

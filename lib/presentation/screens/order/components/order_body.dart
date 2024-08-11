@@ -55,10 +55,12 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                       setState(() {
                         orderNumber = value;
                         context.read<ValidationCubit>().updateFieldValidation(
-                            'order_number_valid', value.isNotEmpty,);
+                              'order_number_valid',
+                              value.isNotEmpty,
+                            );
                       });
                     },
-                    keyboardType: TextInputType.datetime,
+                    keyboardType: TextInputType.number,
                     dataKey: 'order_number',
                     showError: !showError['order_number_valid']!,
                   ),
@@ -69,7 +71,9 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                       setState(() {
                         inspectionDate = value;
                         context.read<ValidationCubit>().updateFieldValidation(
-                            'inspection_date_valid', value.isNotEmpty,);
+                              'inspection_date_valid',
+                              value.isNotEmpty,
+                            );
                       });
                     },
                     dataKey: 'inspection_date',
@@ -87,7 +91,9 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                       setState(() {
                         specialistName = value;
                         context.read<ValidationCubit>().updateFieldValidation(
-                            'specialist_name_valid', value.isNotEmpty,);
+                              'specialist_name_valid',
+                              value.isNotEmpty,
+                            );
                       });
                     },
                     dataKey: 'specialist_name',
@@ -105,7 +111,9 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                       setState(() {
                         customerName = value;
                         context.read<ValidationCubit>().updateFieldValidation(
-                            'customer_name_valid', value.isNotEmpty,);
+                              'customer_name_valid',
+                              value.isNotEmpty,
+                            );
                       });
                     },
                     dataKey: 'customer_name',

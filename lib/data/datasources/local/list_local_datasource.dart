@@ -6,7 +6,10 @@ abstract class ListLocalDatasourse {
   Future<void> saveDataList(String key, List<Map<String, dynamic>> dataList);
   Future<List<Map<String, dynamic>>> fetchList(String key);
   Future<void> saveRemovedItem(
-      String key, Map<String, dynamic> item, int index,);
+    String key,
+    Map<String, dynamic> item,
+    int index,
+  );
   Future<Map<String, dynamic>?> fetchRemovedItem(String key);
 }
 
@@ -36,9 +39,14 @@ class ListLocalDatasourseImpl implements ListLocalDatasourse {
 
   @override
   Future<void> saveRemovedItem(
-      String key, Map<String, dynamic> item, int index,) async {
-    await databaseServices.update('$key-removed',
-        jsonEncode(<String, Object>{'item': item, 'index': index}),);
+    String key,
+    Map<String, dynamic> item,
+    int index,
+  ) async {
+    await databaseServices.update(
+      '$key-removed',
+      jsonEncode(<String, Object>{'item': item, 'index': index}),
+    );
   }
 
   @override

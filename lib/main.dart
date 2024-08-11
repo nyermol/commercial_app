@@ -28,41 +28,44 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: <SingleChildWidget>[
-          BlocProvider<ClearCubit>(
-              create: (BuildContext context) => sl<ClearCubit>(),),
-          BlocProvider<ValidationCubit>(
-              create: (BuildContext context) => sl<ValidationCubit>(),),
-          BlocProvider<DataCubit>(
-            create: (BuildContext context) => sl<DataCubit>(),
-          ),
-          BlocProvider<ButtonCubit>(
-            create: (BuildContext context) => sl<ButtonCubit>(),
-          ),
-          BlocProvider<ListCubit>(
-            create: (BuildContext context) => sl<ListCubit>(),
-          ),
+      providers: <SingleChildWidget>[
+        BlocProvider<ClearCubit>(
+          create: (BuildContext context) => sl<ClearCubit>(),
+        ),
+        BlocProvider<ValidationCubit>(
+          create: (BuildContext context) => sl<ValidationCubit>(),
+        ),
+        BlocProvider<DataCubit>(
+          create: (BuildContext context) => sl<DataCubit>(),
+        ),
+        BlocProvider<ButtonCubit>(
+          create: (BuildContext context) => sl<ButtonCubit>(),
+        ),
+        BlocProvider<ListCubit>(
+          create: (BuildContext context) => sl<ListCubit>(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const <LocalizationsDelegate>[
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: const <LocalizationsDelegate>[
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          theme: ThemeData.light().copyWith(
-            textTheme: ThemeData.light().textTheme.apply(
-                  fontFamily: 'Futura',
-                ),
-          ),
-          darkTheme: ThemeData.dark().copyWith(
-            textTheme: ThemeData.dark().textTheme.apply(
-                  fontFamily: 'Futura',
-                ),
-          ),
-          home: const SignInScreen(),
-        ),);
+        supportedLocales: S.delegate.supportedLocales,
+        theme: ThemeData.light().copyWith(
+          textTheme: ThemeData.light().textTheme.apply(
+                fontFamily: 'Futura',
+              ),
+        ),
+        darkTheme: ThemeData.dark().copyWith(
+          textTheme: ThemeData.dark().textTheme.apply(
+                fontFamily: 'Futura',
+              ),
+        ),
+        home: const SignInScreen(),
+      ),
+    );
   }
 }

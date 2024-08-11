@@ -26,32 +26,37 @@ class OptionsDisplay extends StatelessWidget {
     }
 
     return BlocBuilder<ButtonCubit, Map<String, String>>(
-        builder: (BuildContext context, Map<String, String> state) {
-      final String thermalImagingInspection =
-          state['thermalImagingInspection'] ?? S.of(context).notSpecified;
-      final String thermalImagingConclusion =
-          state['thermalImagingConclusion'] ?? S.of(context).notSpecified;
-      final String underfloorHeating =
-          state['underfloorHeating'] ?? S.of(context).notSpecified;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Center(
-            child: Text(
-              S.of(context).paidServices,
-              style: titleStyle,
+      builder: (BuildContext context, Map<String, String> state) {
+        final String thermalImagingInspection =
+            state['thermalImagingInspection'] ?? S.of(context).notSpecified;
+        final String thermalImagingConclusion =
+            state['thermalImagingConclusion'] ?? S.of(context).notSpecified;
+        final String underfloorHeating =
+            state['underfloorHeating'] ?? S.of(context).notSpecified;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
+              child: Text(
+                S.of(context).paidServices,
+                style: titleStyle,
+              ),
             ),
-          ),
-          buildColumn(
-              S.of(context).thermalImagingInspection, thermalImagingInspection,),
-          buildColumn(
-              S.of(context).thermalImagingConclusion, thermalImagingConclusion,),
-          buildColumn(
-            S.of(context).underfloorHeating,
-            underfloorHeating,
-          ),
-        ],
-      );
-    },);
+            buildColumn(
+              S.of(context).thermalImagingInspection,
+              thermalImagingInspection,
+            ),
+            buildColumn(
+              S.of(context).thermalImagingConclusion,
+              thermalImagingConclusion,
+            ),
+            buildColumn(
+              S.of(context).underfloorHeating,
+              underfloorHeating,
+            ),
+          ],
+        );
+      },
+    );
   }
 }

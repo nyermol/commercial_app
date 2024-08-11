@@ -10,12 +10,13 @@ class MeasurementsTextField extends StatefulWidget {
   final Function(String) onTextChanged;
   final String dataKey;
   final String hintText;
-  const MeasurementsTextField(
-      {super.key,
-      required this.labelText,
-      required this.onTextChanged,
-      required this.dataKey,
-      required this.hintText,});
+  const MeasurementsTextField({
+    super.key,
+    required this.labelText,
+    required this.onTextChanged,
+    required this.dataKey,
+    required this.hintText,
+  });
 
   @override
   State<MeasurementsTextField> createState() => _MeasurementsTextFieldState();
@@ -23,19 +24,29 @@ class MeasurementsTextField extends StatefulWidget {
 
 class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
   late TextEditingController _controller;
+  late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(
-        text: context.read<DataCubit>().state[widget.dataKey] ?? '',);
+      text: context.read<DataCubit>().state[widget.dataKey] ?? '',
+    );
+    _focusNode = FocusNode();
     _controller.addListener(_updateTextField);
+    _focusNode.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
     _controller.removeListener(_updateTextField);
+    _focusNode.removeListener(() {
+      setState(() {});
+    });
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -49,19 +60,28 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
     return Container(
       margin: getContainerMargin(context, 0.01),
       child: Center(
-          child: TextField(
-              controller: _controller,
-              style: const TextStyle(fontSize: mainFontSize),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(numberRegExp),
-                LengthLimitingTextInputFormatter(2),
-              ],
-              decoration: baseInputDecoration.copyWith(
-                labelText: widget.labelText,
-                hintText: widget.hintText,
-                hintTextDirection: TextDirection.rtl,
-              ),),),
+        child: TextField(
+          focusNode: _focusNode,
+          controller: _controller,
+          style: const TextStyle(fontSize: mainFontSize),
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(numberRegExp),
+            LengthLimitingTextInputFormatter(2),
+          ],
+          decoration: baseInputDecoration.copyWith(
+            labelText: widget.labelText,
+            hintText: widget.hintText,
+            labelStyle: TextStyle(
+              fontSize: mainFontSize,
+              color: _focusNode.hasFocus
+                  ? const Color.fromRGBO(236, 129, 49, 1)
+                  : null,
+            ),
+            hintTextDirection: TextDirection.rtl,
+          ),
+        ),
+      ),
     );
   }
 }

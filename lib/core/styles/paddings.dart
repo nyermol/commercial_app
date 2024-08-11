@@ -6,12 +6,17 @@ const double allPadding = 15;
 
 EdgeInsets getHorizontalPadding(BuildContext context, double horizontalFactor) {
   return EdgeInsets.symmetric(
-      horizontal: MediaQuery.of(context).size.width * horizontalFactor,);
+    horizontal: MediaQuery.of(context).size.width * horizontalFactor,
+  );
 }
 
 EdgeInsets getPadding(
-    BuildContext context, double horizontalFactor, double verticalFactor,) {
+  BuildContext context,
+  double horizontalFactor,
+  double verticalFactor,
+) {
   return EdgeInsets.symmetric(
-      horizontal: MediaQuery.of(context).size.width * horizontalFactor,
-      vertical: MediaQuery.of(context).size.width * verticalFactor,);
+    horizontal: MediaQuery.of(context).size.width * horizontalFactor,
+    vertical: MediaQuery.of(context).size.width * verticalFactor,
+  );
 }

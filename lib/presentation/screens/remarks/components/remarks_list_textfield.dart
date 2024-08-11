@@ -44,11 +44,13 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                 hintText: S.of(context).remarks,
                 hintStyle: const TextStyle(fontSize: mainFontSize),
                 focusedBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.teal),
+                  borderSide:
+                      BorderSide(color: Color.fromRGBO(236, 129, 49, 1)),
                 ),
                 errorText: widget.errorText(),
                 errorBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),),
+                  borderSide: BorderSide(color: Colors.red),
+                ),
                 errorStyle: const TextStyle(fontSize: subtitleFontSize),
               ),
             ),
@@ -66,15 +68,21 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                   text: remark.remarkText,
                   term: widget.controller.text,
                   textStyle: const TextStyle(
-                      color: Colors.grey, fontSize: subtitleFontSize,),
+                    color: Colors.grey,
+                    fontSize: subtitleFontSize,
+                  ),
                   textStyleHighlight: const TextStyle(
-                      color: Colors.teal, fontSize: subtitleFontSize,),
+                    color: Color.fromRGBO(236, 129, 49, 1),
+                    fontSize: subtitleFontSize,
+                  ),
                 ),
                 subtitle: SubstringHighlight(
                   text: remark.gost ?? '',
                   term: widget.controller.text,
                   textStyleHighlight: const TextStyle(
-                      color: Colors.teal, fontSize: subtitleFontSize,),
+                    color: Color.fromRGBO(236, 129, 49, 1),
+                    fontSize: subtitleFontSize,
+                  ),
                   textStyle: const TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: subtitleFontSize,

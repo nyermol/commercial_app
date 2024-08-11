@@ -18,7 +18,7 @@ class HomeScreenBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.teal,
+      color: const Color.fromRGBO(236, 129, 49, 1),
       child: Padding(
         padding: EdgeInsets.fromLTRB(
           primaryPadding,
@@ -27,10 +27,10 @@ class HomeScreenBar extends StatelessWidget {
           MediaQuery.of(context).viewPadding.bottom,
         ),
         child: GNav(
-          backgroundColor: Colors.teal,
+          backgroundColor: const Color.fromRGBO(236, 129, 49, 1),
           color: Colors.white,
           activeColor: Colors.white,
-          tabBackgroundColor: Colors.teal.shade300,
+          tabBackgroundColor: const Color.fromRGBO(246, 192, 153, 1),
           gap: basePadding,
           padding: const EdgeInsets.all(allPadding),
           textStyle:
@@ -58,8 +58,9 @@ class HomeScreenBar extends StatelessWidget {
                   : const Icon(Icons.error, color: Colors.red),
             ),
             GButton(
-                icon: Icons.device_thermostat,
-                text: S.of(context).measurements,),
+              icon: Icons.device_thermostat,
+              text: S.of(context).measurements,
+            ),
             GButton(icon: Icons.rule, text: S.of(context).options),
           ],
           selectedIndex: selectedIndex,

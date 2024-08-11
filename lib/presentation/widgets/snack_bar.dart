@@ -6,8 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void showCustomSnackBar(
-    BuildContext context, String message, Color backgroundColor,
-    {SnackBarAction? action, VoidCallback? onCancelAction,}) {
+  BuildContext context,
+  String message,
+  Color backgroundColor, {
+  SnackBarAction? action,
+  VoidCallback? onCancelAction,
+}) {
   if (Platform.isIOS) {
     showCupertinoModalPopup(
       context: context,

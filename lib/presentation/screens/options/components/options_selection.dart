@@ -52,7 +52,9 @@ class _OptionsSelectionState extends State<OptionsSelection> {
             widget.title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: mainFontSize, fontStyle: FontStyle.italic,),
+              fontSize: mainFontSize,
+              fontStyle: FontStyle.italic,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(allPadding),

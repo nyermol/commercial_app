@@ -88,8 +88,9 @@ class _RemarksScreenBodyState extends State<RemarksScreenBody> {
                         _restoreItem(context, 'finishingItems', index),
                   ),
                   OptionsSelection(
-                      title: S.of(context).thermalImagingInspection,
-                      selectionKey: 'thermalImagingInspection',),
+                    title: S.of(context).thermalImagingInspection,
+                    selectionKey: 'thermalImagingInspection',
+                  ),
                 ],
               ),
             ),

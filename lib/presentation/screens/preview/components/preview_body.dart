@@ -32,10 +32,13 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
     super.initState();
   }
 
-  Future<void> _onCreateDocument(Map<String, dynamic> dataState,
-      Map<String, dynamic> listState, Map<String, dynamic> buttonState,) async {
+  Future<void> _onCreateDocument(
+    Map<String, dynamic> dataState,
+    Map<String, dynamic> listState,
+    Map<String, dynamic> buttonState,
+  ) async {
     final ByteData data =
-        await rootBundle.load('assets/templates/shablon_akta.docx');
+        await rootBundle.load('assets/templates/shablon.docx');
     final Uint8List bytes = data.buffer.asUint8List();
     final DocxTemplate docx = await DocxTemplate.fromBytes(bytes);
     String checkValue(dynamic value) {
@@ -47,33 +50,77 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
 
     final Content content = Content();
     content
-      ..add(TextContent('orderNumber',
-          dataState['order_number'] ?? S.of(context).notSpecified,),)
-      ..add(TextContent('inspectionDate',
-          dataState['inspection_date'] ?? S.of(context).notSpecified,),)
-      ..add(TextContent('specialistName',
-          dataState['specialist_name'] ?? S.of(context).notSpecified,),)
-      ..add(TextContent('customerName',
-          dataState['customer_name'] ?? S.of(context).notSpecified,),)
+      ..add(
+        TextContent(
+          'orderNumber',
+          dataState['order_number'] ?? S.of(context).notSpecified,
+        ),
+      )
+      ..add(
+        TextContent(
+          'inspectionDate',
+          dataState['inspection_date'] ?? S.of(context).notSpecified,
+        ),
+      )
+      ..add(
+        TextContent(
+          'specialistName',
+          dataState['specialist_name'] ?? S.of(context).notSpecified,
+        ),
+      )
+      ..add(
+        TextContent(
+          'customerName',
+          dataState['customer_name'] ?? S.of(context).notSpecified,
+        ),
+      )
       ..add(TextContent('radiation', checkValue(dataState['radiation'])))
       ..add(TextContent('ammonia', checkValue(dataState['ammonia'])))
-      ..add(TextContent('electromagneticField',
-          checkValue(dataState['electromagneticField']),),)
-      ..add(TextContent(
-          'airflowKitchen', checkValue(dataState['airflowKitchen']),),)
+      ..add(
+        TextContent(
+          'electromagneticField',
+          checkValue(dataState['electromagneticField']),
+        ),
+      )
+      ..add(
+        TextContent(
+          'airflowKitchen',
+          checkValue(dataState['airflowKitchen']),
+        ),
+      )
       ..add(TextContent('airflowSU1', checkValue(dataState['airflowSU1'])))
       ..add(TextContent('airflowSU2', checkValue(dataState['airflowSU2'])))
       ..add(TextContent('airflowSU3', checkValue(dataState['airflowSU3'])))
-      ..add(ListContent(
-          'electricsItems', _createItemsContent(listState['electricsItems']),),)
-      ..add(ListContent(
-          'geometryItems', _createItemsContent(listState['geometryItems']),),)
-      ..add(ListContent('plumbingEquipmentItems',
-          _createItemsContent(listState['plumbingEquipmentItems']),),)
-      ..add(ListContent('windowsAndDoorsItems',
-          _createItemsContent(listState['windowsAndDoorsItems']),),)
-      ..add(ListContent(
-          'finishingItems', _createItemsContent(listState['finishingItems']),),);
+      ..add(
+        ListContent(
+          'electricsItems',
+          _createItemsContent(listState['electricsItems']),
+        ),
+      )
+      ..add(
+        ListContent(
+          'geometryItems',
+          _createItemsContent(listState['geometryItems']),
+        ),
+      )
+      ..add(
+        ListContent(
+          'plumbingEquipmentItems',
+          _createItemsContent(listState['plumbingEquipmentItems']),
+        ),
+      )
+      ..add(
+        ListContent(
+          'windowsAndDoorsItems',
+          _createItemsContent(listState['windowsAndDoorsItems']),
+        ),
+      )
+      ..add(
+        ListContent(
+          'finishingItems',
+          _createItemsContent(listState['finishingItems']),
+        ),
+      );
     buttonState.forEach((String key, value) {
       if (value == S.of(context).yes) {
         if (key == 'thermalImagingInspection') {
@@ -111,7 +158,7 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
       final order = dataState['order_number'] ?? S.of(context).notSpecified;
       final inspData =
           dataState['inspection_date'] ?? S.of(context).notSpecified;
-      final String filePath = '${directory.path}/№$order($inspData).docx';
+      final String filePath = '${directory.path}/№$order ($inspData).docx';
       final File file = File(filePath);
       await file.writeAsBytes(doc);
 
@@ -172,45 +219,47 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                 const OrderDisplay(),
                 const RemarksDisplay(),
                 MeasurementsDisplay(
-                    title: S.of(context).additionalOptions,
-                    labels: <String>[
-                      S.of(context).radiationLevel,
-                      S.of(context).ammoniaLevel,
-                      S.of(context).electromagneticFieldLevel,
-                    ],
-                    measurementKeys: const <String>[
-                      'radiation',
-                      'ammonia',
-                      'electromagneticField',
-                    ],
-                    units: <String>[
-                      S.of(context).radiationSI,
-                      S.of(context).ammoniaSI,
-                      S.of(context).electromagneticFieldSI,
-                    ],),
+                  title: S.of(context).additionalOptions,
+                  labels: <String>[
+                    S.of(context).radiationLevel,
+                    S.of(context).ammoniaLevel,
+                    S.of(context).electromagneticFieldLevel,
+                  ],
+                  measurementKeys: const <String>[
+                    'radiation',
+                    'ammonia',
+                    'electromagneticField',
+                  ],
+                  units: <String>[
+                    S.of(context).radiationSI,
+                    S.of(context).ammoniaSI,
+                    S.of(context).electromagneticFieldSI,
+                  ],
+                ),
                 MeasurementsDisplay(
-                    title: S.of(context).airflowSpeed,
-                    labels: <String>[
-                      S.of(context).airflowKitchen,
-                      S.of(context).bath1,
-                      S.of(context).bath2,
-                      S.of(context).bath3,
-                    ],
-                    measurementKeys: const <String>[
-                      'airflowKitchen',
-                      'airflowSU1',
-                      'airflowSU2',
-                      'airflowSU3',
-                    ],
-                    units: <String>[
-                      S.of(context).airflowSI,
-                      S.of(context).airflowSI,
-                      S.of(context).airflowSI,
-                      S.of(context).airflowSI,
-                    ],),
+                  title: S.of(context).airflowSpeed,
+                  labels: <String>[
+                    S.of(context).airflowKitchen,
+                    S.of(context).bath1,
+                    S.of(context).bath2,
+                    S.of(context).bath3,
+                  ],
+                  measurementKeys: const <String>[
+                    'airflowKitchen',
+                    'airflowSU1',
+                    'airflowSU2',
+                    'airflowSU3',
+                  ],
+                  units: <String>[
+                    S.of(context).airflowSI,
+                    S.of(context).airflowSI,
+                    S.of(context).airflowSI,
+                    S.of(context).airflowSI,
+                  ],
+                ),
                 const OptionsDisplay(),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.05,
+                  height: SizeConfig.screenHeight * 0.02,
                 ),
                 SizedBox(
                   width: SizeConfig.screenWidth * 0.75,
@@ -232,7 +281,8 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                                     textAlign: TextAlign.center,
                                   ),
                                   SizedBox(
-                                      height: SizeConfig.screenHeight * 0.01,),
+                                    height: SizeConfig.screenHeight * 0.01,
+                                  ),
                                   const CircularProgressIndicator.adaptive(),
                                 ],
                               ),
@@ -248,8 +298,11 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                           await Permission.storage.request();
                       if (status.isGranted) {
                         try {
-                          await _onCreateDocument(dataCubit.state,
-                              listCubit.state, buttonCubit.state,);
+                          await _onCreateDocument(
+                            dataCubit.state,
+                            listCubit.state,
+                            buttonCubit.state,
+                          );
                           if (kDebugMode) {
                             print(S.of(context).documentIsSuccessfullyOpen);
                           }

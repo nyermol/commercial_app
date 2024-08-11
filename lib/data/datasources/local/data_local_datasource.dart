@@ -9,9 +9,11 @@ abstract class DataLocalDatasource {
   Future<void> saveCheckedRooms(Map<String, bool> checkedRooms);
   Future<Map<String, bool>> loadCheckedRooms(List<String> rooms);
   Future<void> saveRoomControllers(
-      Map<String, TextEditingController> roomController,);
+    Map<String, TextEditingController> roomController,
+  );
   Future<Map<String, TextEditingController>> loadRoomControllers(
-      List<String> rooms,);
+    List<String> rooms,
+  );
 }
 
 class DataLocalDatasourceImpl implements DataLocalDatasource {
@@ -64,17 +66,21 @@ class DataLocalDatasourceImpl implements DataLocalDatasource {
 
   @override
   Future<void> saveRoomControllers(
-      Map<String, TextEditingController> roomController,) async {
+    Map<String, TextEditingController> roomController,
+  ) async {
     final List<String> controllersToSave = roomController.entries
-        .map((MapEntry<String, TextEditingController> e) =>
-            '${e.key}:${e.value.text}',)
+        .map(
+          (MapEntry<String, TextEditingController> e) =>
+              '${e.key}:${e.value.text}',
+        )
         .toList();
     await sharedPreferences.setStringList('roomControllers', controllersToSave);
   }
 
   @override
   Future<Map<String, TextEditingController>> loadRoomControllers(
-      List<String> rooms,) async {
+    List<String> rooms,
+  ) async {
     final List<String> savedData =
         sharedPreferences.getStringList('roomControllers') ?? <String>[];
     final Map<String, TextEditingController> roomController =

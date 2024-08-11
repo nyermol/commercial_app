@@ -1,4 +1,4 @@
-// ignore_for_file: always_specify_types
+// ignore_for_file: use_build_context_synchronously, always_specify_types, library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commercial_app/generated/l10n.dart';
@@ -16,7 +16,6 @@ class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SignInFormState createState() => _SignInFormState();
 }
 
@@ -26,6 +25,32 @@ class _SignInFormState extends State<SignInForm> {
   String? login;
   String? password;
   bool _showPassword = false;
+  FocusNode loginFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    loginFocusNode.addListener(() {
+      setState(() {});
+    });
+    passwordFocusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    loginFocusNode.removeListener(() {
+      setState(() {});
+    });
+    passwordFocusNode.removeListener(() {
+      setState(() {});
+    });
+    loginFocusNode.dispose();
+    passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   void _addError({String? error}) {
     if (!errors.contains(error)) {
@@ -62,21 +87,24 @@ class _SignInFormState extends State<SignInForm> {
         if (userSnapshot.docs.isNotEmpty) {
           Map<String, dynamic> userData = userSnapshot.docs.first.data();
           if (userData['password'] == password) {
-            // ignore: use_build_context_synchronously
             context
                 .read<DataCubit>()
                 .saveText('specialist_name', userData['name']);
             Navigator.push(
-              // ignore: use_build_context_synchronously
               context,
               PageRouteBuilder(
-                pageBuilder: (BuildContext context, Animation<double> animation,
-                        Animation<double> secondaryAnimation,) =>
+                pageBuilder: (
+                  BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                ) =>
                     HomeScreen(userName: userData['name']),
-                transitionsBuilder: (BuildContext context,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                    Widget child,) {
+                transitionsBuilder: (
+                  BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                  Widget child,
+                ) {
                   return child;
                 },
               ),
@@ -95,75 +123,95 @@ class _SignInFormState extends State<SignInForm> {
 
   TextFormField buildLoginFormField() {
     return TextFormField(
-        autofillHints: const <String>[AutofillHints.telephoneNumber],
-        keyboardType: TextInputType.datetime,
-        textInputAction: TextInputAction.next,
-        autocorrect: false,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(numberRegExp),
-        ],
-        onSaved: (String? newValue) => login = newValue,
-        onChanged: (String value) {
-          if (value.isNotEmpty) {
-            _removeError(error: S.of(context).loginIsNotEmpty);
-          } else if (value.length >= 11) {
-            _removeError(error: S.of(context).loginTooLong);
-          } else if (value.length <= 11) {
-            _removeError(error: S.of(context).loginTooShort);
-          }
-        },
-        validator: (String? value) {
-          if (value!.isEmpty) {
-            _addError(error: S.of(context).loginIsNotEmpty);
-            return '';
-          } else if (value.length > 11) {
-            _addError(error: S.of(context).loginTooLong);
-            return '';
-          } else if (value.length < 11) {
-            _addError(error: S.of(context).loginTooShort);
-            return '';
-          }
-          return null;
-        },
-        decoration: baseInputDecoration.copyWith(
-            labelText: S.of(context).loginLabelText,
-            hintText: S.of(context).loginHintText,),);
+      autofillHints: const <String>[AutofillHints.telephoneNumber],
+      keyboardType: TextInputType.datetime,
+      textInputAction: TextInputAction.next,
+      focusNode: loginFocusNode,
+      autocorrect: false,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(numberRegExp),
+      ],
+      onSaved: (String? newValue) => login = newValue,
+      onChanged: (String value) {
+        if (value.isNotEmpty) {
+          _removeError(error: S.of(context).loginIsNotEmpty);
+        } else if (value.length >= 11) {
+          _removeError(error: S.of(context).loginTooLong);
+        } else if (value.length <= 11) {
+          _removeError(error: S.of(context).loginTooShort);
+        }
+      },
+      validator: (String? value) {
+        if (value!.isEmpty) {
+          _addError(error: S.of(context).loginIsNotEmpty);
+          return '';
+        } else if (value.length > 11) {
+          _addError(error: S.of(context).loginTooLong);
+          return '';
+        } else if (value.length < 11) {
+          _addError(error: S.of(context).loginTooShort);
+          return '';
+        }
+        return null;
+      },
+      decoration: baseInputDecoration.copyWith(
+        labelText: S.of(context).loginLabelText,
+        hintText: S.of(context).loginHintText,
+        labelStyle: TextStyle(
+          fontSize: mainFontSize,
+          color: loginFocusNode.hasFocus
+              ? const Color.fromRGBO(236, 129, 49, 1)
+              : null,
+        ),
+      ),
+      style: const TextStyle(fontSize: mainFontSize),
+    );
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-        obscureText: !_showPassword,
-        autocorrect: false,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(textRegExp),
-        ],
-        onSaved: (String? newValue) => password = newValue,
-        onChanged: (String value) {
-          if (value.isNotEmpty) {
-            _removeError(error: S.of(context).passwordIsNotEmpty);
-          } else if (value.length >= 8) {
-            _removeError(error: S.of(context).passwordTooShort);
-          }
-        },
-        validator: (String? value) {
-          if (value!.isEmpty) {
-            _addError(error: S.of(context).passwordIsNotEmpty);
-            return '';
-          } else if (value.length < 8) {
-            _addError(error: S.of(context).passwordTooShort);
-            return '';
-          }
-          return null;
-        },
-        decoration: baseInputDecoration.copyWith(
-          labelText: S.of(context).passwordLabelText,
-          hintText: S.of(context).passwordHintText,
-          suffixIcon: IconButton(
-              icon: Icon(
-                _showPassword ? Icons.visibility_off : Icons.visibility,
-              ),
-              onPressed: _toggleShowPassword,),
-        ),);
+      focusNode: passwordFocusNode,
+      obscureText: !_showPassword,
+      autocorrect: false,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(textRegExp),
+      ],
+      onSaved: (String? newValue) => password = newValue,
+      onChanged: (String value) {
+        if (value.isNotEmpty) {
+          _removeError(error: S.of(context).passwordIsNotEmpty);
+        } else if (value.length >= 8) {
+          _removeError(error: S.of(context).passwordTooShort);
+        }
+      },
+      validator: (String? value) {
+        if (value!.isEmpty) {
+          _addError(error: S.of(context).passwordIsNotEmpty);
+          return '';
+        } else if (value.length < 8) {
+          _addError(error: S.of(context).passwordTooShort);
+          return '';
+        }
+        return null;
+      },
+      decoration: baseInputDecoration.copyWith(
+        labelText: S.of(context).passwordLabelText,
+        labelStyle: TextStyle(
+          fontSize: mainFontSize,
+          color: passwordFocusNode.hasFocus
+              ? const Color.fromRGBO(236, 129, 49, 1)
+              : null,
+        ),
+        hintText: S.of(context).passwordHintText,
+        suffixIcon: IconButton(
+          icon: Icon(
+            _showPassword ? Icons.visibility_off : Icons.visibility,
+          ),
+          onPressed: _toggleShowPassword,
+        ),
+      ),
+      style: const TextStyle(fontSize: mainFontSize),
+    );
   }
 
   @override

@@ -75,9 +75,13 @@ class TextButtonWidget extends StatelessWidget {
         .read<ValidationCubit>()
         .updateFieldValidation('geometryItems_valid', isGeometryValid);
     context.read<ValidationCubit>().updateFieldValidation(
-        'plumbingEquipmentItems_valid', isPlumbingEquipmentValid,);
+          'plumbingEquipmentItems_valid',
+          isPlumbingEquipmentValid,
+        );
     context.read<ValidationCubit>().updateFieldValidation(
-        'windowsAndDoorsItems_valid', isWindowsAndDoorsValid,);
+          'windowsAndDoorsItems_valid',
+          isWindowsAndDoorsValid,
+        );
     context
         .read<ValidationCubit>()
         .updateFieldValidation('finishingItems_valid', isFinishingValid);
@@ -101,13 +105,18 @@ class TextButtonWidget extends StatelessWidget {
         // ignore: use_build_context_synchronously
         context,
         PageRouteBuilder(
-          pageBuilder: (BuildContext context, Animation<double> animation,
-                  Animation<double> secondaryAnimation,) =>
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
               const PreviewScreen(),
-          transitionsBuilder: (BuildContext context,
-              Animation<double> animation,
-              Animation<double> secondaryAnimation,
-              Widget child,) {
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) {
             return child;
           },
         ),
@@ -125,7 +134,10 @@ class TextButtonWidget extends StatelessWidget {
       onPressed: () => _validateAndNavigate(context),
       child: Text(
         S.of(context).previewButton,
-        style: const TextStyle(fontSize: 18, color: Colors.teal),
+        style: const TextStyle(
+          fontSize: 18,
+          color: Color.fromRGBO(236, 129, 49, 1),
+        ),
       ),
     );
   }

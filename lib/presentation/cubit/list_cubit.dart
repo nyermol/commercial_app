@@ -27,7 +27,9 @@ class ListCubit extends Cubit<Map<String, dynamic>> {
   }
 
   Future<void> saveDataList(
-      String key, List<Map<String, dynamic>> dataList,) async {
+    String key,
+    List<Map<String, dynamic>> dataList,
+  ) async {
     await saveDataListUsecase.call(key, dataList);
     emit({...state, key: dataList});
   }

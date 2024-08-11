@@ -21,8 +21,11 @@ class DatabaseServices {
 
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(path,
-        version: _databaseVersion, onCreate: _onCreate,);
+    return await openDatabase(
+      path,
+      version: _databaseVersion,
+      onCreate: _onCreate,
+    );
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -37,14 +40,21 @@ class DatabaseServices {
 
   Future<void> insert(String key, String data) async {
     Database db = await database;
-    await db.insert(table, <String, Object?>{'key': key, 'data': data},
-        conflictAlgorithm: ConflictAlgorithm.replace,);
+    await db.insert(
+      table,
+      <String, Object?>{'key': key, 'data': data},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<void> update(String key, String data) async {
     Database db = await database;
-    await db.update(table, <String, Object?>{'data': data},
-        where: 'key = ?', whereArgs: <Object?>[key],);
+    await db.update(
+      table,
+      <String, Object?>{'data': data},
+      where: 'key = ?',
+      whereArgs: <Object?>[key],
+    );
   }
 
   Future<String?> fetch(String key) async {

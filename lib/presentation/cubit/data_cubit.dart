@@ -13,15 +13,15 @@ class DataCubit extends Cubit<Map<String, dynamic>> {
   final SaveRommControllerUsecase saveRommControllerUsecase;
   final LoadRommControllerUsecase loadRommControllerUsecase;
 
-  DataCubit(
-      {required this.saveTextUsecase,
-      required this.saveListUsecase,
-      required this.loadListUsecase,
-      required this.saveCheckedRoomsUsecase,
-      required this.loadCheckedRoomsUsecase,
-      required this.saveRommControllerUsecase,
-      required this.loadRommControllerUsecase,})
-      : super({});
+  DataCubit({
+    required this.saveTextUsecase,
+    required this.saveListUsecase,
+    required this.loadListUsecase,
+    required this.saveCheckedRoomsUsecase,
+    required this.loadCheckedRoomsUsecase,
+    required this.saveRommControllerUsecase,
+    required this.loadRommControllerUsecase,
+  }) : super({});
 
   Future<void> saveText(String key, String text) async {
     await saveTextUsecase(key, text);
@@ -52,12 +52,14 @@ class DataCubit extends Cubit<Map<String, dynamic>> {
   }
 
   Future<void> saveRoomControllers(
-      Map<String, TextEditingController> roomController,) async {
+    Map<String, TextEditingController> roomController,
+  ) async {
     await saveRommControllerUsecase(roomController);
   }
 
   Future<Map<String, TextEditingController>> loadRoomControllers(
-      List<String> rooms,) async {
+    List<String> rooms,
+  ) async {
     final Map<String, TextEditingController> roomController =
         await loadRommControllerUsecase(rooms);
     emit({...state, 'roomController': roomController});
