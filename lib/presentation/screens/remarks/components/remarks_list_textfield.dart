@@ -35,6 +35,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
           child: TypeAheadField<Remark?>(
             textFieldConfiguration: TextFieldConfiguration(
               controller: widget.controller,
+              cursorColor: const Color.fromRGBO(236, 129, 49, 1),
               style: const TextStyle(fontSize: mainFontSize),
               textCapitalization: TextCapitalization.sentences,
               inputFormatters: <TextInputFormatter>[

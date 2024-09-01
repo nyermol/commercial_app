@@ -35,7 +35,7 @@ class _RoomsState extends State<Rooms> {
   }
 
   Future<void> _initializeData() async {
-    final DataCubit dataCubit = context.read<DataCubit>();
+    final RoomCubit dataCubit = context.read<RoomCubit>();
     final rooms = _getLocalizedRooms(context);
     await dataCubit.loadList('selectedRooms');
     _checkedRooms = await dataCubit.loadCheckedRooms(rooms);
@@ -68,9 +68,18 @@ class _RoomsState extends State<Rooms> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            S.of(context).selectRoom,
-            textAlign: TextAlign.center,
+          title: Column(
+            children: [
+              Text(
+                S.of(context).selectRoom,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                S.of(context).numberOfRooms,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: subtitleFontSize),
+              ),
+            ],
           ),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setStateDialog) {
@@ -98,11 +107,21 @@ class _RoomsState extends State<Rooms> {
                                   ),
                                   LengthLimitingTextInputFormatter(2),
                                 ],
+                                decoration: const InputDecoration(
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromRGBO(236, 129, 49, 1),
+                                    ),
+                                  ),
+                                ),
+                                cursorColor:
+                                    const Color.fromRGBO(236, 129, 49, 1),
                                 style: const TextStyle(fontSize: mainFontSize),
                               ),
                             )
                           : null,
                       selected: _checkedRooms[room] == true,
+                      selectedColor: const Color.fromRGBO(236, 129, 49, 1),
                       onTap: () {
                         setStateDialog(() {
                           _checkedRooms[room] = !_checkedRooms[room]!;
@@ -132,7 +151,7 @@ class _RoomsState extends State<Rooms> {
   }
 
   void _onRoomSave() {
-    final DataCubit dataCubit = context.read<DataCubit>();
+    final RoomCubit dataCubit = context.read<RoomCubit>();
     _getLocalizedRooms(context);
     List<String> tempSelectedRooms = <String>[];
     _checkedRooms.forEach((String room, bool checked) {
@@ -158,7 +177,7 @@ class _RoomsState extends State<Rooms> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DataCubit, Map<String, dynamic>>(
+    return BlocBuilder<RoomCubit, Map<String, dynamic>>(
       builder: (BuildContext context, Map<String, dynamic> state) {
         _selectedRooms = state['selectedRooms'] ?? <String>[];
         return Column(

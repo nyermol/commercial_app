@@ -88,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noRemarks": MessageLookupByLibrary.simpleMessage(
             "If there are no disadvantages, insert a dash"),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Not specified"),
+        "numberOfRooms": MessageLookupByLibrary.simpleMessage(
+            "If there are more than 2 rooms, specify their number"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "options": MessageLookupByLibrary.simpleMessage("Options"),
         "order": MessageLookupByLibrary.simpleMessage("Order"),

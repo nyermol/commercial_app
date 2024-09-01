@@ -909,6 +909,16 @@ class S {
       args: [],
     );
   }
+
+  /// `If there are more than 2 rooms, specify their number`
+  String get numberOfRooms {
+    return Intl.message(
+      'If there are more than 2 rooms, specify their number',
+      name: 'numberOfRooms',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

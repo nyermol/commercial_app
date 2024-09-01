@@ -1,16 +1,3 @@
-import 'package:flutter/material.dart';
-
 abstract class DataRepository {
   Future<void> saveText(String key, String text);
-  Future<void> saveList(String key, List<String> list);
-  Future<String?> loadText(String key);
-  Future<List<String?>> loadList(String key);
-  Future<void> saveCheckedRooms(Map<String, bool> checkedRooms);
-  Future<Map<String, bool>> loadCheckedRooms(List<String> rooms);
-  Future<void> saveRoomControllers(
-    Map<String, TextEditingController> roomController,
-  );
-  Future<Map<String, TextEditingController>> loadRoomControllers(
-    List<String> rooms,
-  );
 }

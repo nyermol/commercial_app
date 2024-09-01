@@ -63,6 +63,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
         child: TextField(
           focusNode: _focusNode,
           controller: _controller,
+          cursorColor: const Color.fromRGBO(236, 129, 49, 1),
           style: const TextStyle(fontSize: mainFontSize),
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[

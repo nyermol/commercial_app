@@ -1,7 +1,7 @@
-import 'package:commercial_app/domain/repositories/data_repository.dart';
+import 'package:commercial_app/domain/repositories/room_repository.dart';
 
 class LoadListUsecase {
-  final DataRepository repository;
+  final RoomRepository repository;
 
   LoadListUsecase({required this.repository});
 

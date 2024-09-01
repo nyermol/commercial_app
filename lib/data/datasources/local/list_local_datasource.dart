@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types
+
 import 'dart:convert';
 
 import 'package:commercial_app/data/datasources/local/local_database_export.dart';
@@ -30,7 +32,6 @@ class ListLocalDatasourseImpl implements ListLocalDatasourse {
     if (jsonString != null) {
       List<dynamic> dynamicList = jsonDecode(jsonString);
       return dynamicList
-          // ignore: always_specify_types
           .map((item) => Map<String, dynamic>.from(item))
           .toList();
     }

@@ -89,6 +89,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noRemarks": MessageLookupByLibrary.simpleMessage(
             "Если недостатков нет, то вставьте прочерк"),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Не указано"),
+        "numberOfRooms": MessageLookupByLibrary.simpleMessage(
+            "Если помещений больше 2-х, то укажите их кол-во"),
         "ok": MessageLookupByLibrary.simpleMessage("Oк"),
         "options": MessageLookupByLibrary.simpleMessage("Опции"),
         "order": MessageLookupByLibrary.simpleMessage("Заказ"),

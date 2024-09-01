@@ -79,7 +79,7 @@ class _RemarksListState extends State<RemarksList> {
       setState(() {});
       _listController.clear();
       _saveList();
-      if (context.read<DataCubit>().selectedRooms.isNotEmpty) {
+      if (context.read<RoomCubit>().selectedRooms.isNotEmpty) {
         _setRoom(newIndex);
       }
     }
@@ -92,7 +92,7 @@ class _RemarksListState extends State<RemarksList> {
     setState(() {});
     _listController.clear();
     _saveList();
-    if (context.read<DataCubit>().selectedRooms.isNotEmpty) {
+    if (context.read<RoomCubit>().selectedRooms.isNotEmpty) {
       _setRoom(newIndex);
     }
   }
@@ -169,6 +169,7 @@ class _RemarksListState extends State<RemarksList> {
             textAlign: TextAlign.center,
           ),
           content: TextField(
+            cursorColor: const Color.fromRGBO(236, 129, 49, 1),
             style: const TextStyle(fontSize: mainFontSize),
             controller: editItemController,
             autofocus: true,
@@ -213,7 +214,7 @@ class _RemarksListState extends State<RemarksList> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
-        return BlocBuilder<DataCubit, Map<String, dynamic>>(
+        return BlocBuilder<RoomCubit, Map<String, dynamic>>(
           builder: (BuildContext context, Map<String, dynamic> state) {
             final selectedRooms = state['selectedRooms'] ?? <String>[];
             if (selectedRooms.isEmpty) {

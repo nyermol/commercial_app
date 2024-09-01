@@ -54,6 +54,9 @@ class _OrderTextFieldState extends State<OrderTextField> {
     _focusNode = FocusNode();
     _controller.addListener(_updateTextField);
     _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        _updateTextField();
+      }
       setState(() {});
     });
   }
@@ -71,6 +74,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
 
   void _updateTextField() {
     widget.onTextChanged(_controller.text);
+
     context.read<DataCubit>().saveText(widget.dataKey, _controller.text);
   }
 
@@ -127,6 +131,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
         margin: getContainerMargin(context, 0.02),
         child: TextField(
           focusNode: _focusNode,
+          cursorColor: const Color.fromRGBO(236, 129, 49, 1),
           style: const TextStyle(fontSize: mainFontSize),
           keyboardType: widget.keyboardType,
           textCapitalization: widget.textCapitalization,

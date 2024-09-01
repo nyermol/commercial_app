@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:commercial_app/core/utils/size_config.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/default_button.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
@@ -209,127 +210,135 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SizedBox(
-        width: double.infinity,
-        child: Padding(
-          padding: getHorizontalPadding(context, 0.03),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                const OrderDisplay(),
-                const RemarksDisplay(),
-                MeasurementsDisplay(
-                  title: S.of(context).additionalOptions,
-                  labels: <String>[
-                    S.of(context).radiationLevel,
-                    S.of(context).ammoniaLevel,
-                    S.of(context).electromagneticFieldLevel,
-                  ],
-                  measurementKeys: const <String>[
-                    'radiation',
-                    'ammonia',
-                    'electromagneticField',
-                  ],
-                  units: <String>[
-                    S.of(context).radiationSI,
-                    S.of(context).ammoniaSI,
-                    S.of(context).electromagneticFieldSI,
-                  ],
-                ),
-                MeasurementsDisplay(
-                  title: S.of(context).airflowSpeed,
-                  labels: <String>[
-                    S.of(context).airflowKitchen,
-                    S.of(context).bath1,
-                    S.of(context).bath2,
-                    S.of(context).bath3,
-                  ],
-                  measurementKeys: const <String>[
-                    'airflowKitchen',
-                    'airflowSU1',
-                    'airflowSU2',
-                    'airflowSU3',
-                  ],
-                  units: <String>[
-                    S.of(context).airflowSI,
-                    S.of(context).airflowSI,
-                    S.of(context).airflowSI,
-                    S.of(context).airflowSI,
-                  ],
-                ),
-                const OptionsDisplay(),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
-                ),
-                SizedBox(
-                  width: SizeConfig.screenWidth * 0.75,
-                  child: DefaultButton(
-                    text: S.of(context).actForm,
-                    onPressed: () async {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return PlatformAlertDialog(
-                            content: SizedBox(
-                              height: SizeConfig.screenHeight * 0.12,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    S.of(context).actFormWait,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.screenHeight * 0.01,
-                                  ),
-                                  const CircularProgressIndicator.adaptive(),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                      final DataCubit dataCubit = context.read<DataCubit>();
-                      final ListCubit listCubit = context.read<ListCubit>();
-                      final ButtonCubit buttonCubit =
-                          context.read<ButtonCubit>();
-                      PermissionStatus status =
-                          await Permission.storage.request();
-                      if (status.isGranted) {
-                        try {
-                          await _onCreateDocument(
-                            dataCubit.state,
-                            listCubit.state,
-                            buttonCubit.state,
-                          );
-                          if (kDebugMode) {
-                            print(S.of(context).documentIsSuccessfullyOpen);
-                          }
-                        } catch (e) {
-                          if (kDebugMode) {
-                            print('$e');
-                          }
-                        } finally {
-                          if (mounted) {
-                            Navigator.of(context).pop();
-                          }
-                        }
-                      } else {
-                        if (kDebugMode) {
-                          print(S.of(context).accessPermission);
-                        }
-                        if (mounted) {
-                          Navigator.of(context).pop();
-                        }
-                      }
-                    },
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: getHorizontalPadding(context, 0.03),
+              child: Scrollbar(
+                thumbVisibility: true,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      const OrderDisplay(),
+                      const RemarksDisplay(),
+                      MeasurementsDisplay(
+                        title: S.of(context).additionalOptions,
+                        labels: <String>[
+                          S.of(context).radiationLevel,
+                          S.of(context).ammoniaLevel,
+                          S.of(context).electromagneticFieldLevel,
+                        ],
+                        measurementKeys: const <String>[
+                          'radiation',
+                          'ammonia',
+                          'electromagneticField',
+                        ],
+                        units: <String>[
+                          S.of(context).radiationSI,
+                          S.of(context).ammoniaSI,
+                          S.of(context).electromagneticFieldSI,
+                        ],
+                      ),
+                      MeasurementsDisplay(
+                        title: S.of(context).airflowSpeed,
+                        labels: <String>[
+                          S.of(context).airflowKitchen,
+                          S.of(context).bath1,
+                          S.of(context).bath2,
+                          S.of(context).bath3,
+                        ],
+                        measurementKeys: const <String>[
+                          'airflowKitchen',
+                          'airflowSU1',
+                          'airflowSU2',
+                          'airflowSU3',
+                        ],
+                        units: <String>[
+                          S.of(context).airflowSI,
+                          S.of(context).airflowSI,
+                          S.of(context).airflowSI,
+                          S.of(context).airflowSI,
+                        ],
+                      ),
+                      const OptionsDisplay(),
+                      SizedBox(
+                        height: SizeConfig.screenHeight * 0.02,
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          Padding(
+            padding:
+                EdgeInsets.symmetric(vertical: SizeConfig.screenHeight * 0.01),
+            child: SizedBox(
+              width: SizeConfig.screenWidth * 0.75,
+              child: DefaultButton(
+                text: S.of(context).actForm,
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return PlatformAlertDialog(
+                        content: SizedBox(
+                          height: SizeConfig.screenHeight * 0.12,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                S.of(context).actFormWait,
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: SizeConfig.screenHeight * 0.01,
+                              ),
+                              const CircularProgressIndicator.adaptive(),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                  final DataCubit dataCubit = context.read<DataCubit>();
+                  final ListCubit listCubit = context.read<ListCubit>();
+                  final ButtonCubit buttonCubit = context.read<ButtonCubit>();
+                  PermissionStatus status = await Permission.storage.request();
+                  if (status.isGranted) {
+                    try {
+                      await _onCreateDocument(
+                        dataCubit.state,
+                        listCubit.state,
+                        buttonCubit.state,
+                      );
+                      if (kDebugMode) {
+                        print(S.of(context).documentIsSuccessfullyOpen);
+                      }
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print('$e');
+                      }
+                    } finally {
+                      if (mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    }
+                  } else {
+                    if (kDebugMode) {
+                      print(S.of(context).accessPermission);
+                    }
+                    if (mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

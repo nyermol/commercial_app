@@ -154,6 +154,7 @@ class _SignInFormState extends State<SignInForm> {
         }
         return null;
       },
+      cursorColor: const Color.fromRGBO(236, 129, 49, 1),
       decoration: baseInputDecoration.copyWith(
         labelText: S.of(context).loginLabelText,
         hintText: S.of(context).loginHintText,
@@ -194,6 +195,7 @@ class _SignInFormState extends State<SignInForm> {
         }
         return null;
       },
+      cursorColor: const Color.fromRGBO(236, 129, 49, 1),
       decoration: baseInputDecoration.copyWith(
         labelText: S.of(context).passwordLabelText,
         labelStyle: TextStyle(

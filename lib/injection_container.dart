@@ -1,9 +1,10 @@
 import 'package:commercial_app/data/datasources/local/local_database_export.dart';
 import 'package:commercial_app/data/datasources/remote/remarks_remote_datasource.dart';
 import 'package:commercial_app/data/repositories/data_repository_export.dart';
-import 'package:commercial_app/domain/repositories/domain_reposirories_export.dart';
+import 'package:commercial_app/domain/repositories/domain_repositories_export.dart';
 import 'package:commercial_app/domain/usecases/usecases_export.dart';
 import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,21 +12,29 @@ final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
   // Cubits
-  sl.registerLazySingleton(() => ButtonCubit(<String, String>{}, sl(), sl()));
-  sl.registerLazySingleton(() => ClearCubit(clearAllDataUsecase: sl()));
-  sl.registerLazySingleton(() => ValidationCubit());
-  sl.registerLazySingleton(
+  sl.registerLazySingleton<ButtonCubit>(
+    () => ButtonCubit(<String, String>{}, sl(), sl()),
+  );
+  sl.registerLazySingleton<ClearCubit>(
+    () => ClearCubit(clearAllDataUsecase: sl()),
+  );
+  sl.registerLazySingleton<ValidationCubit>(() => ValidationCubit());
+  sl.registerLazySingleton<DataCubit>(
     () => DataCubit(
       saveTextUsecase: sl(),
+    ),
+  );
+  sl.registerLazySingleton<RoomCubit>(
+    () => RoomCubit(
       saveListUsecase: sl(),
       loadListUsecase: sl(),
       saveCheckedRoomsUsecase: sl(),
       loadCheckedRoomsUsecase: sl(),
-      saveRommControllerUsecase: sl(),
-      loadRommControllerUsecase: sl(),
+      saveRoomControllerUsecase: sl(),
+      loadRoomControllerUsecase: sl(),
     ),
   );
-  sl.registerLazySingleton(
+  sl.registerLazySingleton<ListCubit>(
     () => ListCubit(
       removeItemUsecase: sl(),
       restoreItemUsecase: sl(),
@@ -34,24 +43,51 @@ Future<void> init() async {
       removeImageUsecase: sl(),
     ),
   );
+  sl.registerLazySingleton<InternetCubit>(
+    () => InternetCubit(connectivity: sl()),
+  );
 
   // Usecases
-  sl.registerLazySingleton(() => SaveSelectionUsecase(sl()));
-  sl.registerLazySingleton(() => GetSelectionUsecase(sl()));
-  sl.registerLazySingleton(() => ClearAllDataUsecase(sl()));
-  sl.registerLazySingleton(() => ValidationUsecase());
-  sl.registerLazySingleton(() => SaveTextUsecase(repository: sl()));
-  sl.registerLazySingleton(() => SaveListUsecase(repository: sl()));
-  sl.registerLazySingleton(() => LoadListUsecase(repository: sl()));
-  sl.registerLazySingleton(() => SaveCheckedRoomsUsecase(repository: sl()));
-  sl.registerLazySingleton(() => LoadCheckedRoomsUsecase(repository: sl()));
-  sl.registerLazySingleton(() => SaveRommControllerUsecase(repository: sl()));
-  sl.registerLazySingleton(() => LoadRommControllerUsecase(repository: sl()));
-  sl.registerLazySingleton(() => RemoveItemUsecase(sl()));
-  sl.registerLazySingleton(() => RestoreItemUsecase(sl()));
-  sl.registerLazySingleton(() => SaveDataListUsecase(sl()));
-  sl.registerLazySingleton(() => LoadDataListUsecase(sl()));
-  sl.registerLazySingleton(() => RemoveImageUsecase(sl()));
+  sl.registerLazySingleton<SaveSelectionUsecase>(
+    () => SaveSelectionUsecase(sl()),
+  );
+  sl.registerLazySingleton<GetSelectionUsecase>(
+    () => GetSelectionUsecase(sl()),
+  );
+  sl.registerLazySingleton<ClearAllDataUsecase>(
+    () => ClearAllDataUsecase(sl()),
+  );
+  sl.registerLazySingleton<ValidationUsecase>(() => ValidationUsecase());
+  sl.registerLazySingleton<SaveTextUsecase>(
+    () => SaveTextUsecase(repository: sl()),
+  );
+  sl.registerLazySingleton<SaveListUsecase>(
+    () => SaveListUsecase(repository: sl()),
+  );
+  sl.registerLazySingleton<LoadListUsecase>(
+    () => LoadListUsecase(repository: sl()),
+  );
+  sl.registerLazySingleton<SaveCheckedRoomsUsecase>(
+    () => SaveCheckedRoomsUsecase(repository: sl()),
+  );
+  sl.registerLazySingleton<LoadCheckedRoomsUsecase>(
+    () => LoadCheckedRoomsUsecase(repository: sl()),
+  );
+  sl.registerLazySingleton<SaveRoomControllerUsecase>(
+    () => SaveRoomControllerUsecase(repository: sl()),
+  );
+  sl.registerLazySingleton<LoadRoomControllerUsecase>(
+    () => LoadRoomControllerUsecase(repository: sl()),
+  );
+  sl.registerLazySingleton<RemoveItemUsecase>(() => RemoveItemUsecase(sl()));
+  sl.registerLazySingleton<RestoreItemUsecase>(() => RestoreItemUsecase(sl()));
+  sl.registerLazySingleton<SaveDataListUsecase>(
+    () => SaveDataListUsecase(sl()),
+  );
+  sl.registerLazySingleton<LoadDataListUsecase>(
+    () => LoadDataListUsecase(sl()),
+  );
+  sl.registerLazySingleton<RemoveImageUsecase>(() => RemoveImageUsecase(sl()));
 
   // Repositories
   sl.registerLazySingleton<OptionRepository>(() => OptionRepositoryImpl(sl()));
@@ -67,6 +103,9 @@ Future<void> init() async {
       remarksRemoteDatasource: sl(),
     ),
   );
+  sl.registerLazySingleton<RoomRepository>(
+    () => RoomRepositoryImpl(roomLocalDatasource: sl()),
+  );
 
   // Data Sources
   sl.registerLazySingleton<OptionsLocalDatasource>(
@@ -77,6 +116,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<DataLocalDatasource>(
     () => DataLocalDatasourceImpl(sharedPreferences: sl()),
+  );
+  sl.registerLazySingleton<RoomLocalDatasource>(
+    () => RoomLocalDatasourceImpl(sharedPreferences: sl()),
   );
   sl.registerLazySingleton<ListLocalDatasourse>(
     () => ListLocalDatasourseImpl(databaseServices: sl()),
@@ -91,4 +133,5 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
   final DatabaseServices databaseServices = DatabaseServices.instance;
   sl.registerLazySingleton(() => databaseServices);
+  sl.registerLazySingleton<Connectivity>(() => Connectivity());
 }

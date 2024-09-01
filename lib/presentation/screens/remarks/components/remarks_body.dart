@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, always_specify_types
 
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
@@ -17,6 +17,21 @@ class RemarksScreenBody extends StatefulWidget {
 }
 
 class _RemarksScreenBodyState extends State<RemarksScreenBody> {
+  @override
+  void initState() {
+    super.initState();
+    _loadDataFromSharedPreferences();
+  }
+
+  Future<void> _loadDataFromSharedPreferences() async {
+    final RoomCubit dataCubit = context.read<RoomCubit>();
+    final List<String> selectedRooms =
+        await dataCubit.loadList('selectedRoomsKey');
+    setState(() {
+      dataCubit.emit({'selectedRooms': selectedRooms});
+    });
+  }
+
   void _restoreItem(BuildContext context, String key, int index) async {
     await context.read<ListCubit>().removeItem(key, index);
     SnackBarAction action = SnackBarAction(

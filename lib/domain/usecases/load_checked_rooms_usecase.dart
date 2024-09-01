@@ -1,7 +1,7 @@
-import 'package:commercial_app/domain/repositories/data_repository.dart';
+import 'package:commercial_app/domain/repositories/room_repository.dart';
 
 class LoadCheckedRoomsUsecase {
-  final DataRepository repository;
+  final RoomRepository repository;
 
   LoadCheckedRoomsUsecase({required this.repository});
   Future<Map<String, bool>> call(List<String> rooms) {

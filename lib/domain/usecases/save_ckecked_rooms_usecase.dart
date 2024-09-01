@@ -1,7 +1,7 @@
-import 'package:commercial_app/domain/repositories/data_repository.dart';
+import 'package:commercial_app/domain/repositories/room_repository.dart';
 
 class SaveCheckedRoomsUsecase {
-  final DataRepository repository;
+  final RoomRepository repository;
 
   SaveCheckedRoomsUsecase({required this.repository});
   Future<void> call(Map<String, bool> checkedRooms) {

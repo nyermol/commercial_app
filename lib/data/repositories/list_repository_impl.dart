@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:commercial_app/data/datasources/local/local_database_export.dart';
 import 'package:commercial_app/data/datasources/remote/remarks_remote_datasource.dart';
-import 'package:commercial_app/domain/repositories/domain_reposirories_export.dart';
+import 'package:commercial_app/domain/repositories/domain_repositories_export.dart';
 
 class ListRepositoryImpl implements ListRepository {
   final ListLocalDatasourse listLocalDatasourse;

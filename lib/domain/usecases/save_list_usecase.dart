@@ -1,7 +1,7 @@
-import 'package:commercial_app/domain/repositories/data_repository.dart';
+import 'package:commercial_app/domain/repositories/room_repository.dart';
 
 class SaveListUsecase {
-  final DataRepository repository;
+  final RoomRepository repository;
 
   SaveListUsecase({required this.repository});
   Future<void> call(String key, List<String> list) {
