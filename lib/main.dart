@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types
+
 import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/injection_container.dart';

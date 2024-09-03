@@ -163,7 +163,7 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
       final File file = File(filePath);
       await file.writeAsBytes(doc);
 
-      final OpenResult result = await OpenFile.open(filePath);
+      final result = await OpenFile.open(filePath);
       if (kDebugMode) {
         print(result.message);
       }
