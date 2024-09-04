@@ -1,6 +1,7 @@
 // ignore_for_file: always_specify_types
 
 import 'package:commercial_app/core/utils/utils_export.dart';
+import 'package:commercial_app/firebase_options.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/injection_container.dart';
 import 'package:commercial_app/presentation/cubit/cubit_export.dart';
@@ -17,7 +18,7 @@ import 'package:nested/nested.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await init();
   bootstrap();
 }
@@ -96,7 +97,7 @@ class App extends StatelessWidget {
                 navigator.popUntil((route) => route.isFirst);
               }
               navigator.pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => const NoInternetPage()),
+                MaterialPageRoute(builder: (_) => const SignInScreen()),
                 (route) => false,
               );
             } else if (state.type == InternetTypes.connected) {
@@ -112,7 +113,7 @@ class App extends StatelessWidget {
           child: child,
         );
       },
-      home: const LoadingPage(),
+      home: const SignInScreen(),
     );
   }
 }
