@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types
+
 import 'dart:io';
 
 import 'package:commercial_app/core/styles/styles_export.dart';
@@ -17,7 +19,6 @@ class OrderTextField extends StatefulWidget {
   final TextCapitalization textCapitalization;
   final String dataKey;
   final bool isDateField;
-  final bool showError;
   final String? initialText;
   final List<TextInputFormatter>? inputFormatters;
 
@@ -30,7 +31,6 @@ class OrderTextField extends StatefulWidget {
     this.textCapitalization = TextCapitalization.none,
     required this.dataKey,
     this.isDateField = false,
-    this.showError = false,
     this.initialText,
     this.inputFormatters,
   });
@@ -74,7 +74,6 @@ class _OrderTextFieldState extends State<OrderTextField> {
 
   void _updateTextField() {
     widget.onTextChanged(_controller.text);
-
     context.read<DataCubit>().saveText(widget.dataKey, _controller.text);
   }
 
@@ -84,7 +83,6 @@ class _OrderTextFieldState extends State<OrderTextField> {
   ) async {
     DateTime initialDate = DateTime.now();
     DateTime? picked;
-
     if (Platform.isIOS) {
       await showModalBottomSheet(
         context: context,
@@ -126,6 +124,9 @@ class _OrderTextFieldState extends State<OrderTextField> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, bool> validationState = context.watch<ValidationCubit>().state;
+    bool showError = !validationState['${widget.dataKey}_valid']!;
+
     return Center(
       child: Container(
         margin: getContainerMargin(context, 0.02),
@@ -142,12 +143,14 @@ class _OrderTextFieldState extends State<OrderTextField> {
             hintText: widget.hintText,
             labelStyle: TextStyle(
               fontSize: mainFontSize,
-              color: _focusNode.hasFocus
-                  ? const Color.fromRGBO(236, 129, 49, 1)
-                  : null,
+              color: showError
+                  ? Colors.red
+                  : _focusNode.hasFocus
+                      ? const Color.fromRGBO(236, 129, 49, 1)
+                      : null,
             ),
-            errorText: widget.showError ? S.of(context).requiredField : null,
-            errorBorder: widget.showError
+            errorText: showError ? S.of(context).requiredField : null,
+            errorBorder: showError
                 ? const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red),
                     borderRadius: BorderRadius.all(Radius.circular(15)),

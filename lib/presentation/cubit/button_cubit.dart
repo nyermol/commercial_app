@@ -18,14 +18,12 @@ class ButtonCubit extends Cubit<Map<String, String>> {
 
   Future<void> initializeDefaults(BuildContext context) async {
     for (String key in keys) {
-      if (!state.containsKey(key)) {
-        String value = await getSelectionUsecase.call(key);
-        if (value.isEmpty) {
-          value = S.of(context).no;
-          await saveSelectionUsecase.call(key, value);
-        }
-        state[key] = value;
+      String value = await getSelectionUsecase.call(key);
+      if (value.isEmpty) {
+        value = S.of(context).no;
+        await saveSelectionUsecase.call(key, value);
       }
+      state[key] = value;
     }
     emit(Map.from(state));
   }

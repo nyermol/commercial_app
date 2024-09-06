@@ -63,8 +63,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ButtonCubit>().initializeDefaults(context);
+    });
     context.read<ClearCubit>().clearAllDataOnStart();
     SizeConfig().init(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate>[

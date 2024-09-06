@@ -102,7 +102,6 @@ class TextButtonWidget extends StatelessWidget {
         .updateFieldValidation('show_snackbar', false);
     if (isHeaderScreenValid && isListScreenValid) {
       Navigator.push(
-        // ignore: use_build_context_synchronously
         context,
         PageRouteBuilder(
           pageBuilder: (
