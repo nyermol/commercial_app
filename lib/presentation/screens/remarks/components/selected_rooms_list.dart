@@ -20,7 +20,7 @@ class SelectedRoomList extends StatelessWidget {
           title: Text(
             selectedRooms[index],
             style: const TextStyle(
-              color: Color.fromRGBO(236, 129, 49, 1),
+              color: Colors.teal,
               fontSize: mainFontSize,
             ),
           ),

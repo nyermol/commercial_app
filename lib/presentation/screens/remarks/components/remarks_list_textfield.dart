@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:commercial_app/data/datasources/remote/remark_api.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
@@ -22,7 +24,6 @@ class RemarksListTextField extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
   _RemarksListTextFieldState createState() => _RemarksListTextFieldState();
 }
 
@@ -35,7 +36,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
           child: TypeAheadField<Remark?>(
             textFieldConfiguration: TextFieldConfiguration(
               controller: widget.controller,
-              cursorColor: const Color.fromRGBO(236, 129, 49, 1),
+              cursorColor: Colors.teal,
               style: const TextStyle(fontSize: mainFontSize),
               textCapitalization: TextCapitalization.sentences,
               inputFormatters: <TextInputFormatter>[
@@ -45,8 +46,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                 hintText: S.of(context).remarks,
                 hintStyle: const TextStyle(fontSize: mainFontSize),
                 focusedBorder: const UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromRGBO(236, 129, 49, 1)),
+                  borderSide: BorderSide(color: Colors.teal),
                 ),
                 errorText: widget.errorText(),
                 errorBorder: const UnderlineInputBorder(
@@ -73,7 +73,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                     fontSize: subtitleFontSize,
                   ),
                   textStyleHighlight: const TextStyle(
-                    color: Color.fromRGBO(236, 129, 49, 1),
+                    color: Colors.teal,
                     fontSize: subtitleFontSize,
                   ),
                 ),
@@ -81,7 +81,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                   text: remark.gost ?? '',
                   term: widget.controller.text,
                   textStyleHighlight: const TextStyle(
-                    color: Color.fromRGBO(236, 129, 49, 1),
+                    color: Colors.teal,
                     fontSize: subtitleFontSize,
                   ),
                   textStyle: const TextStyle(

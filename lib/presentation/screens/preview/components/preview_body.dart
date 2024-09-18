@@ -1,23 +1,18 @@
-// ignore_for_file: always_specify_types, use_build_context_synchronously
+// ignore_for_file: avoid_web_libraries_in_flutter, use_build_context_synchronously, always_specify_types, avoid_print
 
-import 'dart:io';
-
-import 'package:commercial_app/core/utils/size_config.dart';
+import 'dart:html' as html;
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/default_button.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/presentation/screens/preview/components/preview_export.dart';
 import 'package:docx_template/docx_template.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:permission_handler/permission_handler.dart';
+import 'package:hive/hive.dart';
 import 'package:image/image.dart' as img;
 
 class PreviewScreenBody extends StatefulWidget {
@@ -39,14 +34,12 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
     Map<String, dynamic> buttonState,
   ) async {
     final ByteData data =
-        await rootBundle.load('assets/templates/shablon.docx');
+        await rootBundle.load('assets/templates/shablon_akta.docx');
     final Uint8List bytes = data.buffer.asUint8List();
     final DocxTemplate docx = await DocxTemplate.fromBytes(bytes);
+
     String checkValue(dynamic value) {
-      if (value == null || value == '') {
-        return '0';
-      }
-      return value.toString();
+      return (value == null || value == '') ? '0' : value.toString();
     }
 
     final Content content = Content();
@@ -95,33 +88,34 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
       ..add(
         ListContent(
           'electricsItems',
-          _createItemsContent(listState['electricsItems']),
+          await _createItemsContent(listState['electricsItems']),
         ),
       )
       ..add(
         ListContent(
           'geometryItems',
-          _createItemsContent(listState['geometryItems']),
+          await _createItemsContent(listState['geometryItems']),
         ),
       )
       ..add(
         ListContent(
           'plumbingEquipmentItems',
-          _createItemsContent(listState['plumbingEquipmentItems']),
+          await _createItemsContent(listState['plumbingEquipmentItems']),
         ),
       )
       ..add(
         ListContent(
           'windowsAndDoorsItems',
-          _createItemsContent(listState['windowsAndDoorsItems']),
+          await _createItemsContent(listState['windowsAndDoorsItems']),
         ),
       )
       ..add(
         ListContent(
           'finishingItems',
-          _createItemsContent(listState['finishingItems']),
+          await _createItemsContent(listState['finishingItems']),
         ),
       );
+
     buttonState.forEach((String key, value) {
       if (value == S.of(context).yes) {
         if (key == 'thermalImagingInspection') {
@@ -153,58 +147,79 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
         }
       }
     });
+
     final List<int>? doc = await docx.generate(content);
     if (doc != null) {
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final order = dataState['order_number'] ?? S.of(context).notSpecified;
-      final inspData =
-          dataState['inspection_date'] ?? S.of(context).notSpecified;
-      final String filePath = '${directory.path}/№$order ($inspData).docx';
-      final File file = File(filePath);
-      await file.writeAsBytes(doc);
-
-      final result = await OpenFile.open(filePath);
-      if (kDebugMode) {
-        print(result.message);
+      try {
+        final blob = html.Blob(
+          [
+            doc,
+          ],
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        );
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        html.AnchorElement(href: url)
+          ..setAttribute(
+            'download',
+            '№${dataState['order_number'] ?? S.of(context).notSpecified} (${dataState['inspection_date'] ?? S.of(context).notSpecified}).docx',
+          )
+          ..click();
+        html.Url.revokeObjectUrl(url);
+        print('The document was successfully created and opened');
+      } catch (e) {
+        print('$e');
       }
     } else {
-      if (kDebugMode) {
-        print(S.of(context).generatingError);
-      }
+      print('Generating document error');
     }
   }
 
-  List<Content> _createItemsContent(List<Map<String, dynamic>>? items) {
+  Future<List<Content>> _createItemsContent(
+    List<Map<String, dynamic>>? items,
+  ) async {
     if (items == null) return <Content>[];
-    return items
-        .asMap()
-        .entries
-        .map((MapEntry<int, Map<String, dynamic>> entry) {
-      int index = entry.key + 1;
-      Map<String, dynamic> item = entry.value;
-      String titleText = "$index. ${item['title']}";
-      TextContent content = TextContent('title', titleText);
-      String subtitleText = item['subtitle']?.trim().isEmpty ?? true
-          ? ''
-          : "(${item['subtitle']})";
-      content.add(TextContent('subtitle', subtitleText));
-      String gostText =
-          item['gost']?.trim().isEmpty ?? true ? '' : "${item['gost']}";
-      content.add(TextContent('gost', gostText));
-      if (item['images'] != null && (item['images'] as List).isNotEmpty) {
-        List<String> images = List<String>.from(item['images']);
-        List<Content> imageContents = images.map((String imagePath) {
-          final Uint8List imageBytes = File(imagePath).readAsBytesSync();
-          final img.Image? originalImage = img.decodeImage(imageBytes);
-          final img.Image correctedImage = img.bakeOrientation(originalImage!);
-          final Uint8List processedBytes = img.encodeJpg(correctedImage);
+    return Future.wait(
+      items
+          .asMap()
+          .entries
+          .map((MapEntry<int, Map<String, dynamic>> entry) async {
+        int index = entry.key + 1;
+        Map<String, dynamic> item = entry.value;
+        String titleText = "$index. ${item['title']}";
+        TextContent content = TextContent('title', titleText);
+        String subtitleText = item['subtitle']?.trim().isEmpty ?? true
+            ? ''
+            : "(${item['subtitle']})";
+        content.add(TextContent('subtitle', subtitleText));
+        String gostText =
+            item['gost']?.trim().isEmpty ?? true ? '' : "${item['gost']}";
+        content.add(TextContent('gost', gostText));
+        if (item['images'] != null && (item['images'] as List).isNotEmpty) {
+          List<String> images = List<String>.from(item['images']);
+          List<Content> imageContents = await _createImageContents(images);
+          content.add(ListContent('images', imageContents));
+        }
+        return content;
+      }).toList(),
+    );
+  }
 
-          return ImageContent('image', processedBytes);
-        }).toList();
-        content.add(ListContent('images', imageContents));
-      }
-      return content;
-    }).toList();
+  Future<List<Content>> _createImageContents(List<String> images) async {
+    return Future.wait(
+      images.map((String imagePath) async {
+        final Uint8List? imageBytes =
+            await Hive.box('imagesBox').get(imagePath);
+        if (imageBytes != null) {
+          final img.Image? originalImage = img.decodeImage(imageBytes);
+          if (originalImage != null) {
+            final img.Image correctedImage = img.bakeOrientation(originalImage);
+            final Uint8List processedBytes = img.encodeJpg(correctedImage);
+            return ImageContent('image', processedBytes);
+          }
+        }
+        return ImageContent('image', Uint8List(0));
+      }).toList(),
+    );
   }
 
   @override
@@ -218,6 +233,7 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
               child: Scrollbar(
                 thumbVisibility: true,
                 child: SingleChildScrollView(
+                  primary: true,
                   child: Column(
                     children: <Widget>[
                       const OrderDisplay(),
@@ -279,60 +295,41 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
               child: DefaultButton(
                 text: S.of(context).actForm,
                 onPressed: () async {
-                  showDialog(
+                  showCustomDialog(
                     context: context,
+                    title: '',
                     barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return PlatformAlertDialog(
-                        content: SizedBox(
-                          height: SizeConfig.screenHeight * 0.12,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                S.of(context).actFormWait,
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(
-                                height: SizeConfig.screenHeight * 0.01,
-                              ),
-                              const CircularProgressIndicator.adaptive(),
-                            ],
+                    content: SizedBox(
+                      height: SizeConfig.screenHeight * 0.12,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            S.of(context).actFormWait,
+                            textAlign: TextAlign.center,
                           ),
-                        ),
-                      );
-                    },
+                          SizedBox(
+                            height: SizeConfig.screenHeight * 0.01,
+                          ),
+                          const CircularProgressIndicator(),
+                        ],
+                      ),
+                    ),
                   );
                   final DataCubit dataCubit = context.read<DataCubit>();
                   final ListCubit listCubit = context.read<ListCubit>();
                   final ButtonCubit buttonCubit = context.read<ButtonCubit>();
-                  PermissionStatus status = await Permission.storage.request();
-                  if (status.isGranted) {
-                    try {
-                      await _onCreateDocument(
-                        dataCubit.state,
-                        listCubit.state,
-                        buttonCubit.state,
-                      );
-                      if (kDebugMode) {
-                        print(S.of(context).documentIsSuccessfullyOpen);
-                      }
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print('$e');
-                      }
-                    } finally {
-                      if (mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    }
-                  } else {
-                    if (kDebugMode) {
-                      print(S.of(context).accessPermission);
-                    }
-                    if (mounted) {
-                      Navigator.of(context).pop();
-                    }
+                  try {
+                    await _onCreateDocument(
+                      dataCubit.state,
+                      listCubit.state,
+                      buttonCubit.state,
+                    );
+                    print('The document was successfully created and opened');
+                  } catch (e) {
+                    print('$e');
+                  } finally {
+                    Navigator.of(context).pop();
                   }
                 },
               ),

@@ -3,7 +3,7 @@ import 'package:commercial_app/data/datasources/remote/remarks_remote_datasource
 import 'package:commercial_app/data/repositories/data_repository_export.dart';
 import 'package:commercial_app/domain/repositories/domain_repositories_export.dart';
 import 'package:commercial_app/domain/usecases/usecases_export.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +37,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ListCubit>(
     () => ListCubit(
       removeItemUsecase: sl(),
-      restoreItemUsecase: sl(),
       saveDataListUsecase: sl(),
       loadDataListUsecase: sl(),
       removeImageUsecase: sl(),
@@ -47,7 +46,7 @@ Future<void> init() async {
     () => InternetCubit(connectivity: sl()),
   );
 
-  // Usecases
+  // Use Cases
   sl.registerLazySingleton<SaveSelectionUsecase>(
     () => SaveSelectionUsecase(sl()),
   );
@@ -80,7 +79,6 @@ Future<void> init() async {
     () => LoadRoomControllerUsecase(repository: sl()),
   );
   sl.registerLazySingleton<RemoveItemUsecase>(() => RemoveItemUsecase(sl()));
-  sl.registerLazySingleton<RestoreItemUsecase>(() => RestoreItemUsecase(sl()));
   sl.registerLazySingleton<SaveDataListUsecase>(
     () => SaveDataListUsecase(sl()),
   );
@@ -88,6 +86,9 @@ Future<void> init() async {
     () => LoadDataListUsecase(sl()),
   );
   sl.registerLazySingleton<RemoveImageUsecase>(() => RemoveImageUsecase(sl()));
+  sl.registerLazySingleton<CheckFirstLaunchUsecase>(
+    () => CheckFirstLaunchUsecase(clearCubit: sl()),
+  );
 
   // Repositories
   sl.registerLazySingleton<OptionRepository>(() => OptionRepositoryImpl(sl()));
@@ -107,7 +108,7 @@ Future<void> init() async {
     () => RoomRepositoryImpl(roomLocalDatasource: sl()),
   );
 
-  // Data Sources
+  // Datasources
   sl.registerLazySingleton<OptionsLocalDatasource>(
     () => OptionsLocalDatasourceImpl(sl()),
   );

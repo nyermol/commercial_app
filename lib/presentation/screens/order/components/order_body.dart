@@ -1,7 +1,7 @@
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/presentation/screens/order/components/order_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

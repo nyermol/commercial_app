@@ -42,22 +42,27 @@ class MessageLookup extends MessageLookupByLibrary {
         "bath3": MessageLookupByLibrary.simpleMessage("Bath №3"),
         "bathroom": MessageLookupByLibrary.simpleMessage("Bathroom"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "clearTheData": MessageLookupByLibrary.simpleMessage("Clear the data"),
+        "clearTheDataAndStartOver": MessageLookupByLibrary.simpleMessage(
+            "Would you like to clear the data and start over?"),
         "commercialSpace":
             MessageLookupByLibrary.simpleMessage("Commercial space"),
         "customerName": MessageLookupByLibrary.simpleMessage("Customer name"),
         "customerNameEnter":
             MessageLookupByLibrary.simpleMessage("Enter customer name"),
+        "dataCleaningError":
+            MessageLookupByLibrary.simpleMessage("Data cleaning error"),
+        "dataClearedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Data was cleared successfully"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
-        "documentIsSuccessfullyOpen": MessageLookupByLibrary.simpleMessage(
-            "The document was successfully created and opened"),
         "electricsItems": MessageLookupByLibrary.simpleMessage("Electrical"),
         "electromagneticFieldLevel":
             MessageLookupByLibrary.simpleMessage("EM field level"),
         "electromagneticFieldSI": MessageLookupByLibrary.simpleMessage("μT"),
         "entry": MessageLookupByLibrary.simpleMessage("Sign in"),
+        "errorLoginAndPasswordCheck": MessageLookupByLibrary.simpleMessage(
+            "Error login and password check"),
         "finishingItems": MessageLookupByLibrary.simpleMessage("Finish"),
-        "generatingError":
-            MessageLookupByLibrary.simpleMessage("Generating document error"),
         "geometryItems": MessageLookupByLibrary.simpleMessage("Geometry"),
         "hall": MessageLookupByLibrary.simpleMessage("Hall"),
         "imagePreview": MessageLookupByLibrary.simpleMessage("Image preview"),
@@ -85,11 +90,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No measurement was made"),
         "measurements": MessageLookupByLibrary.simpleMessage("Measurements"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
+        "noInternetConnection":
+            MessageLookupByLibrary.simpleMessage("No internet connection"),
         "noRemarks": MessageLookupByLibrary.simpleMessage(
             "If there are no disadvantages, insert a dash"),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Not specified"),
-        "numberOfRooms": MessageLookupByLibrary.simpleMessage(
-            "If there are more than 2 rooms, specify their number"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "options": MessageLookupByLibrary.simpleMessage("Options"),
         "order": MessageLookupByLibrary.simpleMessage("Order"),
@@ -120,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("List of disadvanteges"),
         "remarksNotFound":
             MessageLookupByLibrary.simpleMessage("No disadvantages found"),
+        "removeRemark": MessageLookupByLibrary.simpleMessage(
+            "Are you sure delete this remark?"),
         "removedShortcoming": MessageLookupByLibrary.simpleMessage(
             "You removed the disadvantage"),
         "requiredAllField": MessageLookupByLibrary.simpleMessage(
@@ -141,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Is a thermal imaging inspection report required?"),
         "thermalImagingInspection": MessageLookupByLibrary.simpleMessage(
             "Was there a thermal imaging inspection?"),
+        "tryAgain": MessageLookupByLibrary.simpleMessage("Try again"),
         "underfloorHeating": MessageLookupByLibrary.simpleMessage(
             "Was the underfloor heating checked with a thermal imager?"),
         "wardrobe": MessageLookupByLibrary.simpleMessage("Wardrobe"),
@@ -149,6 +157,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "To sign in enter your login and password"),
         "windowsAndDoorsItems":
             MessageLookupByLibrary.simpleMessage("Windows and Doors"),
+        "wrongLogin": MessageLookupByLibrary.simpleMessage("Wrong login"),
+        "wrongPassword": MessageLookupByLibrary.simpleMessage("Wrong password"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

@@ -1,11 +1,6 @@
-// ignore_for_file: always_specify_types
-
-import 'dart:io';
-
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,42 +78,36 @@ class _OrderTextFieldState extends State<OrderTextField> {
   ) async {
     DateTime initialDate = DateTime.now();
     DateTime? picked;
-    if (Platform.isIOS) {
-      await showModalBottomSheet(
-        context: context,
-        builder: (BuildContext builder) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).copyWith().size.height / 3,
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.date,
-                  initialDateTime: DateTime(2000, 1, 1),
-                  onDateTimeChanged: (DateTime newDate) {
-                    picked = newDate;
-                  },
-                  minimumDate: DateTime(2000),
-                  maximumDate: DateTime(2100),
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      helpText: S.of(context).inspectionDateEnter,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            dialogBackgroundColor: Colors.white,
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  surface: Colors.white,
+                  primary: Colors.teal,
                 ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.teal,
+                textStyle: const TextStyle(fontSize: subtitleFontSize),
               ),
-            ],
-          );
-        },
-      );
-    } else {
-      final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: initialDate,
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100),
-      );
-      if (pickedDate != null && pickedDate != initialDate) {
-        picked = pickedDate;
-      }
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (pickedDate != null && pickedDate != initialDate) {
+      picked = pickedDate;
     }
     if (picked != null) {
-      controller.text = DateFormat('dd.MM.yyyy').format(picked!);
+      controller.text = DateFormat('dd.MM.yyyy').format(picked);
     }
   }
 
@@ -132,7 +121,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
         margin: getContainerMargin(context, 0.02),
         child: TextField(
           focusNode: _focusNode,
-          cursorColor: const Color.fromRGBO(236, 129, 49, 1),
+          cursorColor: Colors.teal,
           style: const TextStyle(fontSize: mainFontSize),
           keyboardType: widget.keyboardType,
           textCapitalization: widget.textCapitalization,
@@ -146,7 +135,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
               color: showError
                   ? Colors.red
                   : _focusNode.hasFocus
-                      ? const Color.fromRGBO(236, 129, 49, 1)
+                      ? Colors.teal
                       : null,
             ),
             errorText: showError ? S.of(context).requiredField : null,

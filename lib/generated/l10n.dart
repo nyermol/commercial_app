@@ -680,16 +680,6 @@ class S {
     );
   }
 
-  /// `Generating document error`
-  String get generatingError {
-    return Intl.message(
-      'Generating document error',
-      name: 'generatingError',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Generate`
   String get actForm {
     return Intl.message(
@@ -890,16 +880,6 @@ class S {
     );
   }
 
-  /// `The document was successfully created and opened`
-  String get documentIsSuccessfullyOpen {
-    return Intl.message(
-      'The document was successfully created and opened',
-      name: 'documentIsSuccessfullyOpen',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `The permission to access memory has not been granted`
   String get accessPermission {
     return Intl.message(
@@ -910,11 +890,101 @@ class S {
     );
   }
 
-  /// `If there are more than 2 rooms, specify their number`
-  String get numberOfRooms {
+  /// `Clear the data`
+  String get clearTheData {
     return Intl.message(
-      'If there are more than 2 rooms, specify their number',
-      name: 'numberOfRooms',
+      'Clear the data',
+      name: 'clearTheData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data was cleared successfully`
+  String get dataClearedSuccessfully {
+    return Intl.message(
+      'Data was cleared successfully',
+      name: 'dataClearedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data cleaning error`
+  String get dataCleaningError {
+    return Intl.message(
+      'Data cleaning error',
+      name: 'dataCleaningError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would you like to clear the data and start over?`
+  String get clearTheDataAndStartOver {
+    return Intl.message(
+      'Would you like to clear the data and start over?',
+      name: 'clearTheDataAndStartOver',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet connection`
+  String get noInternetConnection {
+    return Intl.message(
+      'No internet connection',
+      name: 'noInternetConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try again`
+  String get tryAgain {
+    return Intl.message(
+      'Try again',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong password`
+  String get wrongPassword {
+    return Intl.message(
+      'Wrong password',
+      name: 'wrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong login`
+  String get wrongLogin {
+    return Intl.message(
+      'Wrong login',
+      name: 'wrongLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error login and password check`
+  String get errorLoginAndPasswordCheck {
+    return Intl.message(
+      'Error login and password check',
+      name: 'errorLoginAndPasswordCheck',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure delete this remark?`
+  String get removeRemark {
+    return Intl.message(
+      'Are you sure delete this remark?',
+      name: 'removeRemark',
       desc: '',
       args: [],
     );

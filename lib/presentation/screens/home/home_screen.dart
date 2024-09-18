@@ -1,5 +1,5 @@
 import 'package:commercial_app/generated/l10n.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/presentation/screens/home/components/home_screen_bar.dart';
 import 'package:commercial_app/presentation/screens/home/components/home_screen_body.dart';
 import 'package:commercial_app/presentation/widgets/snack_bar.dart';
@@ -29,12 +29,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Map<String, dynamic> validationState =
         context.watch<ValidationCubit>().state;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (validationState['show_snackbar'] == true) {
-        showCustomSnackBar(context, S.of(context).requiredAllField, Colors.red);
-        context.read<ValidationCubit>().resetSnackBar();
-      }
-    });
+    if (mounted && validationState['show_snackbar'] == true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          showCustomSnackBar(
+            context,
+            S.of(context).requiredAllField,
+            Colors.red,
+          );
+          context.read<ValidationCubit>().resetSnackBar();
+        }
+      });
+    }
     return Scaffold(
       body: HomeScreenBody(
         pageController: _pageController,

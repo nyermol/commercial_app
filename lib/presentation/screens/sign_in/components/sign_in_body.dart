@@ -27,6 +27,7 @@ class SignInBody extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             S.of(context).welcomeBack,
+                            textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: signInMainFontSize,
                               fontWeight: FontWeight.bold,

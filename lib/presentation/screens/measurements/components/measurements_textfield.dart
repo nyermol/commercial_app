@@ -1,6 +1,6 @@
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +63,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
         child: TextField(
           focusNode: _focusNode,
           controller: _controller,
-          cursorColor: const Color.fromRGBO(236, 129, 49, 1),
+          cursorColor: Colors.teal,
           style: const TextStyle(fontSize: mainFontSize),
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
@@ -75,9 +75,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
             hintText: widget.hintText,
             labelStyle: TextStyle(
               fontSize: mainFontSize,
-              color: _focusNode.hasFocus
-                  ? const Color.fromRGBO(236, 129, 49, 1)
-                  : null,
+              color: _focusNode.hasFocus ? Colors.teal : null,
             ),
             hintTextDirection: TextDirection.rtl,
           ),

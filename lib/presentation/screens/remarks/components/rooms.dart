@@ -4,7 +4,7 @@ import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/default_button.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/presentation/screens/remarks/components/remarks_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,13 +35,13 @@ class _RoomsState extends State<Rooms> {
   }
 
   Future<void> _initializeData() async {
-    final RoomCubit dataCubit = context.read<RoomCubit>();
-    final rooms = _getLocalizedRooms(context);
-    await dataCubit.loadList('selectedRooms');
-    _checkedRooms = await dataCubit.loadCheckedRooms(rooms);
-    _roomController = await dataCubit.loadRoomControllers(rooms);
+    final RoomCubit roomCubit = context.read<RoomCubit>();
+    final List<String> rooms = _getLocalizedRooms(context);
+    await roomCubit.loadList('selectedRooms');
+    _checkedRooms = await roomCubit.loadCheckedRooms(rooms);
+    _roomController = await roomCubit.loadRoomControllers(rooms);
     setState(() {
-      _selectedRooms = dataCubit.selectedRooms;
+      _selectedRooms = roomCubit.selectedRooms;
     });
   }
 
@@ -63,95 +63,75 @@ class _RoomsState extends State<Rooms> {
     required BuildContext context,
     required void Function() onSave,
   }) {
-    final rooms = _getLocalizedRooms(context);
-    showDialog(
+    final List<String> rooms = _getLocalizedRooms(context);
+    showCustomDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Column(
-            children: [
-              Text(
-                S.of(context).selectRoom,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                S.of(context).numberOfRooms,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: subtitleFontSize),
-              ),
-            ],
-          ),
-          content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setStateDialog) {
-              return SizedBox(
-                width: double.maxFinite,
-                child: ListView(
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
-                  children: rooms.map((String room) {
-                    return ListTile(
-                      title: Text(
-                        room,
-                        style: const TextStyle(fontSize: mainFontSize),
-                      ),
-                      trailing: _checkedRooms[room] == true
-                          ? SizedBox(
-                              width: SizeConfig.screenWidth * 0.1,
-                              child: TextField(
-                                controller: _roomController[room],
-                                keyboardType: TextInputType.number,
-                                textAlign: TextAlign.center,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                    numberRegExp,
-                                  ),
-                                  LengthLimitingTextInputFormatter(2),
-                                ],
-                                decoration: const InputDecoration(
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromRGBO(236, 129, 49, 1),
-                                    ),
-                                  ),
+      title: S.of(context).selectRoom,
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setStateDialog) {
+          return SizedBox(
+            width: double.maxFinite,
+            child: ListView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              children: rooms.map((String room) {
+                return ListTile(
+                  title: Text(
+                    room,
+                    style: const TextStyle(fontSize: mainFontSize),
+                  ),
+                  trailing: _checkedRooms[room] == true
+                      ? SizedBox(
+                          width: SizeConfig.screenWidth * 0.1,
+                          child: TextField(
+                            controller: _roomController[room],
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(numberRegExp),
+                              LengthLimitingTextInputFormatter(2),
+                            ],
+                            decoration: const InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.teal,
                                 ),
-                                cursorColor:
-                                    const Color.fromRGBO(236, 129, 49, 1),
-                                style: const TextStyle(fontSize: mainFontSize),
                               ),
-                            )
-                          : null,
-                      selected: _checkedRooms[room] == true,
-                      selectedColor: const Color.fromRGBO(236, 129, 49, 1),
-                      onTap: () {
-                        setStateDialog(() {
-                          _checkedRooms[room] = !_checkedRooms[room]!;
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
-              );
-            },
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: onSave,
-              child: Text(
-                S.of(context).save,
-                style: const TextStyle(
-                  fontSize: mainFontSize,
-                  color: Color.fromRGBO(236, 129, 49, 1),
-                ),
-              ),
+                            ),
+                            cursorColor: Colors.teal,
+                            style: const TextStyle(fontSize: mainFontSize),
+                          ),
+                        )
+                      : null,
+                  selected: _checkedRooms[room] == true,
+                  selectedColor: Colors.teal,
+                  onTap: () {
+                    setStateDialog(() {
+                      _checkedRooms[room] = !_checkedRooms[room]!;
+                    });
+                  },
+                );
+              }).toList(),
             ),
-          ],
-        );
-      },
+          );
+        },
+      ),
+      actions: [
+        TextButton(
+          onPressed: onSave,
+          child: Text(
+            S.of(context).save,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.teal,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   void _onRoomSave() {
-    final RoomCubit dataCubit = context.read<RoomCubit>();
+    final RoomCubit roomCubit = context.read<RoomCubit>();
     _getLocalizedRooms(context);
     List<String> tempSelectedRooms = <String>[];
     _checkedRooms.forEach((String room, bool checked) {
@@ -166,9 +146,9 @@ class _RoomsState extends State<Rooms> {
         }
       }
     });
-    dataCubit.saveList('selectedRooms', tempSelectedRooms);
-    dataCubit.saveCheckedRooms(_checkedRooms);
-    dataCubit.saveRoomControllers(_roomController);
+    roomCubit.saveList('selectedRooms', tempSelectedRooms);
+    roomCubit.saveCheckedRooms(_checkedRooms);
+    roomCubit.saveRoomControllers(_roomController);
     setState(() {
       _selectedRooms = tempSelectedRooms;
     });

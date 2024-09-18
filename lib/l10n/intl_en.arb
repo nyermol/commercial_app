@@ -62,7 +62,6 @@
   "notSpecified": "Not specified",
   "paidServices": "Paid services",
   "orderMainInf": "Main information about an order",
-  "generatingError": "Generating document error",
   "actForm": "Generate",
   "actFormWait": "The document is being produced. Please wait.",
   "imagePreview": "Image preview",
@@ -83,7 +82,15 @@
   "wardrobe": "Wardrobe",
   "measurementIsNotTaken": "No measurement was made",
   "listLength": "All lists must be the same length",
-  "documentIsSuccessfullyOpen": "The document was successfully created and opened",
   "accessPermission": "The permission to access memory has not been granted",
-  "numberOfRooms": "If there are more than 2 rooms, specify their number"
+  "clearTheData": "Clear the data",
+  "dataClearedSuccessfully": "Data was cleared successfully",
+  "dataCleaningError": "Data cleaning error",
+  "clearTheDataAndStartOver": "Would you like to clear the data and start over?",
+  "noInternetConnection": "No internet connection",
+  "tryAgain": "Try again",
+  "wrongPassword": "Wrong password",
+  "wrongLogin": "Wrong login",
+  "errorLoginAndPasswordCheck": "Error login and password check",
+  "removeRemark": "Are you sure delete this remark?"
 }

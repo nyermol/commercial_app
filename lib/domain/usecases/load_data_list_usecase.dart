@@ -5,7 +5,7 @@ class LoadDataListUsecase {
 
   LoadDataListUsecase(this.repository);
 
-  Future<void> call(String key) async {
+  Future<List<Map<String, dynamic>>> call(String key) async {
     return await repository.loadDataList(key);
   }
 }

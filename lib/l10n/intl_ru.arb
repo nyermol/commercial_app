@@ -62,7 +62,6 @@
   "notSpecified": "Не указано",
   "paidServices": "Платные услуги",
   "orderMainInf": "Основная информаци по заказу",
-  "generatingError": "Ошибка при генерации документа",
   "actForm": "Сформировать акт",
   "actFormWait": "Документ формируется. Пожалуйста, подождите.",
   "imagePreview": "Предпросмотр изображения",
@@ -83,7 +82,15 @@
   "wardrobe": "Гардеробная",
   "measurementIsNotTaken": "Измерение не проводилось",
   "listLength": "Все списки должны быть одинаковой длины",
-  "documentIsSuccessfullyOpen": "Документ успешно создан и открыт",
   "accessPermission": "Разрешение на доступ к памяти не предоставлено",
-  "numberOfRooms": "Если помещений больше 2-х, то укажите их кол-во"
+  "clearTheData": "Очистить данные",
+  "dataClearedSuccessfully": "Вы успешно очистили данные",
+  "dataCleaningError": "Ошибка при очистке данных",
+  "clearTheDataAndStartOver": "Очистить данные и начать сначала?",
+  "noInternetConnection": "Отсутствует интернет-соединение",
+  "tryAgain": "Попробовать снова",
+  "wrongPassword": "Неправильный пароль",
+  "wrongLogin": "Неправильный логин",
+  "errorLoginAndPasswordCheck": "Ошибка при проверке логина и пароля",
+  "removeRemark": "Вы действительно хотите удалить этот недостаток?"
 }

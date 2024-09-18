@@ -8,7 +8,7 @@ const InputDecoration baseInputDecoration = InputDecoration(
   hintStyle: TextStyle(fontSize: mainFontSize),
   floatingLabelBehavior: FloatingLabelBehavior.always,
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Color.fromRGBO(236, 129, 49, 1)),
+    borderSide: BorderSide(color: Colors.teal),
     borderRadius: BorderRadius.all(Radius.circular(15)),
   ),
 );

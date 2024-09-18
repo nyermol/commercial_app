@@ -20,9 +20,7 @@ class CustomButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: isSelected
-              ? const Color.fromRGBO(236, 129, 49, 1)
-              : Colors.grey.shade300,
+          color: isSelected ? Colors.teal : Colors.grey.shade300,
         ),
         padding: getPadding(context, 0.07, 0.03),
         child: Text(

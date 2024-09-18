@@ -1,11 +1,8 @@
-// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, always_specify_types
-
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/presentation/screens/options/components/options_selection.dart';
 import 'package:commercial_app/presentation/screens/remarks/components/remarks_export.dart';
-import 'package:commercial_app/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,31 +21,10 @@ class _RemarksScreenBodyState extends State<RemarksScreenBody> {
   }
 
   Future<void> _loadDataFromSharedPreferences() async {
-    final RoomCubit dataCubit = context.read<RoomCubit>();
+    final RoomCubit roomCubit = context.read<RoomCubit>();
     final List<String> selectedRooms =
-        await dataCubit.loadList('selectedRoomsKey');
-    setState(() {
-      dataCubit.emit({'selectedRooms': selectedRooms});
-    });
-  }
-
-  void _restoreItem(BuildContext context, String key, int index) async {
-    await context.read<ListCubit>().removeItem(key, index);
-    SnackBarAction action = SnackBarAction(
-      label: S.of(context).cancel,
-      onPressed: () {
-        context.read<ListCubit>().restoreItem(key);
-      },
-    );
-    showCustomSnackBar(
-      context,
-      S.of(context).removedShortcoming,
-      Colors.grey,
-      action: action,
-      onCancelAction: () {
-        context.read<ListCubit>().restoreItem(key);
-      },
-    );
+        await roomCubit.loadList('selectedRoomsKey');
+    roomCubit.updateSelectedRooms(selectedRooms);
   }
 
   @override
@@ -71,36 +47,26 @@ class _RemarksScreenBodyState extends State<RemarksScreenBody> {
                     title: S.of(context).electricsItems,
                     itemsKey: 'electricsItems',
                     isListEmpty: !isListEmpty['electricsItems_valid']!,
-                    onItemDismiss: (int index) =>
-                        _restoreItem(context, 'electricsItems', index),
                   ),
                   RemarksList(
                     title: S.of(context).geometryItems,
                     itemsKey: 'geometryItems',
                     isListEmpty: !isListEmpty['geometryItems_valid']!,
-                    onItemDismiss: (int index) =>
-                        _restoreItem(context, 'geometryItems', index),
                   ),
                   RemarksList(
                     title: S.of(context).plumbingEquipmentItems,
                     itemsKey: 'plumbingEquipmentItems',
                     isListEmpty: !isListEmpty['plumbingEquipmentItems_valid']!,
-                    onItemDismiss: (int index) =>
-                        _restoreItem(context, 'plumbingEquipmentItems', index),
                   ),
                   RemarksList(
                     title: S.of(context).windowsAndDoorsItems,
                     itemsKey: 'windowsAndDoorsItems',
                     isListEmpty: !isListEmpty['windowsAndDoorsItems_valid']!,
-                    onItemDismiss: (int index) =>
-                        _restoreItem(context, 'windowsAndDoorsItems', index),
                   ),
                   RemarksList(
                     title: S.of(context).finishingItems,
                     itemsKey: 'finishingItems',
                     isListEmpty: !isListEmpty['finishingItems_valid']!,
-                    onItemDismiss: (int index) =>
-                        _restoreItem(context, 'finishingItems', index),
                   ),
                   OptionsSelection(
                     title: S.of(context).thermalImagingInspection,

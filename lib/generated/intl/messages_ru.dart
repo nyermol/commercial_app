@@ -43,22 +43,27 @@ class MessageLookup extends MessageLookupByLibrary {
         "bath3": MessageLookupByLibrary.simpleMessage("В с/у №3"),
         "bathroom": MessageLookupByLibrary.simpleMessage("Ванная"),
         "cancel": MessageLookupByLibrary.simpleMessage("Отменить"),
+        "clearTheData": MessageLookupByLibrary.simpleMessage("Очистить данные"),
+        "clearTheDataAndStartOver": MessageLookupByLibrary.simpleMessage(
+            "Очистить данные и начать сначала?"),
         "commercialSpace":
             MessageLookupByLibrary.simpleMessage("Ком. помещение"),
         "customerName": MessageLookupByLibrary.simpleMessage("ФИО заказчика"),
         "customerNameEnter":
             MessageLookupByLibrary.simpleMessage("Введите ФИО заказчика"),
+        "dataCleaningError":
+            MessageLookupByLibrary.simpleMessage("Ошибка при очистке данных"),
+        "dataClearedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Вы успешно очистили данные"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
-        "documentIsSuccessfullyOpen": MessageLookupByLibrary.simpleMessage(
-            "Документ успешно создан и открыт"),
         "electricsItems": MessageLookupByLibrary.simpleMessage("Электрика"),
         "electromagneticFieldLevel":
             MessageLookupByLibrary.simpleMessage("Уровень э/м поля"),
         "electromagneticFieldSI": MessageLookupByLibrary.simpleMessage("мкТл"),
         "entry": MessageLookupByLibrary.simpleMessage("Войти"),
+        "errorLoginAndPasswordCheck": MessageLookupByLibrary.simpleMessage(
+            "Ошибка при проверке логина и пароля"),
         "finishingItems": MessageLookupByLibrary.simpleMessage("Отделка"),
-        "generatingError": MessageLookupByLibrary.simpleMessage(
-            "Ошибка при генерации документа"),
         "geometryItems": MessageLookupByLibrary.simpleMessage("Геометрия"),
         "hall": MessageLookupByLibrary.simpleMessage("Коридор"),
         "imagePreview":
@@ -86,11 +91,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Измерение не проводилось"),
         "measurements": MessageLookupByLibrary.simpleMessage("Измерения"),
         "no": MessageLookupByLibrary.simpleMessage("Нет"),
+        "noInternetConnection": MessageLookupByLibrary.simpleMessage(
+            "Отсутствует интернет-соединение"),
         "noRemarks": MessageLookupByLibrary.simpleMessage(
             "Если недостатков нет, то вставьте прочерк"),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Не указано"),
-        "numberOfRooms": MessageLookupByLibrary.simpleMessage(
-            "Если помещений больше 2-х, то укажите их кол-во"),
         "ok": MessageLookupByLibrary.simpleMessage("Oк"),
         "options": MessageLookupByLibrary.simpleMessage("Опции"),
         "order": MessageLookupByLibrary.simpleMessage("Заказ"),
@@ -121,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Список недостатков"),
         "remarksNotFound":
             MessageLookupByLibrary.simpleMessage("Замечания не найдены"),
+        "removeRemark": MessageLookupByLibrary.simpleMessage(
+            "Вы действительно хотите удалить этот недостаток?"),
         "removedShortcoming":
             MessageLookupByLibrary.simpleMessage("Вы удалили недостаток"),
         "requiredAllField": MessageLookupByLibrary.simpleMessage(
@@ -143,6 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Требуется ли заключение по тепловизионному просмотру?"),
         "thermalImagingInspection": MessageLookupByLibrary.simpleMessage(
             "Проводился ли тепловизионный осмотр?"),
+        "tryAgain": MessageLookupByLibrary.simpleMessage("Попробовать снова"),
         "underfloorHeating": MessageLookupByLibrary.simpleMessage(
             "Проводилась ли проверка теплого пола тепловизором?"),
         "wardrobe": MessageLookupByLibrary.simpleMessage("Гардеробная"),
@@ -152,6 +160,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Для входа введите Ваш логин и пароль"),
         "windowsAndDoorsItems":
             MessageLookupByLibrary.simpleMessage("Окна и двери"),
+        "wrongLogin":
+            MessageLookupByLibrary.simpleMessage("Неправильный логин"),
+        "wrongPassword":
+            MessageLookupByLibrary.simpleMessage("Неправильный пароль"),
         "yes": MessageLookupByLibrary.simpleMessage("Да")
       };
 }

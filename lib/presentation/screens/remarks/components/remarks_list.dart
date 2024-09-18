@@ -1,30 +1,26 @@
-// ignore_for_file: always_specify_types
+// ignore_for_file: avoid_web_libraries_in_flutter, always_specify_types
 
-import 'dart:io';
-
+import 'dart:html' as html;
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/presentation/screens/remarks/components/remarks_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive/hive.dart';
 import 'package:image/image.dart' as img;
 
 class RemarksList extends StatefulWidget {
   final String title;
   final String itemsKey;
   final bool isListEmpty;
-  final Function(int) onItemDismiss;
   const RemarksList({
     super.key,
     required this.title,
     required this.itemsKey,
     this.isListEmpty = false,
-    required this.onItemDismiss,
   });
   @override
   State<RemarksList> createState() => _RemarksListState();
@@ -41,12 +37,11 @@ class _RemarksListState extends State<RemarksList> {
       context.read<ListCubit>().loadDataList(widget.itemsKey).then((_) {
         if (!mounted) return;
         setState(() {
-          _itemsList.clear();
           Map<String, dynamic> state = context.read<ListCubit>().state;
+          _itemsList.clear();
           List<dynamic> items = state[widget.itemsKey] ?? [];
-          for (var item in items) {
-            _itemsList.add(Map<String, dynamic>.from(item));
-          }
+          _itemsList
+              .addAll(items.map((item) => Map<String, dynamic>.from(item)));
         });
       });
     });
@@ -73,10 +68,11 @@ class _RemarksListState extends State<RemarksList> {
   void _addItem() {
     String newItem = _listController.text.trim();
     if (newItem.isNotEmpty) {
-      _itemsList
-          .add({'title': newItem, 'subtitle': '', 'images': [], 'gost': ''});
+      setState(() {
+        _itemsList
+            .add({'title': newItem, 'subtitle': '', 'images': [], 'gost': ''});
+      });
       int newIndex = _itemsList.length - 1;
-      setState(() {});
       _listController.clear();
       _saveList();
       if (context.read<RoomCubit>().selectedRooms.isNotEmpty) {
@@ -86,10 +82,12 @@ class _RemarksListState extends State<RemarksList> {
   }
 
   void _addRemark(String remarkText, String gost) {
-    _itemsList
-        .add({'title': remarkText, 'subtitle': '', 'images': [], 'gost': gost});
+    setState(() {
+      _itemsList.add(
+        {'title': remarkText, 'subtitle': '', 'images': [], 'gost': gost},
+      );
+    });
     int newIndex = _itemsList.length - 1;
-    setState(() {});
     _listController.clear();
     _saveList();
     if (context.read<RoomCubit>().selectedRooms.isNotEmpty) {
@@ -106,6 +104,11 @@ class _RemarksListState extends State<RemarksList> {
     );
   }
 
+  void _deleteItem(int index) {
+    _itemsList.removeAt(index);
+    _saveList();
+  }
+
   void _saveList() {
     List<Map<String, dynamic>> formattedList =
         _itemsList.map((Map<String, dynamic> item) {
@@ -116,38 +119,45 @@ class _RemarksListState extends State<RemarksList> {
     context.read<ListCubit>().saveDataList(widget.itemsKey, formattedList);
   }
 
-  Future<void> _onPickImage(int index) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      Uint8List imageData = await image.readAsBytes();
-      img.Image originalImage = img.decodeImage(imageData)!;
-      int width = originalImage.width;
-      int height = originalImage.height;
-      int size = width < height ? width : height;
-      int xOffset = (width - size) ~/ 2;
-      int yOffset = (height - size) ~/ 2;
-      img.Image croppedImage = img.copyCrop(
-        originalImage,
-        x: xOffset,
-        y: yOffset,
-        width: size,
-        height: size,
-      );
-      List<int> encodedImage = img.encodeJpg(croppedImage);
-      String extension = image.path.split('.').last;
-      String shortName =
-          'img_${DateTime.now().millisecondsSinceEpoch}.$extension';
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final String imagePath = '${directory.path}/$shortName';
-      File(imagePath).writeAsBytesSync(encodedImage);
-      if (_itemsList[index]['images'] == null) {
-        _itemsList[index]['images'] = [];
+  void _onPickImage(int index) async {
+    final html.FileUploadInputElement uploadInput =
+        html.FileUploadInputElement();
+    uploadInput.accept = 'image/*';
+    uploadInput.setAttribute('capture', 'camera');
+    uploadInput.click();
+    uploadInput.onChange.listen((event) async {
+      final files = uploadInput.files;
+      if (files!.isNotEmpty) {
+        final reader = html.FileReader();
+        reader.readAsArrayBuffer(files[0]);
+        reader.onLoadEnd.listen((event) async {
+          Uint8List imageData = reader.result as Uint8List;
+          String shortName = 'img_${DateTime.now().millisecondsSinceEpoch}.jpg';
+          await Hive.box('imagesBox').put(shortName, imageData);
+          if (_itemsList[index]['images'] == null) {
+            _itemsList[index]['images'] = [];
+          }
+          (_itemsList[index]['images'] as List).add(shortName);
+          _saveList();
+          setState(() {});
+        });
       }
-      (_itemsList[index]['images'] as List).add(imagePath);
-      setState(() {});
-      _saveList();
-    }
+    });
+  }
+
+  img.Image cropImage(img.Image originalImage) {
+    int width = originalImage.width;
+    int height = originalImage.height;
+    int size = width < height ? width : height;
+    int xOffset = (width - size) ~/ 2;
+    int yOffset = (height - size) ~/ 2;
+    return img.copyCrop(
+      originalImage,
+      x: xOffset,
+      y: yOffset,
+      width: size,
+      height: size,
+    );
   }
 
   Future<void> _showEditDialog({
@@ -155,52 +165,63 @@ class _RemarksListState extends State<RemarksList> {
     required String currentItem,
     required int index,
     required Function(String, int) onSave,
+    required Function(int) onDelete,
   }) async {
     final TextEditingController editItemController =
         TextEditingController(text: currentItem);
-    await showDialog<void>(
+    return showCustomDialog(
       context: context,
-      barrierDismissible: true,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text(
-            S.of(context).remarksEdit,
-            style: const TextStyle(fontSize: mainFontSize),
-            textAlign: TextAlign.center,
+      title: S.of(context).remarksEdit,
+      content: TextField(
+        cursorColor: Colors.teal,
+        style: const TextStyle(fontSize: mainFontSize),
+        controller: editItemController,
+        autofocus: true,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(textRegExp),
+        ],
+        minLines: 1,
+        maxLines: 5,
+        decoration: const InputDecoration(
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.teal),
           ),
-          content: TextField(
-            cursorColor: const Color.fromRGBO(236, 129, 49, 1),
-            style: const TextStyle(fontSize: mainFontSize),
-            controller: editItemController,
-            autofocus: true,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(textRegExp),
-            ],
-            minLines: 1,
-            maxLines: 5,
-            decoration: const InputDecoration(
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color.fromRGBO(236, 129, 49, 1)),
-              ),
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            S.of(context).delete,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.red,
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                S.of(context).save,
-                style: const TextStyle(
-                  fontSize: mainFontSize,
-                  color: Color.fromRGBO(236, 129, 49, 1),
-                ),
-              ),
-              onPressed: () {
-                onSave(editItemController.text, index);
-                Navigator.of(dialogContext).pop();
-              },
+          onPressed: () {
+            Navigator.of(context).pop();
+            _showDeleteConfirmationDialog(
+              context: context,
+              index: index,
+              onDelete: onDelete,
+              currentItem: currentItem,
+              onSave: onSave,
+            );
+          },
+        ),
+        TextButton(
+          child: Text(
+            S.of(context).save,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.teal,
             ),
-          ],
-        );
-      },
+          ),
+          onPressed: () {
+            onSave(editItemController.text, index);
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 
@@ -210,61 +231,98 @@ class _RemarksListState extends State<RemarksList> {
     required int index,
     required Function(String, int) addSubtitle,
   }) async {
-    await showDialog<void>(
+    return showCustomDialog(
       context: context,
-      barrierDismissible: true,
-      builder: (BuildContext dialogContext) {
-        return BlocBuilder<RoomCubit, Map<String, dynamic>>(
-          builder: (BuildContext context, Map<String, dynamic> state) {
-            final selectedRooms = state['selectedRooms'] ?? <String>[];
-            if (selectedRooms.isEmpty) {
-              return AlertDialog(
-                title: Text(
-                  S.of(context).specifyRoom,
-                  style: const TextStyle(fontSize: mainFontSize),
-                  textAlign: TextAlign.center,
-                ),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      Text(
-                        S.of(context).roomsNotSelected,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: mainFontSize),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return AlertDialog(
-                title: Text(
-                  S.of(context).specifyRoom,
-                  style: const TextStyle(fontSize: mainFontSize),
-                  textAlign: TextAlign.center,
-                ),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: List.generate(
-                      selectedRooms.length,
-                      (int i) => ListTile(
-                        title: Text(
-                          selectedRooms[i],
-                          style: const TextStyle(fontSize: 22),
-                        ),
-                        onTap: () {
-                          addSubtitle(selectedRooms[i], index);
-                          Navigator.of(dialogContext).pop();
-                        },
-                      ),
+      title: S.of(context).specifyRoom,
+      content: BlocBuilder<RoomCubit, Map<String, dynamic>>(
+        builder: (BuildContext context, Map<String, dynamic> state) {
+          final selectedRooms = state['selectedRooms'] ?? <String>[];
+          if (selectedRooms.isEmpty) {
+            return SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    S.of(context).roomsNotSelected,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: mainFontSize,
                     ),
                   ),
+                ],
+              ),
+            );
+          } else {
+            return SingleChildScrollView(
+              child: ListBody(
+                children: List.generate(
+                  selectedRooms.length,
+                  (int i) => ListTile(
+                    title: Text(
+                      selectedRooms[i],
+                      style: const TextStyle(
+                        fontSize: mainFontSize,
+                      ),
+                    ),
+                    onTap: () {
+                      addSubtitle(selectedRooms[i], index);
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 ),
-              );
-            }
+              ),
+            );
+          }
+        },
+      ),
+      actions: [],
+    );
+  }
+
+  Future<void> _showDeleteConfirmationDialog({
+    required BuildContext context,
+    required int index,
+    required Function(int) onDelete,
+    required String currentItem,
+    required Function(String, int) onSave,
+  }) async {
+    return showCustomDialog(
+      context: context,
+      title: S.of(context).removeRemark,
+      content: const SizedBox.shrink(),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            S.of(context).yes,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.red,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            onDelete(index);
           },
-        );
-      },
+        ),
+        TextButton(
+          child: Text(
+            S.of(context).no,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.teal,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            _showEditDialog(
+              context: context,
+              currentItem: currentItem,
+              index: index,
+              onSave: onSave,
+              onDelete: onDelete,
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -316,12 +374,14 @@ class _RemarksListState extends State<RemarksList> {
                       )
                     : RemarksListDisplay(
                         items: itemList,
-                        onDismissed: widget.onItemDismiss,
                         onTap: (int index) => _showEditDialog(
                           context: context,
                           currentItem: itemList[index]['title']!,
                           index: index,
                           onSave: _onTitleSave,
+                          onDelete: (int index) {
+                            _deleteItem(index);
+                          },
                         ),
                         onLongPress: (int index) => _showOptionsDialog(
                           context: context,
@@ -330,6 +390,7 @@ class _RemarksListState extends State<RemarksList> {
                           addSubtitle: _addSubtitle,
                         ),
                         iconPressed: (int index) => _onPickImage(index),
+                        itemsKey: widget.itemsKey,
                       ),
               ],
             ),

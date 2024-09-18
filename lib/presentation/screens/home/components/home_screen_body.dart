@@ -8,6 +8,7 @@ class HomeScreenBody extends StatelessWidget {
   final String userName;
   final PageController pageController;
   final Function(int) onPageChanged;
+
   const HomeScreenBody({
     super.key,
     required this.userName,

@@ -1,13 +1,13 @@
-// ignore_for_file: always_specify_types
-
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously, always_specify_types
 
 import 'package:commercial_app/core/styles/styles_export.dart';
+import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart' show basename;
+import 'package:hive/hive.dart';
 
 class RemarksDisplay extends StatefulWidget {
   const RemarksDisplay({super.key});
@@ -19,57 +19,50 @@ class RemarksDisplay extends StatefulWidget {
 class _RemarksDisplayState extends State<RemarksDisplay> {
   Future<void> _showImagePreview(
     BuildContext context,
-    String imagePath,
+    Uint8List imageData,
+    String imageName,
     String key,
     int itemIndex,
   ) async {
-    return showDialog<void>(
+    return showCustomDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            S.of(context).imagePreview,
-            textAlign: TextAlign.center,
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Image.file(File(imagePath)),
-              Text(basename(imagePath)),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                S.of(context).delete,
-                style: const TextStyle(
-                  fontSize: mainFontSize,
-                  color: Color.fromRGBO(236, 129, 49, 1),
-                ),
-              ),
-              onPressed: () async {
-                await context
-                    .read<ListCubit>()
-                    .removeImage(key, itemIndex, imagePath);
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pop();
-              },
+      title: imageName,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Image.memory(imageData),
+          Text(imageName),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            S.of(context).delete,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.red,
             ),
-            TextButton(
-              child: Text(
-                S.of(context).leave,
-                style: const TextStyle(
-                  fontSize: mainFontSize,
-                  color: Color.fromRGBO(236, 129, 49, 1),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+          ),
+          onPressed: () async {
+            await context
+                .read<ListCubit>()
+                .removeImage(key, itemIndex, imageName);
+            Navigator.of(context).pop();
+          },
+        ),
+        TextButton(
+          child: Text(
+            S.of(context).leave,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.teal,
             ),
-          ],
-        );
-      },
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 
@@ -103,7 +96,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
         String displayText = '${i + 1}. $title';
         TextSpan subtitleSpan = TextSpan(
           text: subtitle,
-          style: const TextStyle(color: Color.fromRGBO(236, 129, 49, 1)),
+          style: const TextStyle(color: Colors.teal),
         );
         List<Widget> childrenList = <Widget>[
           Text.rich(
@@ -119,14 +112,19 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
           for (String image in images) {
             childrenList.add(
               GestureDetector(
-                onTap: () => _showImagePreview(context, image, key, i),
+                onTap: () async {
+                  Uint8List? imageData = await Hive.box('imagesBox').get(image);
+                  if (imageData != null) {
+                    _showImagePreview(context, imageData, image, key, i);
+                  }
+                },
                 child: Text(
-                  basename(image),
+                  image,
                   style: const TextStyle(
-                    color: Color.fromRGBO(236, 129, 49, 1),
+                    color: Colors.teal,
                     fontSize: textFontSize,
                     decoration: TextDecoration.underline,
-                    decorationColor: Color.fromRGBO(236, 129, 49, 1),
+                    decorationColor: Colors.teal,
                   ),
                 ),
               ),

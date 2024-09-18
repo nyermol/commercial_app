@@ -1,11 +1,11 @@
-// ignore_for_file: use_build_context_synchronously, always_specify_types, library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, always_specify_types
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/default_button.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
-import 'package:commercial_app/presentation/cubit/cubit_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/presentation/screens/home/home_screen.dart';
 import 'package:commercial_app/presentation/screens/sign_in/components/sign_in_export.dart';
 import 'package:flutter/material.dart';
@@ -110,21 +110,21 @@ class _SignInFormState extends State<SignInForm> {
               ),
             );
           } else {
-            _addError(error: 'Неправильный пароль');
+            _addError(error: S.of(context).wrongPassword);
           }
         } else {
-          _addError(error: 'Неправильный логин');
+          _addError(error: S.of(context).wrongLogin);
         }
       } catch (e) {
-        _addError(error: 'Ошибка при проверке логина и пароля');
+        _addError(error: S.of(context).errorLoginAndPasswordCheck);
       }
     }
   }
 
   TextFormField buildLoginFormField() {
     return TextFormField(
-      autofillHints: const <String>[AutofillHints.telephoneNumber],
-      keyboardType: TextInputType.datetime,
+      autofillHints: const <String>[AutofillHints.telephoneNumberNational],
+      keyboardType: TextInputType.phone,
       textInputAction: TextInputAction.next,
       focusNode: loginFocusNode,
       autocorrect: false,
@@ -154,15 +154,13 @@ class _SignInFormState extends State<SignInForm> {
         }
         return null;
       },
-      cursorColor: const Color.fromRGBO(236, 129, 49, 1),
+      cursorColor: Colors.teal,
       decoration: baseInputDecoration.copyWith(
         labelText: S.of(context).loginLabelText,
         hintText: S.of(context).loginHintText,
         labelStyle: TextStyle(
           fontSize: mainFontSize,
-          color: loginFocusNode.hasFocus
-              ? const Color.fromRGBO(236, 129, 49, 1)
-              : null,
+          color: loginFocusNode.hasFocus ? Colors.teal : null,
         ),
       ),
       style: const TextStyle(fontSize: mainFontSize),
@@ -195,14 +193,12 @@ class _SignInFormState extends State<SignInForm> {
         }
         return null;
       },
-      cursorColor: const Color.fromRGBO(236, 129, 49, 1),
+      cursorColor: Colors.teal,
       decoration: baseInputDecoration.copyWith(
         labelText: S.of(context).passwordLabelText,
         labelStyle: TextStyle(
           fontSize: mainFontSize,
-          color: passwordFocusNode.hasFocus
-              ? const Color.fromRGBO(236, 129, 49, 1)
-              : null,
+          color: passwordFocusNode.hasFocus ? Colors.teal : null,
         ),
         hintText: S.of(context).passwordHintText,
         suffixIcon: IconButton(

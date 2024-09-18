@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:commercial_app/data/datasources/local/local_database_export.dart';
 import 'package:commercial_app/data/datasources/remote/remarks_remote_datasource.dart';
 import 'package:commercial_app/domain/repositories/domain_repositories_export.dart';
+import 'package:hive/hive.dart';
 
 class ListRepositoryImpl implements ListRepository {
   final ListLocalDatasourse listLocalDatasourse;
@@ -26,18 +25,6 @@ class ListRepositoryImpl implements ListRepository {
   }
 
   @override
-  Future<void> restoreItem(String key) async {
-    Map<String, dynamic>? lastRemovedItem =
-        await listLocalDatasourse.fetchRemovedItem(key);
-    if (lastRemovedItem!.isNotEmpty) {
-      List<Map<String, dynamic>> currentList =
-          await listLocalDatasourse.fetchList(key);
-      currentList.insert(lastRemovedItem['index'], lastRemovedItem['item']);
-      await listLocalDatasourse.saveDataList(key, currentList);
-    }
-  }
-
-  @override
   Future<void> saveDataList(
     String key,
     List<Map<String, dynamic>> dataList,
@@ -46,23 +33,24 @@ class ListRepositoryImpl implements ListRepository {
   }
 
   @override
-  Future<void> loadDataList(String key) async {
-    await listLocalDatasourse.fetchList(key);
+  Future<List<Map<String, dynamic>>> loadDataList(String key) async {
+    return await listLocalDatasourse.fetchList(key);
   }
 
+  @override
   @override
   Future<void> removeImage(String key, int itemIndex, String imagePath) async {
     List<Map<String, dynamic>> currentList =
         await listLocalDatasourse.fetchList(key);
     if (itemIndex < currentList.length) {
-      List<String> images =
-          // ignore: always_specify_types
-          List<String>.from(currentList[itemIndex]['images'] ?? []);
+      List<String> images = List<String>.from(
+        currentList[itemIndex]['images'] ?? <List<String>>[],
+      );
       if (images.contains(imagePath)) {
         images.remove(imagePath);
         currentList[itemIndex]['images'] = images;
         await listLocalDatasourse.saveDataList(key, currentList);
-        await File(imagePath).delete();
+        await Hive.box('imagesBox').delete(imagePath);
       }
     }
   }
