@@ -3,12 +3,20 @@ import 'package:flutter/material.dart';
 
 const InputDecoration baseInputDecoration = InputDecoration(
   border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(15)),
+    borderRadius: BorderRadius.all(
+      Radius.circular(15),
+    ),
   ),
-  hintStyle: TextStyle(fontSize: mainFontSize),
+  hintStyle: TextStyle(
+    fontSize: mainFontSize,
+  ),
   floatingLabelBehavior: FloatingLabelBehavior.always,
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.teal),
-    borderRadius: BorderRadius.all(Radius.circular(15)),
+    borderSide: BorderSide(
+      color: Colors.teal,
+    ),
+    borderRadius: BorderRadius.all(
+      Radius.circular(15),
+    ),
   ),
 );

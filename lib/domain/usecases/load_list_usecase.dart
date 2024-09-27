@@ -5,7 +5,7 @@ class LoadListUsecase {
 
   LoadListUsecase({required this.repository});
 
-  Future<List<String?>> call(String key) {
+  Future<List<String>> call(String key) {
     return repository.loadList(key);
   }
 }

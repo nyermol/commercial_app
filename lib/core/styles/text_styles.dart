@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 const double mainFontSize = 22;
 const double textFontSize = 18;
 const double subtitleFontSize = 16;
-const double signInMainFontSize = 40;
+const double remarksFontSize = 14;
+const double signInMainFontSize = 36;
 
 const TextStyle titleStyle = TextStyle(
   color: Colors.teal,
-  fontSize: mainFontSize,
+  fontSize: subtitleFontSize,
 );
 
-TextStyle mainLabelStyle =
-    const TextStyle(fontWeight: FontWeight.bold, fontSize: textFontSize);
+TextStyle mainLabelStyle = const TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: remarksFontSize,
+);
 
-TextStyle secondaryLabelStyle = const TextStyle(fontSize: textFontSize);
+TextStyle secondaryLabelStyle = const TextStyle(
+  fontSize: remarksFontSize,
+);

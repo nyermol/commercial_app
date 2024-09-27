@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:commercial_app/data/datasources/remote/remark_api.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
@@ -24,7 +22,7 @@ class RemarksListTextField extends StatefulWidget {
   });
 
   @override
-  _RemarksListTextFieldState createState() => _RemarksListTextFieldState();
+  State<RemarksListTextField> createState() => _RemarksListTextFieldState();
 }
 
 class _RemarksListTextFieldState extends State<RemarksListTextField> {
@@ -37,14 +35,20 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
             textFieldConfiguration: TextFieldConfiguration(
               controller: widget.controller,
               cursorColor: Colors.teal,
-              style: const TextStyle(fontSize: mainFontSize),
+              style: const TextStyle(fontSize: textFontSize),
               textCapitalization: TextCapitalization.sentences,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) => widget.onAdd(),
+              scrollPadding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom +
+                    SizeConfig.screenHeight * 0.05,
+              ),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(textRegExp),
               ],
               decoration: InputDecoration(
                 hintText: S.of(context).remarks,
-                hintStyle: const TextStyle(fontSize: mainFontSize),
+                hintStyle: const TextStyle(fontSize: textFontSize),
                 focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.teal),
                 ),
@@ -70,11 +74,11 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                   term: widget.controller.text,
                   textStyle: const TextStyle(
                     color: Colors.grey,
-                    fontSize: subtitleFontSize,
+                    fontSize: remarksFontSize,
                   ),
                   textStyleHighlight: const TextStyle(
                     color: Colors.teal,
-                    fontSize: subtitleFontSize,
+                    fontSize: remarksFontSize,
                   ),
                 ),
                 subtitle: SubstringHighlight(
@@ -82,11 +86,11 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                   term: widget.controller.text,
                   textStyleHighlight: const TextStyle(
                     color: Colors.teal,
-                    fontSize: subtitleFontSize,
+                    fontSize: remarksFontSize,
                   ),
                   textStyle: const TextStyle(
                     fontStyle: FontStyle.italic,
-                    fontSize: subtitleFontSize,
+                    fontSize: remarksFontSize,
                     color: Colors.grey,
                   ),
                 ),
@@ -102,7 +106,10 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
             ),
             onSuggestionSelected: (Remark? suggestion) {
               final Remark remark = suggestion!;
-              widget.onSuggestionSelected(remark.remarkText, remark.gost!);
+              widget.onSuggestionSelected(
+                remark.remarkText,
+                remark.gost!,
+              );
             },
             suggestionsBoxDecoration: SuggestionsBoxDecoration(
               constraints: BoxConstraints(

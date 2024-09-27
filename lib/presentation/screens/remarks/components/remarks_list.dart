@@ -40,8 +40,11 @@ class _RemarksListState extends State<RemarksList> {
           Map<String, dynamic> state = context.read<ListCubit>().state;
           _itemsList.clear();
           List<dynamic> items = state[widget.itemsKey] ?? [];
-          _itemsList
-              .addAll(items.map((item) => Map<String, dynamic>.from(item)));
+          _itemsList.addAll(
+            items.map((item) {
+              return Map<String, dynamic>.from(item);
+            }),
+          );
         });
       });
     });
@@ -69,8 +72,12 @@ class _RemarksListState extends State<RemarksList> {
     String newItem = _listController.text.trim();
     if (newItem.isNotEmpty) {
       setState(() {
-        _itemsList
-            .add({'title': newItem, 'subtitle': '', 'images': [], 'gost': ''});
+        _itemsList.add({
+          'title': newItem,
+          'subtitle': '',
+          'images': [],
+          'gost': '',
+        });
       });
       int newIndex = _itemsList.length - 1;
       _listController.clear();
@@ -84,7 +91,12 @@ class _RemarksListState extends State<RemarksList> {
   void _addRemark(String remarkText, String gost) {
     setState(() {
       _itemsList.add(
-        {'title': remarkText, 'subtitle': '', 'images': [], 'gost': gost},
+        {
+          'title': remarkText,
+          'subtitle': '',
+          'images': [],
+          'gost': gost,
+        },
       );
     });
     int newIndex = _itemsList.length - 1;
@@ -132,14 +144,22 @@ class _RemarksListState extends State<RemarksList> {
         reader.readAsArrayBuffer(files[0]);
         reader.onLoadEnd.listen((event) async {
           Uint8List imageData = reader.result as Uint8List;
-          String shortName = 'img_${DateTime.now().millisecondsSinceEpoch}.jpg';
-          await Hive.box('imagesBox').put(shortName, imageData);
-          if (_itemsList[index]['images'] == null) {
-            _itemsList[index]['images'] = [];
+          img.Image? originalImage = img.decodeImage(imageData);
+          if (originalImage != null) {
+            img.Image croppedImage = cropImage(originalImage);
+            Uint8List croppedImageData =
+                Uint8List.fromList(img.encodeJpg(croppedImage));
+            String shortName =
+                'img_${DateTime.now().millisecondsSinceEpoch}.jpg';
+            await Hive.box('imagesBox').put(shortName, croppedImageData);
+
+            if (_itemsList[index]['images'] == null) {
+              _itemsList[index]['images'] = [];
+            }
+            (_itemsList[index]['images']).add(shortName);
+            _saveList();
+            setState(() {});
           }
-          (_itemsList[index]['images'] as List).add(shortName);
-          _saveList();
-          setState(() {});
         });
       }
     });
@@ -177,6 +197,11 @@ class _RemarksListState extends State<RemarksList> {
         style: const TextStyle(fontSize: mainFontSize),
         controller: editItemController,
         autofocus: true,
+        textInputAction: TextInputAction.done,
+        onSubmitted: (value) {
+          onSave(editItemController.text, index);
+          Navigator.of(context).pop();
+        },
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(textRegExp),
         ],
@@ -355,7 +380,10 @@ class _RemarksListState extends State<RemarksList> {
                   controller: _listController,
                   onAdd: _addItem,
                   errorText: errorText,
-                  onSuggestionSelected: (String remarkText, String gost) {
+                  onSuggestionSelected: (
+                    String remarkText,
+                    String gost,
+                  ) {
                     _addRemark(remarkText, gost);
                   },
                 ),
@@ -368,7 +396,7 @@ class _RemarksListState extends State<RemarksList> {
                           child: Text(
                             S.of(context).listEmpty,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: mainFontSize),
+                            style: const TextStyle(fontSize: textFontSize),
                           ),
                         ),
                       )

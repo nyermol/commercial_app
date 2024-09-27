@@ -4,7 +4,7 @@ class SaveListUsecase {
   final RoomRepository repository;
 
   SaveListUsecase({required this.repository});
-  Future<void> call(String key, List<String> list) {
-    return repository.saveList(key, list);
+  Future<void> call(String key, List<String> roomsList) {
+    return repository.saveList(key, roomsList);
   }
 }

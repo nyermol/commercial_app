@@ -13,7 +13,9 @@ class SelectedRoomList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
       itemCount: selectedRooms.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
@@ -21,7 +23,7 @@ class SelectedRoomList extends StatelessWidget {
             selectedRooms[index],
             style: const TextStyle(
               color: Colors.teal,
-              fontSize: mainFontSize,
+              fontSize: textFontSize,
             ),
           ),
           visualDensity: const VisualDensity(vertical: -4),

@@ -17,9 +17,7 @@ class OrderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(
-          S.of(context).order,
-        ),
+        title: Text(S.of(context).order),
         actions: <Widget>[
           TextButtonWidget(validationUsecase: sl<ValidationUsecase>()),
         ],

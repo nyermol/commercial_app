@@ -7,11 +7,3 @@ EdgeInsets getContainerMargin(BuildContext context, double verticalFactor) {
     vertical: MediaQuery.of(context).size.height * verticalFactor,
   );
 }
-
-EdgeInsets getSnackBarMargin(BuildContext context) {
-  return EdgeInsets.only(
-    bottom: MediaQuery.of(context).size.height - 180,
-    left: 15,
-    right: 15,
-  );
-}

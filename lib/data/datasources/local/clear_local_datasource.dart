@@ -1,6 +1,5 @@
 // ignore_for_file: always_specify_types
 
-import 'package:commercial_app/data/datasources/local/local_database_export.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,9 +8,7 @@ abstract class ClearLocalDatasource {
 }
 
 class ClearLocalDatasourceImpl implements ClearLocalDatasource {
-  final DatabaseServices databaseServices;
-
-  ClearLocalDatasourceImpl({required this.databaseServices});
+  ClearLocalDatasourceImpl();
 
   @override
   Future<void> clearAllData() async {

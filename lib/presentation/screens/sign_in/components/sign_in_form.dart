@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, always_specify_types
+// ignore_for_file: use_build_context_synchronously, always_specify_types
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commercial_app/generated/l10n.dart';
@@ -16,7 +16,7 @@ class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
 
   @override
-  _SignInFormState createState() => _SignInFormState();
+  State<SignInForm> createState() => _SignInFormState();
 }
 
 class _SignInFormState extends State<SignInForm> {
@@ -128,6 +128,9 @@ class _SignInFormState extends State<SignInForm> {
       textInputAction: TextInputAction.next,
       focusNode: loginFocusNode,
       autocorrect: false,
+      scrollPadding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.allow(numberRegExp),
       ],
@@ -170,8 +173,15 @@ class _SignInFormState extends State<SignInForm> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       focusNode: passwordFocusNode,
+      textInputAction: TextInputAction.done,
+      onFieldSubmitted: (value) {
+        _onCheckLogin();
+      },
       obscureText: !_showPassword,
       autocorrect: false,
+      scrollPadding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.allow(textRegExp),
       ],

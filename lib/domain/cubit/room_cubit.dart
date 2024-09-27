@@ -1,4 +1,4 @@
-// ignore_for_file: always_specify_types
+// ignore_for_file: always_specify_types, require_trailing_commas
 
 import 'package:commercial_app/domain/usecases/usecases_export.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +25,15 @@ class RoomCubit extends Cubit<Map<String, dynamic>> {
     emit({...state, 'selectedRooms': selectedRooms});
   }
 
-  Future<void> saveList(String key, List<String> list) async {
-    await saveListUsecase(key, list);
-    emit({...state, 'selectedRooms': list});
+  Future<void> saveList(String key, List<String> roomsList) async {
+    await saveListUsecase(key, roomsList);
+    emit({...state, 'selectedRooms': roomsList});
   }
 
   Future<List<String>> loadList(String key) async {
-    final List<String?> list = await loadListUsecase(key);
+    final List<String> roomsList = await loadListUsecase(key);
     final List<String> notNullList =
-        list.where((String? item) => item != null).cast<String>().toList();
+        roomsList.where((String? item) => item != null).cast<String>().toList();
     emit({...state, 'selectedRooms': notNullList});
     return notNullList;
   }
@@ -49,14 +49,12 @@ class RoomCubit extends Cubit<Map<String, dynamic>> {
   }
 
   Future<void> saveRoomControllers(
-    Map<String, TextEditingController> roomController,
-  ) async {
+      Map<String, TextEditingController> roomController) async {
     await saveRoomControllerUsecase(roomController);
   }
 
   Future<Map<String, TextEditingController>> loadRoomControllers(
-    List<String> rooms,
-  ) async {
+      List<String> rooms) async {
     final Map<String, TextEditingController> roomController =
         await loadRoomControllerUsecase(rooms);
     emit({...state, 'roomController': roomController});

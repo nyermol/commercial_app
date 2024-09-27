@@ -5,7 +5,6 @@ export 'load_data_list_usecase.dart';
 export 'load_list_usecase.dart';
 export 'load_room_controller_usecase.dart';
 export 'remove_image_usecase.dart';
-export 'remove_item_usecase.dart';
 export 'save_ckecked_rooms_usecase.dart';
 export 'save_data_list_usecase.dart';
 export 'save_list_usecase.dart';

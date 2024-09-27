@@ -10,12 +10,14 @@ class MeasurementsTextField extends StatefulWidget {
   final Function(String) onTextChanged;
   final String dataKey;
   final String hintText;
+  final TextInputAction textInputAction;
   const MeasurementsTextField({
     super.key,
     required this.labelText,
     required this.onTextChanged,
     required this.dataKey,
     required this.hintText,
+    this.textInputAction = TextInputAction.next,
   });
 
   @override
@@ -78,6 +80,10 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
               color: _focusNode.hasFocus ? Colors.teal : null,
             ),
             hintTextDirection: TextDirection.rtl,
+          ),
+          textInputAction: widget.textInputAction,
+          scrollPadding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
         ),
       ),

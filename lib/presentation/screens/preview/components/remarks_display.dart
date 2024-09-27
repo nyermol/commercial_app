@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, always_specify_types
+// ignore_for_file: use_build_context_synchronously, always_specify_types, require_trailing_commas
 
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
@@ -17,13 +17,8 @@ class RemarksDisplay extends StatefulWidget {
 }
 
 class _RemarksDisplayState extends State<RemarksDisplay> {
-  Future<void> _showImagePreview(
-    BuildContext context,
-    Uint8List imageData,
-    String imageName,
-    String key,
-    int itemIndex,
-  ) async {
+  Future<void> _showImagePreview(BuildContext context, Uint8List imageData,
+      String imageName, String key, int itemIndex) async {
     return showCustomDialog(
       context: context,
       title: imageName,
@@ -76,7 +71,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
         '$sectionTitle:',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: mainFontSize,
+          fontSize: remarksFontSize,
         ),
       ),
     ];
@@ -84,7 +79,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
       children.add(
         Text(
           S.of(context).listEmpty,
-          style: const TextStyle(fontSize: textFontSize),
+          style: const TextStyle(fontSize: remarksFontSize),
         ),
       );
     } else {
@@ -122,7 +117,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
                   image,
                   style: const TextStyle(
                     color: Colors.teal,
-                    fontSize: textFontSize,
+                    fontSize: remarksFontSize,
                     decoration: TextDecoration.underline,
                     decorationColor: Colors.teal,
                   ),

@@ -890,10 +890,10 @@ class S {
     );
   }
 
-  /// `Clear the data`
+  /// `Clear`
   String get clearTheData {
     return Intl.message(
-      'Clear the data',
+      'Clear',
       name: 'clearTheData',
       desc: '',
       args: [],
@@ -920,10 +920,10 @@ class S {
     );
   }
 
-  /// `Would you like to clear the data and start over?`
+  /// `Clear the data?`
   String get clearTheDataAndStartOver {
     return Intl.message(
-      'Would you like to clear the data and start over?',
+      'Clear the data?',
       name: 'clearTheDataAndStartOver',
       desc: '',
       args: [],

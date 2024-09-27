@@ -11,9 +11,9 @@ class OptionsScreenBody extends StatelessWidget {
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
-        child: Padding(
-          padding: getHorizontalPadding(context, 0.05),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: getHorizontalPadding(context, 0.05),
             child: Column(
               children: <Widget>[
                 OptionsSelection(

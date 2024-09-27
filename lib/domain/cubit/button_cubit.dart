@@ -1,6 +1,7 @@
-// ignore_for_file: always_specify_types, use_build_context_synchronously
+// ignore_for_file: always_specify_types, use_build_context_synchronously, require_trailing_commas
 
 import 'package:commercial_app/core/utils/utils_export.dart';
+import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/domain/usecases/usecases_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class ButtonCubit extends Cubit<Map<String, String>> {
   );
 
   Future<void> initializeDefaults(BuildContext context) async {
+    await context.read<ClearCubit>().clearAllDataOnStart(context);
     for (String key in keys) {
       String value = await getSelectionUsecase.call(key);
       if (value.isEmpty) {
@@ -29,10 +31,7 @@ class ButtonCubit extends Cubit<Map<String, String>> {
   }
 
   Future<void> saveSelection(
-    BuildContext context,
-    String key,
-    String value,
-  ) async {
+      BuildContext context, String key, String value) async {
     await saveSelectionUsecase.call(key, value);
     state[key] = value;
     emit(Map.from(state));

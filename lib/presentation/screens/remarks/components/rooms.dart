@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, always_specify_types
+// ignore_for_file: always_specify_types
 
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/default_button.dart';
@@ -14,7 +14,7 @@ class Rooms extends StatefulWidget {
   const Rooms({super.key});
 
   @override
-  _RoomsState createState() => _RoomsState();
+  State<Rooms> createState() => _RoomsState();
 }
 
 class _RoomsState extends State<Rooms> {

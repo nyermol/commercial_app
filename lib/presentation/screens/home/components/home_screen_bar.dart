@@ -33,8 +33,10 @@ class HomeScreenBar extends StatelessWidget {
           tabBackgroundColor: Colors.teal.shade300,
           gap: basePadding,
           padding: const EdgeInsets.all(allPadding),
-          textStyle:
-              const TextStyle(color: Colors.white, fontSize: textFontSize),
+          textStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: textFontSize,
+          ),
           tabs: <GButton>[
             GButton(
               icon: Icons.numbers,
@@ -61,7 +63,10 @@ class HomeScreenBar extends StatelessWidget {
               icon: Icons.device_thermostat,
               text: S.of(context).measurements,
             ),
-            GButton(icon: Icons.rule, text: S.of(context).options),
+            GButton(
+              icon: Icons.rule,
+              text: S.of(context).options,
+            ),
           ],
           selectedIndex: selectedIndex,
           onTabChange: onTabChange,

@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, always_specify_types
+// ignore_for_file: always_specify_types
 
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
@@ -23,7 +23,7 @@ class RemarksListDisplay extends StatefulWidget {
   });
 
   @override
-  _RemarksListDisplayState createState() => _RemarksListDisplayState();
+  State<RemarksListDisplay> createState() => _RemarksListDisplayState();
 }
 
 class _RemarksListDisplayState extends State<RemarksListDisplay> {
@@ -45,7 +45,7 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
                 item['title'],
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: textFontSize,
+                  fontSize: subtitleFontSize,
                 ),
               ),
               subtitle: Column(
@@ -55,7 +55,7 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
                     item['subtitle'] ?? '',
                     style: const TextStyle(
                       color: Colors.teal,
-                      fontSize: subtitleFontSize,
+                      fontSize: remarksFontSize,
                     ),
                   ),
                   if (item['images'] != null)
@@ -63,7 +63,9 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
                         .map(
                           (path) => Text(
                             basename(path),
-                            style: const TextStyle(fontSize: subtitleFontSize),
+                            style: const TextStyle(
+                              fontSize: remarksFontSize,
+                            ),
                           ),
                         )
                         .toList(),

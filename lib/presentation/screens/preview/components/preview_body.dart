@@ -152,9 +152,7 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
     if (doc != null) {
       try {
         final blob = html.Blob(
-          [
-            doc,
-          ],
+          [doc],
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         );
         final url = html.Url.createObjectUrlFromBlob(blob);
@@ -228,12 +226,14 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
       child: Column(
         children: <Widget>[
           Expanded(
-            child: Padding(
-              padding: getHorizontalPadding(context, 0.03),
-              child: Scrollbar(
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  primary: true,
+            child: Scrollbar(
+              thumbVisibility: false,
+              thickness: 3,
+              radius: const Radius.circular(3),
+              child: SingleChildScrollView(
+                primary: true,
+                child: Padding(
+                  padding: getHorizontalPadding(context, 0.03),
                   child: Column(
                     children: <Widget>[
                       const OrderDisplay(),
@@ -288,8 +288,12 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
             ),
           ),
           Padding(
-            padding:
-                EdgeInsets.symmetric(vertical: SizeConfig.screenHeight * 0.01),
+            padding: EdgeInsets.fromLTRB(
+              primaryPadding,
+              primaryPadding,
+              primaryPadding,
+              MediaQuery.of(context).viewPadding.bottom + basePadding,
+            ),
             child: SizedBox(
               width: SizeConfig.screenWidth * 0.75,
               child: DefaultButton(
@@ -319,18 +323,12 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                   final DataCubit dataCubit = context.read<DataCubit>();
                   final ListCubit listCubit = context.read<ListCubit>();
                   final ButtonCubit buttonCubit = context.read<ButtonCubit>();
-                  try {
-                    await _onCreateDocument(
-                      dataCubit.state,
-                      listCubit.state,
-                      buttonCubit.state,
-                    );
-                    print('The document was successfully created and opened');
-                  } catch (e) {
-                    print('$e');
-                  } finally {
-                    Navigator.of(context).pop();
-                  }
+                  await _onCreateDocument(
+                    dataCubit.state,
+                    listCubit.state,
+                    buttonCubit.state,
+                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ),

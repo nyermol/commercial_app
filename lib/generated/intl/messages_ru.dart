@@ -43,9 +43,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "bath3": MessageLookupByLibrary.simpleMessage("В с/у №3"),
         "bathroom": MessageLookupByLibrary.simpleMessage("Ванная"),
         "cancel": MessageLookupByLibrary.simpleMessage("Отменить"),
-        "clearTheData": MessageLookupByLibrary.simpleMessage("Очистить данные"),
-        "clearTheDataAndStartOver": MessageLookupByLibrary.simpleMessage(
-            "Очистить данные и начать сначала?"),
+        "clearTheData": MessageLookupByLibrary.simpleMessage("Очистить"),
+        "clearTheDataAndStartOver":
+            MessageLookupByLibrary.simpleMessage("Очистить данные?"),
         "commercialSpace":
             MessageLookupByLibrary.simpleMessage("Ком. помещение"),
         "customerName": MessageLookupByLibrary.simpleMessage("ФИО заказчика"),

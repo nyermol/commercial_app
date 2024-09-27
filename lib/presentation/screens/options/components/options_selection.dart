@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/custom_button.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
@@ -19,7 +17,7 @@ class OptionsSelection extends StatefulWidget {
   });
 
   @override
-  _OptionsSelectionState createState() => _OptionsSelectionState();
+  State<OptionsSelection> createState() => _OptionsSelectionState();
 }
 
 class _OptionsSelectionState extends State<OptionsSelection> {

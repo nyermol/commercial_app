@@ -35,6 +35,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final Brightness brightness = MediaQuery.of(context).platformBrightness;
+    SystemChrome.setSystemUIOverlayStyle(
+      AppTheme.getSystemUiOverlayStyle(brightness),
+    );
+
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
         BlocProvider<ClearCubit>(
@@ -60,77 +65,75 @@ class _MyAppState extends State<MyApp> {
               InternetCubit(connectivity: widget.connectivity),
         ),
       ],
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: AppTheme.getSystemUiOverlayStyle(Theme.of(context).brightness),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: const <LocalizationsDelegate>[
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          navigatorKey: navigatorKey,
-          builder: (context, child) {
-            WidgetsBinding.instance.addPostFrameCallback((_) async {
-              final ClearCubit clearCubit = sl<ClearCubit>();
-              final checkFirstLaunchUsecase =
-                  CheckFirstLaunchUsecase(clearCubit: clearCubit);
-              await checkFirstLaunchUsecase.call(context);
-              context.read<ButtonCubit>().initializeDefaults(context);
-            });
-            return BlocListener<InternetCubit, InternetState>(
-              listener: (context, state) {
-                final navigator = navigatorKey.currentState;
-                if (state.type == InternetTypes.offline) {
-                  navigator?.pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => const NoInternetScreen()),
-                    (route) => false,
-                  );
-                } else if (state.type == InternetTypes.connected) {
-                  navigator?.pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => const SignInScreen()),
-                    (route) => false,
-                  );
-                  SnackBarAction action = SnackBarAction(
-                    label: S.of(context).clearTheData,
-                    textColor: Colors.teal,
-                    onPressed: () async {
-                      try {
-                        await context
-                            .read<ClearCubit>()
-                            .clearAllDataOnStart(context);
-                        setState(() {});
-                        showCustomSnackBar(
-                          context,
-                          S.of(context).dataClearedSuccessfully,
-                          Colors.green,
-                        );
-                      } catch (e) {
-                        showCustomSnackBar(
-                          context,
-                          S.of(context).dataCleaningError,
-                          Colors.red,
-                        );
-                      }
-                    },
-                  );
-                  showCustomSnackBar(
-                    context,
-                    S.of(context).clearTheDataAndStartOver,
-                    Colors.grey,
-                    action: action,
-                  );
-                }
-              },
-              child: child,
-            );
-          },
-          home: const SignInScreen(),
-        ),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const <LocalizationsDelegate>[
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        themeMode: ThemeMode.system,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        navigatorKey: navigatorKey,
+        builder: (context, child) {
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            final ClearCubit clearCubit = sl<ClearCubit>();
+            final checkFirstLaunchUsecase =
+                CheckFirstLaunchUsecase(clearCubit: clearCubit);
+            await checkFirstLaunchUsecase.call(context);
+            context.read<ButtonCubit>().initializeDefaults(context);
+          });
+          return BlocListener<InternetCubit, InternetState>(
+            listener: (context, state) {
+              final navigator = navigatorKey.currentState;
+              if (state.type == InternetTypes.offline) {
+                navigator?.pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const NoInternetScreen()),
+                  (route) => false,
+                );
+              } else if (state.type == InternetTypes.connected) {
+                navigator?.pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const SignInScreen()),
+                  (route) => false,
+                );
+                SnackBarAction action = SnackBarAction(
+                  label: S.of(context).clearTheData,
+                  textColor: Colors.teal,
+                  onPressed: () async {
+                    try {
+                      await context
+                          .read<ClearCubit>()
+                          .clearAllDataOnStart(context);
+                      setState(() {});
+                      showCustomSnackBar(
+                        context,
+                        S.of(context).dataClearedSuccessfully,
+                        Colors.green,
+                      );
+                    } catch (e) {
+                      showCustomSnackBar(
+                        context,
+                        S.of(context).dataCleaningError,
+                        Colors.red,
+                      );
+                    }
+                  },
+                );
+                showCustomSnackBar(
+                  context,
+                  S.of(context).clearTheDataAndStartOver,
+                  Colors.grey,
+                  action: action,
+                );
+              }
+            },
+            child: child,
+          );
+        },
+        home: const SignInScreen(),
       ),
     );
   }

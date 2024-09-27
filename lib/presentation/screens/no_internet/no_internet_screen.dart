@@ -1,11 +1,11 @@
 import 'package:commercial_app/core/styles/styles_export.dart';
+import 'package:commercial_app/core/utils/size_config.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 class NoInternetScreen extends StatelessWidget {
   const NoInternetScreen({super.key});
@@ -17,22 +17,23 @@ class NoInternetScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SvgPicture.asset(
-              'assets/images/company_logo.svg',
-              width: SizeConfig.screenWidth * 0.25,
-              height: SizeConfig.screenHeight * 0.25,
+            Icon(
+              Icons.wifi_off,
+              size: SizeConfig.screenHeight * 0.2,
+              color: Colors.teal,
             ),
             SizedBox(
               height: SizeConfig.screenHeight * 0.1,
             ),
             Text(
               S.of(context).noInternetConnection,
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: mainFontSize,
+                fontSize: textFontSize,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: SizeConfig.screenHeight * 0.02),
+            SizedBox(height: SizeConfig.screenHeight * 0.01),
             SizedBox(
               width: SizeConfig.screenWidth * 0.6,
               child: DefaultButton(

@@ -47,7 +47,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/templates/shablon_akta.docx
-    - assets/images/
     - assets/fonts/
   fonts:
     - family: Futura

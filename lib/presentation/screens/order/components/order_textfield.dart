@@ -16,6 +16,9 @@ class OrderTextField extends StatefulWidget {
   final bool isDateField;
   final String? initialText;
   final List<TextInputFormatter>? inputFormatters;
+  final TextInputAction textInputAction;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocusNode;
 
   const OrderTextField({
     super.key,
@@ -28,6 +31,9 @@ class OrderTextField extends StatefulWidget {
     this.isDateField = false,
     this.initialText,
     this.inputFormatters,
+    this.textInputAction = TextInputAction.next,
+    this.focusNode,
+    this.nextFocusNode,
   });
 
   @override
@@ -46,7 +52,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
           context.read<DataCubit>().state[widget.dataKey] ??
           '',
     );
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
     _controller.addListener(_updateTextField);
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
@@ -87,9 +93,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            dialogBackgroundColor: Colors.white,
             colorScheme: Theme.of(context).colorScheme.copyWith(
-                  surface: Colors.white,
                   primary: Colors.teal,
                 ),
             textButtonTheme: TextButtonThemeData(
@@ -151,6 +155,17 @@ class _OrderTextFieldState extends State<OrderTextField> {
           onTap: widget.isDateField
               ? () => _selectDate(context, _controller)
               : null,
+          textInputAction: widget.textInputAction,
+          onEditingComplete: () {
+            if (widget.nextFocusNode != null) {
+              FocusScope.of(context).requestFocus(widget.nextFocusNode);
+            } else {
+              FocusScope.of(context).unfocus();
+            }
+          },
+          scrollPadding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
         ),
       ),
     );

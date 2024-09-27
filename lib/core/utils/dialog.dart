@@ -16,7 +16,9 @@ Future<void> showCustomDialog({
         title: Text(
           title,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: mainFontSize),
+          style: const TextStyle(
+            fontSize: mainFontSize,
+          ),
         ),
         content: content,
         actions: actions,

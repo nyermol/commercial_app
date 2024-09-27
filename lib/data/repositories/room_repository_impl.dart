@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'package:commercial_app/data/datasources/local/local_database_export.dart';
 import 'package:commercial_app/domain/repositories/domain_repositories_export.dart';
 import 'package:flutter/material.dart';
@@ -8,17 +10,12 @@ class RoomRepositoryImpl implements RoomRepository {
   RoomRepositoryImpl({required this.roomLocalDatasource});
 
   @override
-  Future<String?> loadText(String key) async {
-    return await roomLocalDatasource.loadText(key);
+  Future<void> saveList(String key, List<String> roomsList) async {
+    await roomLocalDatasource.saveList(key, roomsList);
   }
 
   @override
-  Future<void> saveList(String key, List<String> list) async {
-    await roomLocalDatasource.saveList(key, list);
-  }
-
-  @override
-  Future<List<String?>> loadList(String key) async {
+  Future<List<String>> loadList(String key) async {
     return await roomLocalDatasource.loadList(key);
   }
 
@@ -34,15 +31,13 @@ class RoomRepositoryImpl implements RoomRepository {
 
   @override
   Future<void> saveRoomControllers(
-    Map<String, TextEditingController> roomController,
-  ) async {
+      Map<String, TextEditingController> roomController) async {
     await roomLocalDatasource.saveRoomControllers(roomController);
   }
 
   @override
   Future<Map<String, TextEditingController>> loadRoomControllers(
-    List<String> rooms,
-  ) async {
+      List<String> rooms) async {
     return await roomLocalDatasource.loadRoomControllers(rooms);
   }
 }

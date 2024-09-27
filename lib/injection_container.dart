@@ -36,7 +36,6 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ListCubit>(
     () => ListCubit(
-      removeItemUsecase: sl(),
       saveDataListUsecase: sl(),
       loadDataListUsecase: sl(),
       removeImageUsecase: sl(),
@@ -78,7 +77,6 @@ Future<void> init() async {
   sl.registerLazySingleton<LoadRoomControllerUsecase>(
     () => LoadRoomControllerUsecase(repository: sl()),
   );
-  sl.registerLazySingleton<RemoveItemUsecase>(() => RemoveItemUsecase(sl()));
   sl.registerLazySingleton<SaveDataListUsecase>(
     () => SaveDataListUsecase(sl()),
   );
@@ -100,7 +98,7 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ListRepository>(
     () => ListRepositoryImpl(
-      listLocalDatasourse: sl(),
+      listLocalDatasource: sl(),
       remarksRemoteDatasource: sl(),
     ),
   );
@@ -113,16 +111,16 @@ Future<void> init() async {
     () => OptionsLocalDatasourceImpl(sl()),
   );
   sl.registerLazySingleton<ClearLocalDatasource>(
-    () => ClearLocalDatasourceImpl(databaseServices: sl()),
+    () => ClearLocalDatasourceImpl(),
   );
   sl.registerLazySingleton<DataLocalDatasource>(
     () => DataLocalDatasourceImpl(sharedPreferences: sl()),
   );
   sl.registerLazySingleton<RoomLocalDatasource>(
-    () => RoomLocalDatasourceImpl(sharedPreferences: sl()),
+    () => RoomLocalDatasourceImpl(),
   );
-  sl.registerLazySingleton<ListLocalDatasourse>(
-    () => ListLocalDatasourseImpl(databaseServices: sl()),
+  sl.registerLazySingleton<ListLocalDatasource>(
+    () => ListLocalDatasourceImpl(),
   );
   sl.registerLazySingleton<RemarksRemoteDatasource>(
     () => RemarksRemoteDatasourceImpl(),
@@ -132,7 +130,5 @@ Future<void> init() async {
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  final DatabaseServices databaseServices = DatabaseServices.instance;
-  sl.registerLazySingleton(() => databaseServices);
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
 }
