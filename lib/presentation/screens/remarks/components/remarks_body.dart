@@ -15,6 +15,19 @@ class RemarksScreenBody extends StatefulWidget {
 
 class _RemarksScreenBodyState extends State<RemarksScreenBody> {
   @override
+  void initState() {
+    super.initState();
+    _loadDataFromSharedPreferences();
+  }
+
+  Future<void> _loadDataFromSharedPreferences() async {
+    final RoomCubit roomCubit = context.read<RoomCubit>();
+    final List<String> selectedRooms =
+        await roomCubit.loadList('selectedRoomsKey');
+    roomCubit.updateSelectedRooms(selectedRooms);
+  }
+
+  @override
   Widget build(BuildContext context) {
     Map<String, bool> isListEmpty = context.watch<ValidationCubit>().state;
     return GestureDetector(
@@ -24,49 +37,42 @@ class _RemarksScreenBodyState extends State<RemarksScreenBody> {
       child: SafeArea(
         child: SizedBox(
           width: double.infinity,
-          child: Scrollbar(
-            thumbVisibility: false,
-            thickness: 3,
-            radius: const Radius.circular(3),
+          child: Padding(
+            padding: getHorizontalPadding(context, 0.05),
             child: SingleChildScrollView(
-              primary: true,
-              child: Padding(
-                padding: getHorizontalPadding(context, 0.05),
-                child: Column(
-                  children: <Widget>[
-                    const Rooms(),
-                    RemarksList(
-                      title: S.of(context).electricsItems,
-                      itemsKey: 'electricsItems',
-                      isListEmpty: !isListEmpty['electricsItems_valid']!,
-                    ),
-                    RemarksList(
-                      title: S.of(context).geometryItems,
-                      itemsKey: 'geometryItems',
-                      isListEmpty: !isListEmpty['geometryItems_valid']!,
-                    ),
-                    RemarksList(
-                      title: S.of(context).plumbingEquipmentItems,
-                      itemsKey: 'plumbingEquipmentItems',
-                      isListEmpty:
-                          !isListEmpty['plumbingEquipmentItems_valid']!,
-                    ),
-                    RemarksList(
-                      title: S.of(context).windowsAndDoorsItems,
-                      itemsKey: 'windowsAndDoorsItems',
-                      isListEmpty: !isListEmpty['windowsAndDoorsItems_valid']!,
-                    ),
-                    RemarksList(
-                      title: S.of(context).finishingItems,
-                      itemsKey: 'finishingItems',
-                      isListEmpty: !isListEmpty['finishingItems_valid']!,
-                    ),
-                    OptionsSelection(
-                      title: S.of(context).thermalImagingInspection,
-                      selectionKey: 'thermalImagingInspection',
-                    ),
-                  ],
-                ),
+              child: Column(
+                children: <Widget>[
+                  const Rooms(),
+                  RemarksList(
+                    title: S.of(context).electricsItems,
+                    itemsKey: 'electricsItems',
+                    isListEmpty: !isListEmpty['electricsItems_valid']!,
+                  ),
+                  RemarksList(
+                    title: S.of(context).geometryItems,
+                    itemsKey: 'geometryItems',
+                    isListEmpty: !isListEmpty['geometryItems_valid']!,
+                  ),
+                  RemarksList(
+                    title: S.of(context).plumbingEquipmentItems,
+                    itemsKey: 'plumbingEquipmentItems',
+                    isListEmpty: !isListEmpty['plumbingEquipmentItems_valid']!,
+                  ),
+                  RemarksList(
+                    title: S.of(context).windowsAndDoorsItems,
+                    itemsKey: 'windowsAndDoorsItems',
+                    isListEmpty: !isListEmpty['windowsAndDoorsItems_valid']!,
+                  ),
+                  RemarksList(
+                    title: S.of(context).finishingItems,
+                    itemsKey: 'finishingItems',
+                    isListEmpty: !isListEmpty['finishingItems_valid']!,
+                  ),
+                  OptionsSelection(
+                    title: S.of(context).thermalImagingInspection,
+                    selectionKey: 'thermalImagingInspection',
+                  ),
+                ],
               ),
             ),
           ),

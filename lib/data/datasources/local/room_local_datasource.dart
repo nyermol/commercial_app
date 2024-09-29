@@ -9,7 +9,7 @@ abstract class RoomLocalDatasource {
   Future<void> saveCheckedRooms(Map<String, bool> checkedRooms);
   Future<Map<String, bool>> loadCheckedRooms(List<String> rooms);
   Future<void> saveRoomControllers(
-    Map<String, TextEditingController> roomController,
+    Map<String, TextEditingController> roomControllers,
   );
   Future<Map<String, TextEditingController>> loadRoomControllers(
     List<String> rooms,
@@ -44,7 +44,6 @@ class RoomLocalDatasourceImpl implements RoomLocalDatasource {
     for (final room in rooms) {
       checkedRooms.putIfAbsent(room, () => false);
     }
-
     return checkedRooms;
   }
 

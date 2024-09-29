@@ -323,12 +323,18 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                   final DataCubit dataCubit = context.read<DataCubit>();
                   final ListCubit listCubit = context.read<ListCubit>();
                   final ButtonCubit buttonCubit = context.read<ButtonCubit>();
-                  await _onCreateDocument(
-                    dataCubit.state,
-                    listCubit.state,
-                    buttonCubit.state,
-                  );
-                  Navigator.of(context).pop();
+                  try {
+                    await _onCreateDocument(
+                      dataCubit.state,
+                      listCubit.state,
+                      buttonCubit.state,
+                    );
+                    print('The document was successfully created and opened');
+                  } catch (e) {
+                    print('$e');
+                  } finally {
+                    Navigator.of(context).pop();
+                  }
                 },
               ),
             ),

@@ -128,9 +128,6 @@ class _SignInFormState extends State<SignInForm> {
       textInputAction: TextInputAction.next,
       focusNode: loginFocusNode,
       autocorrect: false,
-      scrollPadding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.allow(numberRegExp),
       ],
@@ -179,9 +176,6 @@ class _SignInFormState extends State<SignInForm> {
       },
       obscureText: !_showPassword,
       autocorrect: false,
-      scrollPadding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.allow(textRegExp),
       ],

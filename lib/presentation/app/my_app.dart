@@ -12,7 +12,6 @@ import 'package:commercial_app/presentation/theme/app_theme.dart';
 import 'package:commercial_app/presentation/widgets/snack_bar.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nested/nested.dart';
@@ -35,11 +34,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final Brightness brightness = MediaQuery.of(context).platformBrightness;
-    SystemChrome.setSystemUIOverlayStyle(
-      AppTheme.getSystemUiOverlayStyle(brightness),
-    );
-
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
         BlocProvider<ClearCubit>(
@@ -74,7 +68,6 @@ class _MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        themeMode: ThemeMode.system,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         navigatorKey: navigatorKey,

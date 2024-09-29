@@ -40,11 +40,8 @@ class _RemarksListState extends State<RemarksList> {
           Map<String, dynamic> state = context.read<ListCubit>().state;
           _itemsList.clear();
           List<dynamic> items = state[widget.itemsKey] ?? [];
-          _itemsList.addAll(
-            items.map((item) {
-              return Map<String, dynamic>.from(item);
-            }),
-          );
+          _itemsList
+              .addAll(items.map((item) => Map<String, dynamic>.from(item)));
         });
       });
     });
@@ -152,7 +149,6 @@ class _RemarksListState extends State<RemarksList> {
             String shortName =
                 'img_${DateTime.now().millisecondsSinceEpoch}.jpg';
             await Hive.box('imagesBox').put(shortName, croppedImageData);
-
             if (_itemsList[index]['images'] == null) {
               _itemsList[index]['images'] = [];
             }

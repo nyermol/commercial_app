@@ -1,33 +1,33 @@
 {
-    "name": "ЭВИ Приемка",
-    "short_name": "ЭВИ Пиемка",
+    "name": "commercial_app",
+    "short_name": "commercial_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Приложение для приемки квартир",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Evi_logo-254.png",
-            "sizes": "254x254",
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "icons/Evi_logo-1016.png",
-            "sizes": "1016x1016",
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
             "type": "image/png"
         },
         {
-            "src": "icons/Evi_logo-maskable-254.png",
-            "sizes": "254x254",
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "icons/Evi_logo-maskable-1016.png",
-            "sizes": "1016x1016",
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
         }

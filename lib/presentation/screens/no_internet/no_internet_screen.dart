@@ -1,5 +1,4 @@
 import 'package:commercial_app/core/styles/styles_export.dart';
-import 'package:commercial_app/core/utils/size_config.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/generated/l10n.dart';

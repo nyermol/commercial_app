@@ -49,8 +49,8 @@ class RoomCubit extends Cubit<Map<String, dynamic>> {
   }
 
   Future<void> saveRoomControllers(
-      Map<String, TextEditingController> roomController) async {
-    await saveRoomControllerUsecase(roomController);
+      Map<String, TextEditingController> roomControllers) async {
+    await saveRoomControllerUsecase(roomControllers);
   }
 
   Future<Map<String, TextEditingController>> loadRoomControllers(

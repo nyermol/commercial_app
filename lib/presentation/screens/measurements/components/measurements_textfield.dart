@@ -82,9 +82,6 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
             hintTextDirection: TextDirection.rtl,
           ),
           textInputAction: widget.textInputAction,
-          scrollPadding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
         ),
       ),
     );

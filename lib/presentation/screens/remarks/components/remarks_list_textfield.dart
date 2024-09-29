@@ -39,10 +39,6 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
               textCapitalization: TextCapitalization.sentences,
               textInputAction: TextInputAction.done,
               onSubmitted: (_) => widget.onAdd(),
-              scrollPadding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom +
-                    SizeConfig.screenHeight * 0.05,
-              ),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(textRegExp),
               ],

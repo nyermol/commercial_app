@@ -31,8 +31,8 @@ class RoomRepositoryImpl implements RoomRepository {
 
   @override
   Future<void> saveRoomControllers(
-      Map<String, TextEditingController> roomController) async {
-    await roomLocalDatasource.saveRoomControllers(roomController);
+      Map<String, TextEditingController> roomControllers) async {
+    await roomLocalDatasource.saveRoomControllers(roomControllers);
   }
 
   @override

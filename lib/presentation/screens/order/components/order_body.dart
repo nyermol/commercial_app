@@ -20,9 +20,6 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
   late String inspectionDate = '';
   late String specialistName = '';
   late String customerName = '';
-  final FocusNode _orderNumberFocus = FocusNode();
-  final FocusNode _specialistNameFocus = FocusNode();
-  final FocusNode _customerNameFocus = FocusNode();
 
   @override
   void initState() {
@@ -59,8 +56,6 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                       });
                     },
                     keyboardType: TextInputType.number,
-                    focusNode: _orderNumberFocus,
-                    nextFocusNode: _specialistNameFocus,
                     dataKey: 'order_number',
                   ),
                   OrderTextField(
@@ -88,8 +83,6 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                     },
                     dataKey: 'specialist_name',
                     initialText: specialistName,
-                    focusNode: _specialistNameFocus,
-                    nextFocusNode: _customerNameFocus,
                   ),
                   OrderTextField(
                     labelText: S.of(context).customerName,
@@ -104,8 +97,6 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                       });
                     },
                     dataKey: 'customer_name',
-                    focusNode: _customerNameFocus,
-                    textInputAction: TextInputAction.done,
                   ),
                 ],
               ),

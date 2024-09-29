@@ -7,7 +7,7 @@ abstract class ListLocalDatasource {
   Future<List<Map<String, dynamic>>> fetchList(String key);
   Future<void> saveRemovedItem(
       String key, Map<String, dynamic> item, int index);
-  Future<Map<String, dynamic>> fetchRemovedItem(String key);
+  Future<Map<String, dynamic>?> fetchRemovedItem(String key);
 }
 
 class ListLocalDatasourceImpl implements ListLocalDatasource {

@@ -8,8 +8,6 @@ abstract class ClearLocalDatasource {
 }
 
 class ClearLocalDatasourceImpl implements ClearLocalDatasource {
-  ClearLocalDatasourceImpl();
-
   @override
   Future<void> clearAllData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
