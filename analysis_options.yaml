@@ -1,0 +1,23 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - lib/generated/**
+    - lib/l10n/**
+
+linter:
+  rules:
+    always_declare_return_types: true
+    always_specify_types: true
+    avoid_unused_constructor_parameters: true
+    camel_case_types: true
+    flutter_style_todos: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_final_fields: true
+    prefer_is_empty: true
+    prefer_single_quotes: true
+    prefer_typing_uninitialized_variables: true
+    unnecessary_null_aware_assignments: true
+    unnecessary_this: true
+    require_trailing_commas: true

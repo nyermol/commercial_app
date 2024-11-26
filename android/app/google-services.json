@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "714673208016",
+    "project_id": "comercialapp-beed8",
+    "storage_bucket": "comercialapp-beed8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714673208016:android:717ed2026af05ec081bcd5",
+        "android_client_info": {
+          "package_name": "com.example.commercial_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEiOvrmrHZR1mdMMsaTYGPao6-TABix3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
