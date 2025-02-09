@@ -27,6 +27,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
 
+  // Инициализация значений
   @override
   void initState() {
     super.initState();
@@ -40,6 +41,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
     });
   }
 
+  // Освобождение памяти
   @override
   void dispose() {
     _controller.removeListener(_updateTextField);
@@ -51,6 +53,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
     super.dispose();
   }
 
+  // Обновления поля ввода текста
   void _updateTextField() {
     widget.onTextChanged(_controller.text);
     context.read<DataCubit>().saveText(

@@ -11,14 +11,12 @@ import 'package:substring_highlight/substring_highlight.dart';
 class RemarksListTextField extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onAdd;
-  final String? Function() errorText;
   final void Function(String title, String gost) onSuggestionSelected;
 
   const RemarksListTextField({
     super.key,
     required this.controller,
     required this.onAdd,
-    required this.errorText,
     required this.onSuggestionSelected,
   });
 
@@ -30,12 +28,14 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
+  // Инициализация значений
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_scrollIfNeeded);
   }
 
+  // Освобождение памяти
   @override
   void dispose() {
     _focusNode.removeListener(_scrollIfNeeded);
@@ -43,8 +43,10 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
     super.dispose();
   }
 
+  // Метод скролла экрана, если клавиатура перекрывает поле совпадений
   void _scrollIfNeeded() {
     if (_focusNode.hasFocus) {
+      // Проверка, перекрывает ли клавиатура поле совпадений
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final RenderObject? object = context.findRenderObject();
         if (object is RenderBox) {
@@ -56,6 +58,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
               MediaQuery.of(context).viewInsets.bottom;
           final double remainingSpace =
               screenHeight - offset.dy - keyboardHeight;
+          // Если клавиатура перекрывает поле совпадений, то прокрутить экран вверх на 40% экрана
           if (remainingSpace < SizeConfig.screenHeight * 0.4) {
             _scrollController.animateTo(
               _scrollController.position.pixels +
@@ -78,6 +81,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
         Expanded(
           child: SingleChildScrollView(
             controller: _scrollController,
+            // Поле ввода текста с отображением поля совпадений
             child: TypeAheadField<RemarkApi?>(
               textFieldConfiguration: TextFieldConfiguration(
                 controller: widget.controller,
@@ -110,23 +114,16 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                       color: Color(0xFF24555E),
                     ),
                   ),
-                  errorText: widget.errorText(),
-                  errorBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                  ),
-                  errorStyle: const TextStyle(
-                    fontSize: subtitleFontSize,
-                  ),
                 ),
               ),
+              // Поиск и отображение совпадений на основе вводимого текста
               suggestionsCallback: (String query) async {
                 if (query.isEmpty) {
                   return <RemarkApi?>[];
                 }
                 return await RemarkData.getRemarkSuggestions(query);
               },
+              // Построение списка элементов поля совпадений
               itemBuilder: (BuildContext context, RemarkApi? suggestion) {
                 final RemarkApi remark = suggestion!;
                 return ListTile(
@@ -161,12 +158,14 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                   ),
                 );
               },
+              // Сообщение, если совпадений не найдено
               noItemsFoundBuilder: (BuildContext context) => SizedBox(
                 height: SizeConfig.screenHeight * 0.05,
                 child: Center(
                   child: Text(S.of(context).remarksNotFound),
                 ),
               ),
+              // Обработка выбора
               onSuggestionSelected: (RemarkApi? suggestion) {
                 final RemarkApi remark = suggestion!;
                 widget.onSuggestionSelected(
@@ -174,6 +173,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                   remark.gost!,
                 );
               },
+              // Настройки отображения поля совпадений
               suggestionsBoxDecoration: SuggestionsBoxDecoration(
                 constraints: BoxConstraints(
                   maxHeight: SizeConfig.screenHeight * 0.3,

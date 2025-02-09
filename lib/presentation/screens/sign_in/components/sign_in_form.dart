@@ -28,6 +28,7 @@ class _SignInFormState extends State<SignInForm> {
   FocusNode loginFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
+  // Инициализация значений
   @override
   void initState() {
     super.initState();
@@ -39,6 +40,7 @@ class _SignInFormState extends State<SignInForm> {
     });
   }
 
+  // Освобождение памяти
   @override
   void dispose() {
     loginFocusNode.removeListener(() {
@@ -52,6 +54,7 @@ class _SignInFormState extends State<SignInForm> {
     super.dispose();
   }
 
+  // Метод отображения ошибки
   void _addError({String? error}) {
     if (!errors.contains(error)) {
       setState(() {
@@ -60,6 +63,7 @@ class _SignInFormState extends State<SignInForm> {
     }
   }
 
+  // Метод скрытия ошибки
   void _removeError({String? error}) {
     if (errors.contains(error)) {
       setState(() {
@@ -68,12 +72,14 @@ class _SignInFormState extends State<SignInForm> {
     }
   }
 
+  // Метод смены видимости пароля при нажатии на кнопку
   void _toggleShowPassword() {
     setState(() {
       _showPassword = !_showPassword;
     });
   }
 
+  // Проверка логина и пароля при помощи Firebase Firestore
   Future<void> _onCheckLogin() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -87,6 +93,7 @@ class _SignInFormState extends State<SignInForm> {
         if (userSnapshot.docs.isNotEmpty) {
           Map<String, dynamic> userData = userSnapshot.docs.first.data();
           if (userData['password'] == password) {
+            // Передача значения name из Firebase Firestore в зависимости от логина пользователя
             context
                 .read<DataCubit>()
                 .saveText('specialist_name', userData['name']);
@@ -121,6 +128,7 @@ class _SignInFormState extends State<SignInForm> {
     }
   }
 
+  // build-метод для логина
   TextFormField buildLoginFormField() {
     return TextFormField(
       textInputAction: TextInputAction.next,
@@ -130,6 +138,7 @@ class _SignInFormState extends State<SignInForm> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       onSaved: (String? newValue) => login = newValue,
+      // Скрытие ошибки при выполнении одного из условий для логина
       onChanged: (String value) {
         if (value.isNotEmpty) {
           _removeError(
@@ -145,6 +154,7 @@ class _SignInFormState extends State<SignInForm> {
           );
         }
       },
+      // Отображение ошибки при выполнении одного из условий для логина
       validator: (String? value) {
         if (value!.isEmpty) {
           _addError(
@@ -179,6 +189,7 @@ class _SignInFormState extends State<SignInForm> {
     );
   }
 
+  // build-метод для пароля
   TextFormField buildPasswordFormField() {
     return TextFormField(
       focusNode: passwordFocusNode,
@@ -194,6 +205,7 @@ class _SignInFormState extends State<SignInForm> {
         ),
       ],
       onSaved: (String? newValue) => password = newValue,
+      // Скрытие ошибки при выполнении одного из условий для пароля
       onChanged: (String value) {
         if (value.isNotEmpty) {
           _removeError(
@@ -205,6 +217,7 @@ class _SignInFormState extends State<SignInForm> {
           );
         }
       },
+      // Отображение ошибки при выполнении одного из условий для пароля
       validator: (String? value) {
         if (value!.isEmpty) {
           _addError(
@@ -227,6 +240,7 @@ class _SignInFormState extends State<SignInForm> {
           color: passwordFocusNode.hasFocus ? const Color(0xFF24555E) : null,
         ),
         hintText: S.of(context).passwordHintText,
+        // Кнопка смены видимости пароля
         suffixIcon: IconButton(
           icon: Icon(
             _showPassword ? Icons.visibility_off : Icons.visibility,

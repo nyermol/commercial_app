@@ -19,6 +19,7 @@ class PreviewScreen extends StatelessWidget {
           icon: const Icon(
             Icons.arrow_back,
           ),
+          // Возврат на первую страницу основной части приложения
           onPressed: () {
             Navigator.of(context).pushAndRemoveUntil(
               PageRouteBuilder(

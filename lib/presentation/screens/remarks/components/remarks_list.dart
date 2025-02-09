@@ -16,12 +16,10 @@ import 'package:image/image.dart' as img;
 class RemarksList extends StatefulWidget {
   final String title;
   final String itemsKey;
-  final bool isListEmpty;
   const RemarksList({
     super.key,
     required this.title,
     required this.itemsKey,
-    this.isListEmpty = false,
   });
   @override
   State<RemarksList> createState() => _RemarksListState();
@@ -31,15 +29,16 @@ class _RemarksListState extends State<RemarksList> {
   final List<Remark> _itemsList = <Remark>[];
   final TextEditingController _listController = TextEditingController();
 
+  // Инициализация значений
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<RemarksCubit>().loadDataList(widget.itemsKey).then((_) {
+      final cubit = context.read<RemarksCubit>();
+      cubit.loadDataList(widget.itemsKey).then((_) {
         if (!mounted) return;
         setState(() {
-          List<Remark> items =
-              context.read<RemarksCubit>().state[widget.itemsKey] ?? <Remark>[];
+          final List<Remark> items = cubit.state[widget.itemsKey] ?? [];
           _itemsList.clear();
           _itemsList.addAll(items);
         });
@@ -47,15 +46,19 @@ class _RemarksListState extends State<RemarksList> {
     });
   }
 
+  // Освобождение памяти
   @override
   void dispose() {
     _listController.dispose();
     super.dispose();
   }
 
+  // Метод для сохранения изменений в записи замечаний
   void _onTitleSave(String title, int index) {
+    // Если значение пустое, то в локальное хранилище передается знак "-"
+    final updatedTitle = (title.isEmpty || title == '-') ? '-' : title;
     _itemsList[index] = Remark(
-      title: title,
+      title: updatedTitle,
       subtitle: _itemsList[index].subtitle,
       gost: _itemsList[index].gost,
       images: _itemsList[index].images,
@@ -63,6 +66,7 @@ class _RemarksListState extends State<RemarksList> {
     context.read<RemarksCubit>().saveDataList(widget.itemsKey, _itemsList);
   }
 
+  // Метод добавления наименования помещений в качестве subtitle к замечанию
   void _addSubtitle(String subtitle, int index) {
     _itemsList[index] = Remark(
       title: _itemsList[index].title,
@@ -73,6 +77,7 @@ class _RemarksListState extends State<RemarksList> {
     context.read<RemarksCubit>().saveDataList(widget.itemsKey, _itemsList);
   }
 
+  // Метод добавления нового замечания
   void _addItem() {
     String newItem = _listController.text.trim();
     if (newItem.isNotEmpty) {
@@ -92,6 +97,7 @@ class _RemarksListState extends State<RemarksList> {
     }
   }
 
+  // Метод добавления замечания из Firebase Firestore
   void _addRemark(String remarkText, String gost) {
     setState(() {
       _itemsList.add(
@@ -108,6 +114,7 @@ class _RemarksListState extends State<RemarksList> {
     _setRoom(_itemsList.length - 1);
   }
 
+  // Метод демонстрации диалогового окна со списком выбранных помещений
   void _setRoom(int index) {
     _showOptionsDialog(
       context: context,
@@ -117,6 +124,7 @@ class _RemarksListState extends State<RemarksList> {
     );
   }
 
+  // Метод удаления замечания по индексу
   void _deleteItem(int index) {
     setState(() {
       _itemsList.removeAt(index);
@@ -124,10 +132,13 @@ class _RemarksListState extends State<RemarksList> {
     context.read<RemarksCubit>().deleteRemark(widget.itemsKey, index);
   }
 
+  // Метод добавления изображения к замечанию
   void _onPickImage(int index) async {
     final html.FileUploadInputElement uploadInput =
         html.FileUploadInputElement();
+    // Прием только изображений
     uploadInput.accept = 'image/*';
+    // Использование камеры для загрузки изображения
     uploadInput.setAttribute(
       'capture',
       'camera',
@@ -171,6 +182,7 @@ class _RemarksListState extends State<RemarksList> {
           Uint8List imageData = reader.result as Uint8List;
           img.Image? originalImage = img.decodeImage(imageData);
           if (originalImage != null) {
+            // Обрезка изображения
             img.Image croppedImage = cropImage(originalImage);
             Uint8List croppedImageData = Uint8List.fromList(
               img.encodeJpg(croppedImage),
@@ -178,7 +190,9 @@ class _RemarksListState extends State<RemarksList> {
             String shortName =
                 'img_${DateTime.now().millisecondsSinceEpoch}.jpg';
             final Box<Uint8List> imagesBox = Hive.box<Uint8List>('imagesBox');
+            // Сохранение изображения
             await imagesBox.put(shortName, croppedImageData);
+            // Добавление изображение к замечанию по индексу
             setState(() {
               _itemsList[index] = Remark(
                 title: _itemsList[index].title,
@@ -198,9 +212,11 @@ class _RemarksListState extends State<RemarksList> {
     });
   }
 
+  // Метод обрезки изображения жо квадрата по наименьшей стороне
   img.Image cropImage(img.Image originalImage) {
     int width = originalImage.width;
     int height = originalImage.height;
+    // Выбор наименьшей стороны - стороны квадрата
     int size = width < height ? width : height;
     int xOffset = (width - size) ~/ 2;
     int yOffset = (height - size) ~/ 2;
@@ -213,6 +229,7 @@ class _RemarksListState extends State<RemarksList> {
     );
   }
 
+  // Метод демонстрации диалогового окна для редактирования замечания
   Future<void> _showEditDialog({
     required BuildContext context,
     required String currentItem,
@@ -292,6 +309,7 @@ class _RemarksListState extends State<RemarksList> {
     );
   }
 
+  // Метод демонстрации диалогового окна для выбора помещения
   Future<void> _showOptionsDialog({
     required BuildContext context,
     required String? currentItem,
@@ -347,6 +365,7 @@ class _RemarksListState extends State<RemarksList> {
     );
   }
 
+  // Метод демонстрации диалогового окна для подтверждения удаления замечания
   Future<void> _showDeleteConfirmationDialog({
     required BuildContext context,
     required int index,
@@ -400,12 +419,6 @@ class _RemarksListState extends State<RemarksList> {
     return BlocBuilder<RemarksCubit, Map<String, List<Remark>>>(
       builder: (BuildContext context, Map<String, List<Remark>> state) {
         List<Remark> itemList = state[widget.itemsKey] ?? <Remark>[];
-        String? errorText() {
-          if (widget.isListEmpty) {
-            return S.of(context).noRemarks;
-          }
-          return null;
-        }
 
         return Container(
           margin: getContainerMargin(context, 0.01),
@@ -419,10 +432,10 @@ class _RemarksListState extends State<RemarksList> {
                     fontStyle: FontStyle.italic,
                   ),
                 ),
+                // Поле ввода замечания
                 RemarksListTextField(
                   controller: _listController,
                   onAdd: _addItem,
-                  errorText: errorText,
                   onSuggestionSelected: (
                     String remarkText,
                     String gost,
@@ -431,6 +444,7 @@ class _RemarksListState extends State<RemarksList> {
                   },
                 ),
                 itemList.isEmpty
+                    // Если замечаний нет, то указать, что список пуст
                     ? Padding(
                         padding: EdgeInsets.only(
                           top: SizeConfig.screenHeight * 0.01,
@@ -445,6 +459,7 @@ class _RemarksListState extends State<RemarksList> {
                           ),
                         ),
                       )
+                    // Если замечания есть, то отобразить список
                     : RemarksListDisplay(
                         items: itemList,
                         onTap: (int index) => _showEditDialog(

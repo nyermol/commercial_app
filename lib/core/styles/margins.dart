@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Отступы от границ внешнего контейнера
 const double allMargin = 10;
 
 EdgeInsets getContainerMargin(

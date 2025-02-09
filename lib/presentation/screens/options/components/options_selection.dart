@@ -23,6 +23,7 @@ class OptionsSelection extends StatefulWidget {
 class _OptionsSelectionState extends State<OptionsSelection> {
   bool selectedYes = false;
 
+  // Инициализация значений
   @override
   void initState() {
     super.initState();
@@ -31,9 +32,11 @@ class _OptionsSelectionState extends State<OptionsSelection> {
     });
   }
 
+  // Загрузка начальных значений кнопок
   Future<void> _loadInitialState() async {
     final ButtonCubit buttonCubit = context.read<ButtonCubit>();
     await buttonCubit.loadSelection(context, widget.selectionKey);
+    // Установка выбранного значения
     setState(() {
       selectedYes = buttonCubit.getSelection(context, widget.selectionKey) ==
           S.of(context).yes;
@@ -82,14 +85,17 @@ class _OptionsSelectionState extends State<OptionsSelection> {
     );
   }
 
+  // build-метод кнопок
   Widget _buildButton(String text, bool value) {
     return CustomButton(
       isSelected: selectedYes == value,
       text: text,
       onTap: () {
+        // Установка выбранного значения
         setState(() {
           selectedYes = value;
         });
+        // Загрузка выбранного значения в локальное хранилище
         context
             .read<ButtonCubit>()
             .saveSelection(context, widget.selectionKey, text);

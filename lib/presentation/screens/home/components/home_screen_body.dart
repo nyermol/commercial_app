@@ -21,6 +21,7 @@ class HomeScreenBody extends StatelessWidget {
     return PageView(
       controller: pageController,
       onPageChanged: onPageChanged,
+      // Страницы основной части приложения
       children: <Widget>[
         OrderScreen(userName: userName),
         const RemarksScreen(),

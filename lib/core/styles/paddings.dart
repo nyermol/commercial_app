@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Отступы вложенного элемента
 const double basePadding = 8;
 const double primaryPadding = 12;
 const double allPadding = 15;

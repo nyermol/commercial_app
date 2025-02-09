@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// Тема приложения
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
@@ -20,6 +21,7 @@ class AppTheme {
     );
   }
 
+  // Тема статус-баров (для Android)
   static SystemUiOverlayStyle getSystemUiOverlayStyle(
     Brightness brightness,
   ) {

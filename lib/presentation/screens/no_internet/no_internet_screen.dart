@@ -37,6 +37,7 @@ class NoInternetScreen extends StatelessWidget {
             ),
             SizedBox(
               width: SizeConfig.screenWidth * 0.6,
+              // Проверка интернет-соединения при нажатии на кнопку
               child: DefaultButton(
                 text: S.of(context).tryAgain,
                 onPressed: () {

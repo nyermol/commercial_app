@@ -22,8 +22,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "accessPermission": MessageLookupByLibrary.simpleMessage(
-            "Разрешение на доступ к памяти не предоставлено"),
         "actForm": MessageLookupByLibrary.simpleMessage("Сформировать акт"),
         "actFormWait": MessageLookupByLibrary.simpleMessage(
             "Документ формируется. Пожалуйста, подождите."),
@@ -47,6 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Отменить"),
         "changeRoom":
             MessageLookupByLibrary.simpleMessage("Изменить помещения"),
+        "chooseCity": MessageLookupByLibrary.simpleMessage("Выберите город"),
+        "city": MessageLookupByLibrary.simpleMessage("Город"),
         "clearTheData": MessageLookupByLibrary.simpleMessage("Очистить"),
         "clearTheDataAndStartOver":
             MessageLookupByLibrary.simpleMessage("Очистить данные?"),
@@ -101,11 +101,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "measurementIsNotTaken":
             MessageLookupByLibrary.simpleMessage("Измерение не проводилось"),
         "measurements": MessageLookupByLibrary.simpleMessage("Измерения"),
+        "nameOfResidence":
+            MessageLookupByLibrary.simpleMessage("Наименование ЖК"),
         "no": MessageLookupByLibrary.simpleMessage("Нет"),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "Отсутствует интернет-соединение"),
-        "noRemarks": MessageLookupByLibrary.simpleMessage(
-            "Если недостатков нет, то вставьте прочерк"),
         "notFoundError":
             MessageLookupByLibrary.simpleMessage("Ресурс не найден."),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Не указано"),
@@ -126,7 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordTooShort":
             MessageLookupByLibrary.simpleMessage("Пароль слишком короткий"),
         "paymentRequiredError": MessageLookupByLibrary.simpleMessage(
-            "У вас закончились бесплатные конвертации. Попробуйте позже или сохраните документ в формате docx."),
+            "У вас закончились бесплатные конвертации."),
         "photoWait": MessageLookupByLibrary.simpleMessage(
             "Фотография сохраняется. Пожалуйста, подождите."),
         "plumbingEquipmentItems":
@@ -145,12 +145,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Замечания не найдены"),
         "removeRemark": MessageLookupByLibrary.simpleMessage(
             "Вы действительно хотите удалить этот недостаток?"),
-        "removedShortcoming":
-            MessageLookupByLibrary.simpleMessage("Вы удалили недостаток"),
         "requiredAllField": MessageLookupByLibrary.simpleMessage(
             "Пожалуйта, заполните все обязательные поля"),
         "requiredField":
             MessageLookupByLibrary.simpleMessage("Обязательное поле"),
+        "residence": MessageLookupByLibrary.simpleMessage("ЖК"),
         "room": MessageLookupByLibrary.simpleMessage("Комната"),
         "roomsNotSelected":
             MessageLookupByLibrary.simpleMessage("Помещения не выбраны"),

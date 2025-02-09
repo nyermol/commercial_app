@@ -1,4 +1,3 @@
-import 'package:commercial_app/data/models/models_export.dart';
 import 'package:commercial_app/domain/usecases/validation_usecase.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
@@ -11,7 +10,9 @@ class TextButtonWidget extends StatelessWidget {
 
   const TextButtonWidget({super.key, required this.validationUsecase});
 
+  // Валидация пустых полей на странице OrderScreen
   bool _checkHeaderScreenData(BuildContext context) {
+    String city = context.read<DataCubit>().state['city'] ?? '';
     String orderNumber = context.read<DataCubit>().state['order_number'] ?? '';
     String inspectionDate =
         context.read<DataCubit>().state['inspection_date'] ?? '';
@@ -19,7 +20,9 @@ class TextButtonWidget extends StatelessWidget {
         context.read<DataCubit>().state['specialist_name'] ?? '';
     String customerName =
         context.read<DataCubit>().state['customer_name'] ?? '';
+    String residence = context.read<DataCubit>().state['residence'] ?? '';
 
+    bool cityValid = validationUsecase.validateCity(city);
     bool orderNumberValid = validationUsecase.validateOrderNumber(orderNumber);
     bool inspectionDateValid =
         validationUsecase.validateInspectionDate(inspectionDate);
@@ -27,7 +30,11 @@ class TextButtonWidget extends StatelessWidget {
         validationUsecase.validateSpecialistName(specialistName);
     bool customerNameValid =
         validationUsecase.validateCustomerName(customerName);
+    bool residenceValid = validationUsecase.validateResidence(residence);
 
+    context
+        .read<ValidationCubit>()
+        .updateFieldValidation('city_valid', cityValid);
     context
         .read<ValidationCubit>()
         .updateFieldValidation('order_number_valid', orderNumberValid);
@@ -40,58 +47,30 @@ class TextButtonWidget extends StatelessWidget {
     context
         .read<ValidationCubit>()
         .updateFieldValidation('customer_name_valid', customerNameValid);
+    context
+        .read<ValidationCubit>()
+        .updateFieldValidation('residence_valid', residenceValid);
 
-    return orderNumberValid &&
+    return cityValid &&
+        orderNumberValid &&
         inspectionDateValid &&
         specialistNameValid &&
-        customerNameValid;
+        customerNameValid &&
+        residenceValid;
   }
 
+  // Если поля на странице RemarksScreen пустые, то нужно вставить знак "-"
   bool _checkListScreenData(BuildContext context) {
-    List<Remark>? electricsItems =
-        context.read<RemarksCubit>().state['electricsItems'];
-    List<Remark>? geometryItems =
-        context.read<RemarksCubit>().state['geometryItems'];
-    List<Remark>? plumbingEquipmentItems =
-        context.read<RemarksCubit>().state['plumbingEquipmentItems'];
-    List<Remark>? windowsAndDoorsItems =
-        context.read<RemarksCubit>().state['windowsAndDoorsItems'];
-    List<Remark>? finishingItems =
-        context.read<RemarksCubit>().state['finishingItems'];
-
-    bool isElectricsValid = validationUsecase.validateList(electricsItems);
-    bool isGeometryValid = validationUsecase.validateList(geometryItems);
-    bool isPlumbingEquipmentValid =
-        validationUsecase.validateList(plumbingEquipmentItems);
-    bool isWindowsAndDoorsValid =
-        validationUsecase.validateList(windowsAndDoorsItems);
-    bool isFinishingValid = validationUsecase.validateList(finishingItems);
-
-    context
-        .read<ValidationCubit>()
-        .updateFieldValidation('electricsItems_valid', isElectricsValid);
-    context
-        .read<ValidationCubit>()
-        .updateFieldValidation('geometryItems_valid', isGeometryValid);
-    context.read<ValidationCubit>().updateFieldValidation(
-          'plumbingEquipmentItems_valid',
-          isPlumbingEquipmentValid,
-        );
-    context.read<ValidationCubit>().updateFieldValidation(
-          'windowsAndDoorsItems_valid',
-          isWindowsAndDoorsValid,
-        );
-    context
-        .read<ValidationCubit>()
-        .updateFieldValidation('finishingItems_valid', isFinishingValid);
-
-    return isElectricsValid &&
-        isGeometryValid &&
-        isPlumbingEquipmentValid &&
-        isWindowsAndDoorsValid &&
-        isFinishingValid;
+    final RemarksCubit remarksCubit = context.read<RemarksCubit>();
+    remarksCubit.ensureDefaultValues('electricsItems');
+    remarksCubit.ensureDefaultValues('geometryItems');
+    remarksCubit.ensureDefaultValues('plumbingEquipmentItems');
+    remarksCubit.ensureDefaultValues('windowsAndDoorsItems');
+    remarksCubit.ensureDefaultValues('finishingItems');
+    return true;
   }
 
+  // Навигация на страницу предпросмотра, если все пустые поля заполнены
   void _validateAndNavigate(BuildContext context) {
     bool isHeaderScreenValid = _checkHeaderScreenData(context);
     bool isListScreenValid = _checkListScreenData(context);
@@ -121,6 +100,7 @@ class TextButtonWidget extends StatelessWidget {
         ),
       );
     } else {
+      // Если есть пустые поля, то показать сообщение с ошибкой
       context
           .read<ValidationCubit>()
           .updateFieldValidation('show_snackbar', true);

@@ -22,6 +22,7 @@ class PreviewScreenBody extends StatefulWidget {
 }
 
 class _PreviewScreenBodyState extends State<PreviewScreenBody> {
+  // Метод сохранения документа в формате DOCX при ошибке 402 при конвертации
   void _saveDocx(
     Map<String, dynamic> dataState,
   ) async {
@@ -56,60 +57,62 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
             thumbVisibility: false,
             thickness: 3,
             radius: const Radius.circular(3),
-            child: SingleChildScrollView(
+            child: ListView(
               primary: true,
-              child: Padding(
-                padding: getHorizontalPadding(context, 0.03),
-                child: Column(
-                  children: <Widget>[
-                    const OrderDisplay(),
-                    const RemarksDisplay(),
-                    MeasurementsDisplay(
-                      title: S.of(context).additionalOptions,
-                      labels: <String>[
-                        S.of(context).radiationLevel,
-                        S.of(context).ammoniaLevel,
-                        S.of(context).electromagneticFieldLevel,
-                      ],
-                      measurementKeys: const <String>[
-                        'radiation',
-                        'ammonia',
-                        'electromagneticField',
-                      ],
-                      units: <String>[
-                        S.of(context).radiationSI,
-                        S.of(context).ammoniaSI,
-                        S.of(context).electromagneticFieldSI,
-                      ],
-                    ),
-                    MeasurementsDisplay(
-                      title: S.of(context).airflowSpeed,
-                      labels: <String>[
-                        S.of(context).airflowKitchen,
-                        S.of(context).bath1,
-                        S.of(context).bath2,
-                        S.of(context).bath3,
-                      ],
-                      measurementKeys: const <String>[
-                        'airflowKitchen',
-                        'airflowSU1',
-                        'airflowSU2',
-                        'airflowSU3',
-                      ],
-                      units: <String>[
-                        S.of(context).airflowSI,
-                        S.of(context).airflowSI,
-                        S.of(context).airflowSI,
-                        S.of(context).airflowSI,
-                      ],
-                    ),
-                    const OptionsDisplay(),
-                    SizedBox(
-                      height: SizeConfig.screenHeight * 0.02,
-                    ),
-                  ],
+              children: <Widget>[
+                Padding(
+                  padding: getHorizontalPadding(context, 0.03),
+                  child: Column(
+                    children: <Widget>[
+                      const OrderDisplay(),
+                      const RemarksDisplay(),
+                      MeasurementsDisplay(
+                        title: S.of(context).additionalOptions,
+                        labels: <String>[
+                          S.of(context).radiationLevel,
+                          S.of(context).ammoniaLevel,
+                          S.of(context).electromagneticFieldLevel,
+                        ],
+                        measurementKeys: const <String>[
+                          'radiation',
+                          'ammonia',
+                          'electromagneticField',
+                        ],
+                        units: <String>[
+                          S.of(context).radiationSI,
+                          S.of(context).ammoniaSI,
+                          S.of(context).electromagneticFieldSI,
+                        ],
+                      ),
+                      MeasurementsDisplay(
+                        title: S.of(context).airflowSpeed,
+                        labels: <String>[
+                          S.of(context).airflowKitchen,
+                          S.of(context).bath1,
+                          S.of(context).bath2,
+                          S.of(context).bath3,
+                        ],
+                        measurementKeys: const <String>[
+                          'airflowKitchen',
+                          'airflowSU1',
+                          'airflowSU2',
+                          'airflowSU3',
+                        ],
+                        units: <String>[
+                          S.of(context).airflowSI,
+                          S.of(context).airflowSI,
+                          S.of(context).airflowSI,
+                          S.of(context).airflowSI,
+                        ],
+                      ),
+                      const OptionsDisplay(),
+                      SizedBox(
+                        height: SizeConfig.screenHeight * 0.02,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -134,7 +137,9 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                             S.of(context).actFormWait,
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: SizeConfig.screenHeight * 0.01),
+                          SizedBox(
+                            height: SizeConfig.screenHeight * 0.01,
+                          ),
                           const CircularProgressIndicator(
                             color: Color(0xFF24555E),
                           ),
@@ -145,6 +150,7 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                 );
 
                 try {
+                  // Генерация и конвертация документа
                   final GenerateDocumentUsecase generateDocumentUseCase =
                       GetIt.instance<GenerateDocumentUsecase>();
                   await generateDocumentUseCase(
@@ -159,7 +165,6 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                   Navigator.of(context).pop();
                   final String errorMessage =
                       (e is ApiError) ? e.message : S.of(context).unknownError;
-                  final bool isStatus402 = e is ApiError && e.statusCode == 402;
                   showCustomDialog(
                     context: context,
                     title: S.of(context).conversionError,
@@ -167,37 +172,36 @@ class _PreviewScreenBodyState extends State<PreviewScreenBody> {
                       errorMessage,
                       textAlign: TextAlign.center,
                     ),
-                    actions: isStatus402
-                        ? <Widget>[
-                            TextButton(
-                              child: Text(
-                                S.of(context).saveDocx,
-                                style: const TextStyle(
-                                  fontSize: mainFontSize,
-                                  color: Color(0xFF24555E),
-                                ),
-                              ),
-                              onPressed: () {
-                                _saveDocx(
-                                  dataCubit.state,
-                                );
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: Text(
-                                S.of(context).close,
-                                style: const TextStyle(
-                                  fontSize: mainFontSize,
-                                  color: Color(0xFF24555E),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ]
-                        : null,
+                    // Если сервер вернул ошибку, то высвечивается диалоговое окно с возможностью сохранения документа в формате DOCX
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text(
+                          S.of(context).saveDocx,
+                          style: const TextStyle(
+                            fontSize: mainFontSize,
+                            color: Color(0xFF24555E),
+                          ),
+                        ),
+                        onPressed: () {
+                          _saveDocx(
+                            dataCubit.state,
+                          );
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          S.of(context).close,
+                          style: const TextStyle(
+                            fontSize: mainFontSize,
+                            color: Color(0xFF24555E),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   );
                 }
               },

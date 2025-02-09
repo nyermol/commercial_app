@@ -16,21 +16,28 @@ class OrderScreenBody extends StatefulWidget {
 }
 
 class _OrderScreenBodyState extends State<OrderScreenBody> {
+  late String city = '';
   late String orderNumber = '';
   late String inspectionDate = '';
   late String specialistName = '';
   late String customerName = '';
+  late String residence = '';
+  // Установка FocusNode для переключения между полями
   final FocusNode _orderNumberFocus = FocusNode();
   final FocusNode _specialistNameFocus = FocusNode();
   final FocusNode _customerNameFocus = FocusNode();
+  final FocusNode _residenceFocus = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    city = context.read<DataCubit>().state['city'] ?? '';
     orderNumber = context.read<DataCubit>().state['order_number'] ?? '';
     inspectionDate = context.read<DataCubit>().state['inspection_date'] ?? '';
+    // Получение значения из Firebase Firestore при авторизации в виджете SignInScreen
     specialistName = widget.userName;
     customerName = context.read<DataCubit>().state['customer_name'] ?? '';
+    residence = context.read<DataCubit>().state['residence'] ?? '';
   }
 
   @override
@@ -47,6 +54,17 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
               padding: getHorizontalPadding(context, 0.05),
               child: Column(
                 children: <Widget>[
+                  OrderTextField(
+                    labelText: S.of(context).city,
+                    hintText: S.of(context).chooseCity,
+                    onTextChanged: (String value) {
+                      setState(() {
+                        city = value;
+                      });
+                    },
+                    dataKey: 'city',
+                    isCityField: true,
+                  ),
                   OrderTextField(
                     labelText: S.of(context).orderNumber,
                     hintText: S.of(context).orderNumberEnter,
@@ -108,6 +126,25 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                     },
                     dataKey: 'customer_name',
                     focusNode: _customerNameFocus,
+                    nextFocusNode: _residenceFocus,
+                    textInputAction: TextInputAction.done,
+                  ),
+                  OrderTextField(
+                    labelText: S.of(context).nameOfResidence,
+                    hintText: S.of(context).residence,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                        textRegExp,
+                      ),
+                    ],
+                    onTextChanged: (String value) {
+                      setState(() {
+                        residence = value;
+                      });
+                    },
+                    dataKey: 'residence',
+                    focusNode: _residenceFocus,
                     textInputAction: TextInputAction.done,
                   ),
                 ],

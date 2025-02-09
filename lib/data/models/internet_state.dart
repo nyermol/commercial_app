@@ -1,3 +1,4 @@
+// Статусы интернет-соединения
 enum InternetTypes {
   connected,
   offline,

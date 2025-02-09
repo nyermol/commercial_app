@@ -290,16 +290,6 @@ class S {
     );
   }
 
-  /// `You removed the disadvantage`
-  String get removedShortcoming {
-    return Intl.message(
-      'You removed the disadvantage',
-      name: 'removedShortcoming',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Electrical`
   String get electricsItems {
     return Intl.message(
@@ -620,16 +610,6 @@ class S {
     );
   }
 
-  /// `If there are no disadvantages, insert a dash`
-  String get noRemarks {
-    return Intl.message(
-      'If there are no disadvantages, insert a dash',
-      name: 'noRemarks',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `List is empty`
   String get listEmpty {
     return Intl.message(
@@ -880,16 +860,6 @@ class S {
     );
   }
 
-  /// `The permission to access memory has not been granted`
-  String get accessPermission {
-    return Intl.message(
-      'The permission to access memory has not been granted',
-      name: 'accessPermission',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Clear`
   String get clearTheData {
     return Intl.message(
@@ -1060,10 +1030,10 @@ class S {
     );
   }
 
-  /// `You have run out of free conversions. Try again later or save the document in docx format.`
+  /// `You have run out of free conversions.`
   String get paymentRequiredError {
     return Intl.message(
-      'You have run out of free conversions. Try again later or save the document in docx format.',
+      'You have run out of free conversions.',
       name: 'paymentRequiredError',
       desc: '',
       args: [],
@@ -1135,6 +1105,46 @@ class S {
     return Intl.message(
       'Unknown error',
       name: 'unknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City`
+  String get city {
+    return Intl.message(
+      'City',
+      name: 'city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose your city`
+  String get chooseCity {
+    return Intl.message(
+      'Choose your city',
+      name: 'chooseCity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name of the residence`
+  String get nameOfResidence {
+    return Intl.message(
+      'Name of the residence',
+      name: 'nameOfResidence',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Residence`
+  String get residence {
+    return Intl.message(
+      'Residence',
+      name: 'residence',
       desc: '',
       args: [],
     );

@@ -1,6 +1,7 @@
 import 'package:commercial_app/core/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
+// Стиль поля ввода текста
 const InputDecoration baseInputDecoration = InputDecoration(
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(

@@ -35,11 +35,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Инициализация проверки размеров экрана устройства
     SizeConfig().init(context);
+    // Получение системной темы
     final Brightness brightness = MediaQuery.of(context).platformBrightness;
     SystemChrome.setSystemUIOverlayStyle(
       AppTheme.getSystemUiOverlayStyle(brightness),
     );
+    // Инициализация кубитов
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
         BlocProvider<ClearCubit>(
@@ -66,11 +69,13 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: AnnotatedRegion<SystemUiOverlayStyle>(
+        // Установка системной темы
         value: AppTheme.getSystemUiOverlayStyle(
           Theme.of(context).brightness,
         ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
+          // Локализация приложения
           localizationsDelegates: const <LocalizationsDelegate>[
             S.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -78,11 +83,13 @@ class _MyAppState extends State<MyApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
+          // Темы приложения
           themeMode: ThemeMode.system,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           navigatorKey: navigatorKey,
           builder: (BuildContext context, Widget? child) {
+            // Очистка локальных хранилищ при инициализации
             if (!_clearDataCalled) {
               _clearDataCalled = true;
               WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -91,6 +98,7 @@ class _MyAppState extends State<MyApp> {
                 context.read<ButtonCubit>().initializeDefaults(context);
               });
             }
+            // Проверка интернет-соединения
             return BlocListener<InternetCubit, InternetState>(
               listener: (BuildContext context, InternetState state) {
                 final NavigatorState? navigator = navigatorKey.currentState;
@@ -104,6 +112,7 @@ class _MyAppState extends State<MyApp> {
                     MaterialPageRoute(builder: (_) => const SignInScreen()),
                     (Route route) => false,
                   );
+                  // Возможность очистить все данные при потере интернет-соединения
                   SnackBarAction action = SnackBarAction(
                     label: S.of(context).clearTheData,
                     textColor: const Color(0xFF24555E),

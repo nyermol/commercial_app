@@ -36,10 +36,13 @@ class HomeScreenBar extends StatelessWidget {
             GButton(
               icon: Icons.numbers,
               text: S.of(context).order,
-              leading: validationState['order_number_valid'] &&
+              // Смена иконки при валидации пустого поля
+              leading: validationState['city_valid'] &&
+                      validationState['order_number_valid'] &&
                       validationState['inspection_date_valid'] &&
                       validationState['specialist_name_valid'] &&
-                      validationState['customer_name_valid']
+                      validationState['customer_name_valid'] &&
+                      validationState['residence_valid']
                   ? null
                   : const Icon(
                       Icons.error,
@@ -49,16 +52,6 @@ class HomeScreenBar extends StatelessWidget {
             GButton(
               icon: Icons.list,
               text: S.of(context).remarks,
-              leading: validationState['electricsItems_valid'] &&
-                      validationState['geometryItems_valid'] &&
-                      validationState['plumbingEquipmentItems_valid'] &&
-                      validationState['windowsAndDoorsItems_valid'] &&
-                      validationState['finishingItems_valid']
-                  ? null
-                  : const Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
             ),
             GButton(
               icon: Icons.device_thermostat,

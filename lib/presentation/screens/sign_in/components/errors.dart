@@ -12,6 +12,7 @@ class FormError extends StatelessWidget {
 
   final List<String?> errors;
 
+  // Форма отображения ошибки
   Row _formErrorText({required String error}) {
     return Row(
       children: <Widget>[

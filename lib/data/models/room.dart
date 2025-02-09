@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'room.g.dart';
 
+// Модель помещения с адаптером Hive
 @HiveType(typeId: 2)
 class Room {
   @HiveField(0)

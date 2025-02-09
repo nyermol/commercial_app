@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'remark.g.dart';
 
+// Модель замечания с адаптером Hive
 @HiveType(typeId: 1)
 class Remark {
   @HiveField(0)

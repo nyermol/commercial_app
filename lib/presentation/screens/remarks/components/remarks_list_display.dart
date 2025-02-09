@@ -30,6 +30,7 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
   Widget build(BuildContext context) {
     return BlocBuilder<RemarksCubit, Map<String, List<Remark>>>(
       builder: (BuildContext context, Map<String, List<Remark>> state) {
+        // Список замечаний
         List<Remark> itemList = state[widget.itemsKey] ?? <Remark>[];
         return ListView.builder(
           shrinkWrap: true,
@@ -68,8 +69,11 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
                 ],
               ),
               isThreeLine: true,
+              // При одном нажатии происходит редактирование замечаний
               onTap: () => widget.onTap(index),
+              // При долгом нажатии появляется окно с выбранными помещениями
               onLongPress: () => widget.onLongPress(index),
+              // При нажатии открывается камера
               trailing: IconButton(
                 icon: const Icon(
                   Icons.camera_alt,

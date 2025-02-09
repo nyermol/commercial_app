@@ -1,5 +1,6 @@
 import 'package:commercial_app/generated/l10n.dart';
 
+// Перечень возможных ошибок сервера с кодом
 class ApiError implements Exception {
   final String message;
   final int statusCode;

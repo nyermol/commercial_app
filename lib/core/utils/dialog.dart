@@ -1,6 +1,7 @@
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:flutter/material.dart';
 
+// Типизированное диалоговое окно
 Future<void> showCustomDialog({
   required BuildContext context,
   required String title,

@@ -1,3 +1,4 @@
+// Модель замечаний с ГОСТ для работы с Firebase Firestore
 class RemarkApi {
   final String remarkText;
   final String? gost;

@@ -9,17 +9,23 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
+  // Инициализация привязок перед вызовом runApp
   WidgetsFlutterBinding.ensureInitialized();
+  // Инициализация движка Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Инициализация БД Hive
   await Hive.initFlutter();
+  // Регистрация сгенерированных адаптеров для БД Hive
   Hive.registerAdapter(RemarkAdapter());
   Hive.registerAdapter(RoomAdapter());
+  // Открытие боксов Hive
   await Hive.openBox<Remark>('remarksBox');
   await Hive.openBox<Room>('roomsBox');
   await Hive.openBox<Uint8List>('imagesBox');
   await Hive.openBox<List<int>>('documentsBox');
+  // Инициализация зависимостей injection_container
   await init();
   final Connectivity connectivity = sl<Connectivity>();
   runApp(

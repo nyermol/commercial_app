@@ -16,12 +16,14 @@ class MeasurementsDisplay extends StatelessWidget {
     required this.measurementKeys,
     required this.units,
     required this.labels,
+    // Проверка условий отображения значений
   }) : assert(
           measurementKeys.length == units.length &&
               units.length == labels.length,
           S.current.listLength,
         );
 
+  // Формат отображения значений
   String format(
     BuildContext context,
     String? value,

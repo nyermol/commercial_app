@@ -22,8 +22,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "accessPermission": MessageLookupByLibrary.simpleMessage(
-            "The permission to access memory has not been granted"),
         "actForm": MessageLookupByLibrary.simpleMessage("Generate"),
         "actFormWait": MessageLookupByLibrary.simpleMessage(
             "The document is being produced. Please wait."),
@@ -45,6 +43,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "bathroom": MessageLookupByLibrary.simpleMessage("Bathroom"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "changeRoom": MessageLookupByLibrary.simpleMessage("Change the rooms"),
+        "chooseCity": MessageLookupByLibrary.simpleMessage("Choose your city"),
+        "city": MessageLookupByLibrary.simpleMessage("City"),
         "clearTheData": MessageLookupByLibrary.simpleMessage("Clear"),
         "clearTheDataAndStartOver":
             MessageLookupByLibrary.simpleMessage("Clear the data?"),
@@ -99,11 +99,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "measurementIsNotTaken":
             MessageLookupByLibrary.simpleMessage("No measurement was made"),
         "measurements": MessageLookupByLibrary.simpleMessage("Measurements"),
+        "nameOfResidence":
+            MessageLookupByLibrary.simpleMessage("Name of the residence"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("No internet connection"),
-        "noRemarks": MessageLookupByLibrary.simpleMessage(
-            "If there are no disadvantages, insert a dash"),
         "notFoundError":
             MessageLookupByLibrary.simpleMessage("Resource not found."),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Not specified"),
@@ -124,7 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordTooShort":
             MessageLookupByLibrary.simpleMessage("Password is too short"),
         "paymentRequiredError": MessageLookupByLibrary.simpleMessage(
-            "You have run out of free conversions. Try again later or save the document in docx format."),
+            "You have run out of free conversions."),
         "photoWait": MessageLookupByLibrary.simpleMessage(
             "The photo is being uploaded. Please wait."),
         "plumbingEquipmentItems":
@@ -143,12 +143,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No disadvantages found"),
         "removeRemark": MessageLookupByLibrary.simpleMessage(
             "Are you sure delete this remark?"),
-        "removedShortcoming": MessageLookupByLibrary.simpleMessage(
-            "You removed the disadvantage"),
         "requiredAllField": MessageLookupByLibrary.simpleMessage(
             "Please fill in all the required fields"),
         "requiredField":
             MessageLookupByLibrary.simpleMessage("This field is required"),
+        "residence": MessageLookupByLibrary.simpleMessage("Residence"),
         "room": MessageLookupByLibrary.simpleMessage("Living room"),
         "roomsNotSelected":
             MessageLookupByLibrary.simpleMessage("No selected rooms"),

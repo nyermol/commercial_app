@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class RoomsSelection extends StatelessWidget {
   const RoomsSelection({super.key});
 
+  // Демонстрация диалогового окна со списком помещений
   void _showRoomSelectionDialog(BuildContext context, List<String> roomNames) {
     final RoomCubit roomCubit = context.read<RoomCubit>();
     roomCubit.syncTempSelectedRooms(roomNames);
@@ -49,6 +50,7 @@ class RoomsSelection extends StatelessWidget {
                       fontSize: mainFontSize,
                     ),
                   ),
+                  // Если помещение выбрано, то показывается поле для указания количества
                   trailing: isSelected
                       ? SizedBox(
                           width: SizeConfig.screenWidth * 0.1,
@@ -83,6 +85,7 @@ class RoomsSelection extends StatelessWidget {
                           ),
                         )
                       : null,
+                  // При нажатии помещение становится выбранным
                   onTap: () {
                     setState(() {
                       roomCubit.toggleRoomSelection(room);
@@ -99,6 +102,7 @@ class RoomsSelection extends StatelessWidget {
           );
         },
       ),
+      // Сохранение выбранных помещений и их количества в локальное хранилище
       actions: <Widget>[
         TextButton(
           onPressed: () {
@@ -119,22 +123,11 @@ class RoomsSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> roomNames = <String>[
-      S.of(context).commercialSpace,
-      S.of(context).room,
-      S.of(context).kitchen,
-      S.of(context).kitchenLivingRoom,
-      S.of(context).hall,
-      S.of(context).balcony,
-      S.of(context).bath,
-      S.of(context).bathroom,
-      S.of(context).wardrobe,
-    ];
-
     return BlocBuilder<RoomCubit, Map<String, List<Room>>>(
       builder: (BuildContext context, Map<String, List<Room>> state) {
         final RoomCubit roomCubit = context.read<RoomCubit>();
         final List<Room> selectedRooms = roomCubit.selectedRooms;
+        // Изменение текста кнопки, если помещения были выбраны
         final String buttonText = roomCubit.hasSelectedRooms
             ? S.of(context).changeRoom
             : S.of(context).specifyRoom;
@@ -148,6 +141,7 @@ class RoomsSelection extends StatelessWidget {
                 onPressed: () => _showRoomSelectionDialog(context, roomNames),
               ),
             ),
+            // Отображение списка выбранных помещений с их количеством
             ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

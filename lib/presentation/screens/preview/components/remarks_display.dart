@@ -18,6 +18,7 @@ class RemarksDisplay extends StatefulWidget {
 }
 
 class _RemarksDisplayState extends State<RemarksDisplay> {
+  // Демонстрация диалогового окна с предпросмотром изображения
   Future<void> _showImagePreview(
     BuildContext context,
     Uint8List imageData,
@@ -27,7 +28,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
   ) async {
     return showCustomDialog(
       context: context,
-      title: '',
+      title: S.of(context).imagePreview,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -44,6 +45,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
               color: Colors.red,
             ),
           ),
+          // Удаление изображения из локального хранилища
           onPressed: () async {
             await context
                 .read<RemarksCubit>()
@@ -67,6 +69,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
     );
   }
 
+  // build-метод отображения списка замечаний
   Widget _buildCategoryList(
     List<Remark> items,
     String key,
@@ -91,6 +94,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
         ),
       );
     } else {
+      // Группирование замечаний в список с нумерацией
       for (int i = 0; i < items.length; i++) {
         Remark remark = items[i];
         String subtitle =
@@ -114,6 +118,7 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
         if (remark.images.isNotEmpty) {
           for (String image in remark.images) {
             childrenList.add(
+              // При нажатии появляется диалоговое окно с предпросмотром изображения
               GestureDetector(
                 onTap: () async {
                   final Box<Uint8List> imagesBox =

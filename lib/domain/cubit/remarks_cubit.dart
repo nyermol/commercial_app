@@ -25,6 +25,15 @@ class RemarksCubit extends Cubit<Map<String, List<Remark>>> {
     emit(<String, List<Remark>>{...state, key: dataList});
   }
 
+  void ensureDefaultValues(String key) {
+    final List<Remark> currentList = state[key] ?? [];
+    final List<Remark> updatedList = currentList.isEmpty
+        ? [Remark(title: '-', subtitle: '', gost: '', images: [])]
+        : currentList;
+
+    emit(<String, List<Remark>>{...state, key: updatedList});
+  }
+
   Future<void> loadDataList(String key) async {
     List<Remark> dataList = await loadDataListUsecase.call(key);
     emit(<String, List<Remark>>{...state, key: dataList});

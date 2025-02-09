@@ -17,15 +17,12 @@ class ClearCubit extends Cubit<void> {
     context.read<ButtonCubit>().emit({});
     context.read<RoomCubit>().emit({});
     context.read<ValidationCubit>().emit(<String, bool>{
+      'city_valid': true,
       'order_number_valid': true,
       'inspection_date_valid': true,
       'specialist_name_valid': true,
       'customer_name_valid': true,
-      'electricsItems_valid': true,
-      'geometryItems_valid': true,
-      'plumbingEquipmentItems_valid': true,
-      'windowsAndDoorsItems_valid': true,
-      'finishingItems_valid': true,
+      'residence_valid': true,
       'show_snackbar': false,
     });
   }

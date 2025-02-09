@@ -11,6 +11,7 @@ class ConvertAPI implements DocumentConverterRepository {
   @override
   Future<String?> convertDocxToPdf(List<int> docxBytes, String fileName) async {
     try {
+      // Кодирование DOCX файл в base64 и отправка запроса на создание задачи конвертации
       String base64Docx = base64Encode(docxBytes);
       final Uri jobUri = Uri.parse('https://api.cloudconvert.com/v2/jobs');
       final http.Response jobResponse = await http.post(
@@ -39,6 +40,7 @@ class ConvertAPI implements DocumentConverterRepository {
           },
         }),
       );
+      // Проверка статуса запроса и возврат результата
       if (jobResponse.statusCode != 201) {
         throw ApiError.fromStatusCode(jobResponse.statusCode);
       }
@@ -57,6 +59,7 @@ class ConvertAPI implements DocumentConverterRepository {
         Uri.parse('https://api.cloudconvert.com/v2/jobs/$jobId');
     while (true) {
       try {
+        // Проверка статуса задачи в API
         final http.Response jobStatusResponse = await http.get(
           jobStatusUri,
           headers: <String, String>{
@@ -69,6 +72,7 @@ class ConvertAPI implements DocumentConverterRepository {
         final Map<String, dynamic> jobData =
             json.decode(jobStatusResponse.body);
         final String jobStatus = jobData['data']['status'];
+        // Возврат URL результата, если задача завершена
         if (jobStatus == 'finished') {
           final List<dynamic> tasks = jobData['data']['tasks'];
           for (var task in tasks) {
@@ -79,6 +83,7 @@ class ConvertAPI implements DocumentConverterRepository {
         } else if (jobStatus == 'error') {
           throw ApiError(S.current.taskExecutionError, 500);
         }
+        // Ожидание повторной проверки статуса
         await Future.delayed(
           const Duration(
             seconds: 3,

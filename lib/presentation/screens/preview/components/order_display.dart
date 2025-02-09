@@ -28,6 +28,19 @@ class _OrderDisplayState extends State<OrderDisplay> {
             Row(
               children: <Widget>[
                 Text(
+                  S.of(context).city,
+                  style: mainLabelStyle,
+                ),
+                const Text(':'),
+                Text(
+                  ' ${state['city'] ?? S.of(context).notSpecified}',
+                  style: secondaryLabelStyle,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
                   S.of(context).orderNumber,
                   style: mainLabelStyle,
                 ),
@@ -73,6 +86,19 @@ class _OrderDisplayState extends State<OrderDisplay> {
                 const Text(':'),
                 Text(
                   ' ${state['customer_name'] ?? S.of(context).notSpecified}',
+                  style: secondaryLabelStyle,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  S.of(context).nameOfResidence,
+                  style: mainLabelStyle,
+                ),
+                const Text(':'),
+                Text(
+                  ' ${S.of(context).residence} ${state['residence'] ?? S.of(context).notSpecified}',
                   style: secondaryLabelStyle,
                 ),
               ],

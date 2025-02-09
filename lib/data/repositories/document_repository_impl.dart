@@ -21,17 +21,26 @@ class DocumentRepositoryImpl implements DocumentGeneratorRepository {
     Map<String, dynamic> buttonState,
   ) async {
     try {
+      // Загрузка шаблона документа DOCX
       final ByteData data =
           await rootBundle.load('assets/templates/shablon_akta.docx');
       final Uint8List bytes = data.buffer.asUint8List();
       final DocxTemplate docx = await DocxTemplate.fromBytes(bytes);
 
+      // Функция проверки значений
       String checkValue(dynamic value) {
         return (value == null || value == '') ? '0' : value.toString();
       }
 
+      // Создание контента для документа на основе введенных данных
       final Content content = Content();
       content
+        ..add(
+          TextContent(
+            'city',
+            dataState['city'] ?? S.current.notSpecified,
+          ),
+        )
         ..add(
           TextContent(
             'orderNumber',
@@ -54,6 +63,12 @@ class DocumentRepositoryImpl implements DocumentGeneratorRepository {
           TextContent(
             'customerName',
             dataState['customer_name'] ?? S.current.notSpecified,
+          ),
+        )
+        ..add(
+          TextContent(
+            'residence',
+            dataState['residence'] ?? S.current.notSpecified,
           ),
         )
         ..add(
@@ -153,6 +168,7 @@ class DocumentRepositoryImpl implements DocumentGeneratorRepository {
           ),
         );
 
+      // Обработка состояния кнопок
       buttonState.forEach((String key, value) {
         if (value == S.current.yes) {
           if (key == 'thermalImagingInspection') {
@@ -184,15 +200,18 @@ class DocumentRepositoryImpl implements DocumentGeneratorRepository {
           }
         }
       });
+      // Генерация документа и сохранение в БД Hive
       final List<int>? doc = await docx.generate(content);
       if (doc != null) {
         final String fileName =
             '№${dataState['order_number'] ?? S.current.notSpecified} (${dataState['inspection_date'] ?? S.current.notSpecified})';
         final Box<List<int>> documentsBox = Hive.box<List<int>>('documentsBox');
         await documentsBox.put(fileName, doc);
+        // Конвертация документа в PDF
         final String? result =
             await documentConverterRepository.convertDocxToPdf(doc, fileName);
 
+        // Инициализация скачивания готового документа
         if (result != null && result.startsWith('http')) {
           html.AnchorElement(href: result)
             ..setAttribute('download', '$fileName.pdf')
@@ -210,6 +229,7 @@ class DocumentRepositoryImpl implements DocumentGeneratorRepository {
     }
   }
 
+  // Создание контента для списка элементов
   Future<List<Content>> _createItemsContent(
     List<Remark>? items,
   ) async {
@@ -229,6 +249,7 @@ class DocumentRepositoryImpl implements DocumentGeneratorRepository {
         content.add(
           TextContent('gost', gostText),
         );
+        // Обработка изображений (при наличии)
         if ((item.images).isNotEmpty) {
           List<String> images = List<String>.from(item.images);
           List<Content> imageContents = await _createImageContents(images);
@@ -241,6 +262,7 @@ class DocumentRepositoryImpl implements DocumentGeneratorRepository {
     );
   }
 
+  // Создание контента для изображений
   Future<List<Content>> _createImageContents(List<String> images) async {
     return Future.wait(
       images.map((String imagePath) async {
