@@ -5,7 +5,9 @@
 
 Приложение Commercial App разработано для приемщиков квартир. Оно позволяет быстро и удобно внести данные по акту осмотра, фиксировать замечания при осмотре квартиры и прикреплять к ним фотографии.
 
-![Приложение Commercial App](assets/images_for_readme/evi_1.png)
+<p float="left">
+  <img src="assets/images_for_readme/evi_1.png" width="300" alt="Приложение Commercial App"/>
+</p>
 
 ## Особенности
 
@@ -62,20 +64,38 @@
 ## Функциональность приложения
 
 *Авторизация по логину и паролю*
-![Авторизация по логину и паролю](assets/images_for_readme/evi_3.png)
+
+<p float="left">
+  <img src="assets/images_for_readme/evi_3.png" width="300" alt="Авторизация по логину и паролю"/>
+</p>
 
 *Заполнение данных и валидация основных полей*
-![Заполнение данных и валидация основных полей](assets/images_for_readme/evi_5.png)
+
+<p float="left">
+  <img src="assets/images_for_readme/evi_5.png" width="300" alt="Заполнение данных и валидация основных полей"/>
+</p>
 
 *Заполнение недостатков из базы данных или вручную*
-![Заполнение недостатков из базы данных или вручную](assets/images_for_readme/evi_7.png)
-![Заполнение недостатков из базы данных или вручную](assets/images_for_readme/evi_7.png)
+
+<p float="left">
+  <img src="assets/images_for_readme/evi_7.png" width="300" alt="Заполнение недостатков из базы данных или вручную"/>
+  <img src="assets/images_for_readme/evi_6.png" width="300" alt="Заполнение недостатков из базы данных или вручную"/>
+</p>
 
 *Фиксация недостатков и просмотр фотографий*
-![Фиксация недостатков и просмотр фотографий](assets/images_for_readme/evi_8.png)
+
+<p float="left">
+  <img src="assets/images_for_readme/evi_8.png" width="300" alt="Фиксация недостатков и просмотр фотографий"/>
+</p>
 
 *Предпросмотр введенных данных перед формированием акта*
-![Предпросмотр введенных данных перед формированием акта](assets/images_for_readme/evi_9.png)
+
+<p float="left">
+  <img src="assets/images_for_readme/evi_9.png" width="300" alt="Предпросмотр введенных данных перед формированием акта"/>
+</p>
 
 *Формирование итогового акта осмотра*
-![Формирование итогового акта осмотра](assets/images_for_readme/evi_10.png)
+
+<p float="left">
+  <img src="assets/images_for_readme/evi_10.png" width="300" alt="Формирование итогового акта осмотра"/>
+</p>
