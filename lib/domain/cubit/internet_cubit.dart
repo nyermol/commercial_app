@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:commercial_app/data/enums/enums_export.dart';
 import 'package:commercial_app/data/models/models_export.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

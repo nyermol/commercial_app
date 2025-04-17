@@ -70,7 +70,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
         child: TextField(
           focusNode: _focusNode,
           controller: _controller,
-          cursorColor: const Color(0xFF24555E),
+          cursorColor: mainColor,
           style: const TextStyle(
             fontSize: mainFontSize,
           ),
@@ -84,7 +84,7 @@ class _MeasurementsTextFieldState extends State<MeasurementsTextField> {
             hintText: widget.hintText,
             labelStyle: TextStyle(
               fontSize: mainFontSize,
-              color: _focusNode.hasFocus ? const Color(0xFF24555E) : null,
+              color: _focusNode.hasFocus ? mainColor : null,
             ),
             hintTextDirection: TextDirection.rtl,
           ),

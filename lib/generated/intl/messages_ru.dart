@@ -33,28 +33,25 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Скорость воздушного потока"),
         "ammoniaLevel": MessageLookupByLibrary.simpleMessage("Уровень аммиака"),
         "ammoniaSI": MessageLookupByLibrary.simpleMessage("мг/м3"),
+        "androidDisplayAbstract": MessageLookupByLibrary.simpleMessage(
+            "Для Android - появится уведомление об успешной загрузке файла. \'\n\'Сам документ расположен в Мои файлы (Файлы) - Загрузки."),
         "authorization": MessageLookupByLibrary.simpleMessage("Авторизация"),
-        "badRequestError": MessageLookupByLibrary.simpleMessage(
-            "Некорректный запрос. Проверьте параметры."),
-        "balcony": MessageLookupByLibrary.simpleMessage("Балкон/лоджия"),
-        "bath": MessageLookupByLibrary.simpleMessage("Сан. узел"),
+        "back": MessageLookupByLibrary.simpleMessage("Назад"),
         "bath1": MessageLookupByLibrary.simpleMessage("В с/у №1"),
         "bath2": MessageLookupByLibrary.simpleMessage("В с/у №2"),
         "bath3": MessageLookupByLibrary.simpleMessage("В с/у №3"),
-        "bathroom": MessageLookupByLibrary.simpleMessage("Ванная"),
         "cancel": MessageLookupByLibrary.simpleMessage("Отменить"),
         "changeRoom":
-            MessageLookupByLibrary.simpleMessage("Изменить помещения"),
+            MessageLookupByLibrary.simpleMessage("Изменить выбор помещения"),
+        "chooseAction":
+            MessageLookupByLibrary.simpleMessage("Выберите действие"),
         "chooseCity": MessageLookupByLibrary.simpleMessage("Выберите город"),
+        "chooseDisplayDocument": MessageLookupByLibrary.simpleMessage(
+            "Выберите способ отображения документа"),
         "city": MessageLookupByLibrary.simpleMessage("Город"),
         "clearTheData": MessageLookupByLibrary.simpleMessage("Очистить"),
         "clearTheDataAndStartOver":
             MessageLookupByLibrary.simpleMessage("Очистить данные?"),
-        "close": MessageLookupByLibrary.simpleMessage("Закрыть"),
-        "commercialSpace":
-            MessageLookupByLibrary.simpleMessage("Ком. помещение"),
-        "conversionError":
-            MessageLookupByLibrary.simpleMessage("Ошибка при конвертации"),
         "customerName": MessageLookupByLibrary.simpleMessage("ФИО заказчика"),
         "customerNameEnter":
             MessageLookupByLibrary.simpleMessage("Введите ФИО заказчика"),
@@ -63,28 +60,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataClearedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Вы успешно очистили данные"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
+        "documentOpenWindowAbstract": MessageLookupByLibrary.simpleMessage(
+            "Документ будет открыт в новом окне"),
+        "downloadDocument":
+            MessageLookupByLibrary.simpleMessage("Скачать документ"),
         "electricsItems": MessageLookupByLibrary.simpleMessage("Электрика"),
         "electromagneticFieldLevel":
             MessageLookupByLibrary.simpleMessage("Уровень э/м поля"),
         "electromagneticFieldSI": MessageLookupByLibrary.simpleMessage("мкТл"),
         "entry": MessageLookupByLibrary.simpleMessage("Войти"),
-        "errorLoginAndPasswordCheck": MessageLookupByLibrary.simpleMessage(
-            "Ошибка при проверке логина и пароля"),
+        "errorDocumentGeneration": MessageLookupByLibrary.simpleMessage(
+            "Ошибка при генерации документа"),
+        "externalDisplayAbstract": MessageLookupByLibrary.simpleMessage(
+            "Если произошли проблемы с генерацией PDF документа, \'\n\'то попробуйте открыть документ в новом окне."),
         "finishingItems": MessageLookupByLibrary.simpleMessage("Отделка"),
-        "forbiddenError":
-            MessageLookupByLibrary.simpleMessage("Доступ запрещён."),
         "geometryItems": MessageLookupByLibrary.simpleMessage("Геометрия"),
-        "hall": MessageLookupByLibrary.simpleMessage("Коридор"),
         "imagePreview":
             MessageLookupByLibrary.simpleMessage("Предпросмотр изображения"),
         "inspectionDate": MessageLookupByLibrary.simpleMessage("Дата осмотра"),
         "inspectionDateEnter":
             MessageLookupByLibrary.simpleMessage("Введите дату осмотра"),
-        "internalServerError": MessageLookupByLibrary.simpleMessage(
-            "Внутренняя ошибка сервера. Повторите попытку позже."),
-        "kitchen": MessageLookupByLibrary.simpleMessage("Кухня"),
-        "kitchenLivingRoom":
-            MessageLookupByLibrary.simpleMessage("Кухня-гостиная"),
+        "iosDisplayAbstract": MessageLookupByLibrary.simpleMessage(
+            "Для IOS - документ будет открыт в новом окне. \'\n\'Сохранить документ на устройство можно через кнопку \"Поделиться\"."),
         "leave": MessageLookupByLibrary.simpleMessage("Оставить"),
         "listEmpty": MessageLookupByLibrary.simpleMessage("Список пуст"),
         "listLength": MessageLookupByLibrary.simpleMessage(
@@ -106,10 +103,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "no": MessageLookupByLibrary.simpleMessage("Нет"),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "Отсутствует интернет-соединение"),
-        "notFoundError":
-            MessageLookupByLibrary.simpleMessage("Ресурс не найден."),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Не указано"),
         "ok": MessageLookupByLibrary.simpleMessage("Oк"),
+        "openDocumentWindow": MessageLookupByLibrary.simpleMessage(
+            "Открыть в новом окне браузера"),
         "options": MessageLookupByLibrary.simpleMessage("Опции"),
         "order": MessageLookupByLibrary.simpleMessage("Заказ"),
         "orderMainInf": MessageLookupByLibrary.simpleMessage(
@@ -125,10 +122,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordLabelText": MessageLookupByLibrary.simpleMessage("Пароль"),
         "passwordTooShort":
             MessageLookupByLibrary.simpleMessage("Пароль слишком короткий"),
-        "paymentRequiredError": MessageLookupByLibrary.simpleMessage(
-            "У вас закончились бесплатные конвертации."),
+        "pdfSuccessfullyOpened": MessageLookupByLibrary.simpleMessage(
+            "PDF документ успешно сформирован!"),
+        "phoneScreenAlert": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, откройте приложение по ссылке на смартфоне в \'\n          \'портретной ориентации"),
+        "photoPreviewForRemark": MessageLookupByLibrary.simpleMessage(
+            "Предпросмотр изображений к недостатку"),
         "photoWait": MessageLookupByLibrary.simpleMessage(
             "Фотография сохраняется. Пожалуйста, подождите."),
+        "photosNotAdded":
+            MessageLookupByLibrary.simpleMessage("Фотографии не добавлены"),
         "plumbingEquipmentItems":
             MessageLookupByLibrary.simpleMessage("Сантехника"),
         "preview": MessageLookupByLibrary.simpleMessage("Предпросмотр акта"),
@@ -137,12 +140,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Уровень радиации"),
         "radiationSI": MessageLookupByLibrary.simpleMessage("мк3в/ч"),
         "remarks": MessageLookupByLibrary.simpleMessage("Недостатки"),
-        "remarksEdit":
-            MessageLookupByLibrary.simpleMessage("Редактировать недостаток"),
+        "remarksEdit": MessageLookupByLibrary.simpleMessage(
+            "Редактировать содержание недостатка"),
         "remarksList":
             MessageLookupByLibrary.simpleMessage("Список недостатков"),
         "remarksNotFound":
-            MessageLookupByLibrary.simpleMessage("Замечания не найдены"),
+            MessageLookupByLibrary.simpleMessage("Недостатки не найдены"),
         "removeRemark": MessageLookupByLibrary.simpleMessage(
             "Вы действительно хотите удалить этот недостаток?"),
         "requiredAllField": MessageLookupByLibrary.simpleMessage(
@@ -150,37 +153,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "requiredField":
             MessageLookupByLibrary.simpleMessage("Обязательное поле"),
         "residence": MessageLookupByLibrary.simpleMessage("ЖК"),
-        "room": MessageLookupByLibrary.simpleMessage("Комната"),
         "roomsNotSelected":
             MessageLookupByLibrary.simpleMessage("Помещения не выбраны"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
-        "saveDocx": MessageLookupByLibrary.simpleMessage("Сохранить docx"),
         "selectRoom":
             MessageLookupByLibrary.simpleMessage("Выберите помещения"),
-        "serviceUnavailableError":
-            MessageLookupByLibrary.simpleMessage("Сервис временно недоступен."),
         "specialistName":
             MessageLookupByLibrary.simpleMessage("ФИО специалиста"),
         "specialistNameEnter":
             MessageLookupByLibrary.simpleMessage("Введите ФИО специалиста"),
         "specifyRoom":
             MessageLookupByLibrary.simpleMessage("Выбрать помещения"),
-        "taskExecutionError":
-            MessageLookupByLibrary.simpleMessage("Ошибка выполнения задания"),
         "thermalImagingConclusion": MessageLookupByLibrary.simpleMessage(
             "Требуется ли заключение по тепловизионному просмотру?"),
         "thermalImagingInspection": MessageLookupByLibrary.simpleMessage(
             "Проводился ли тепловизионный осмотр?"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Попробовать снова"),
-        "unauthorizedError": MessageLookupByLibrary.simpleMessage(
-            "Ошибка авторизации. Проверьте API ключ."),
         "underfloorHeating": MessageLookupByLibrary.simpleMessage(
             "Проводилась ли проверка теплого пола тепловизором?"),
-        "unknownError":
-            MessageLookupByLibrary.simpleMessage("Неизвестная ошибка"),
-        "unknownErrorOccurred": MessageLookupByLibrary.simpleMessage(
-            "Произошла неизвестная ошибка (код: \$statusCode)."),
-        "wardrobe": MessageLookupByLibrary.simpleMessage("Гардеробная"),
         "welcomeBack":
             MessageLookupByLibrary.simpleMessage("Добро пожаловать!"),
         "welcomeBackInf": MessageLookupByLibrary.simpleMessage(

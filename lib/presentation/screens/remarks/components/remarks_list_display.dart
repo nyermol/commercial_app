@@ -52,8 +52,8 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
                 children: <Widget>[
                   Text(
                     item.subtitle,
-                    style: const TextStyle(
-                      color: Color(0xFF24555E),
+                    style: TextStyle(
+                      color: mainColor,
                       fontSize: remarksFontSize,
                     ),
                   ),
@@ -63,6 +63,7 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
                         basename(path),
                         style: const TextStyle(
                           fontSize: remarksFontSize,
+                          color: Colors.grey,
                         ),
                       ),
                     ),

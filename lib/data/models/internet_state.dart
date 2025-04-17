@@ -1,9 +1,4 @@
-// Статусы интернет-соединения
-enum InternetTypes {
-  connected,
-  offline,
-  unknown,
-}
+import 'package:commercial_app/data/enums/enums_export.dart';
 
 class InternetState {
   final InternetTypes type;

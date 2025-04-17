@@ -22,7 +22,5 @@ class ClearLocalDatasourceImpl implements ClearLocalDatasource {
     await roomsBox.clear();
     final Box<Uint8List> imagesBox = Hive.box<Uint8List>('imagesBox');
     await imagesBox.clear();
-    final Box<List<int>> documentsBox = Hive.box<List<int>>('documentsBox');
-    await documentsBox.clear();
   }
 }

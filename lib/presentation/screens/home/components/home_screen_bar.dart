@@ -18,14 +18,19 @@ class HomeScreenBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF24555E),
+      color: mainColor,
       child: Padding(
-        padding: const EdgeInsets.all(primaryPadding),
+        padding: const EdgeInsets.fromLTRB(
+          primaryPadding,
+          primaryPadding,
+          primaryPadding,
+          primaryPadding * 2,
+        ),
         child: GNav(
-          backgroundColor: const Color(0xFF24555E),
+          backgroundColor: mainColor,
           color: Colors.white,
           activeColor: Colors.white,
-          tabBackgroundColor: const Color(0xFF3C676F),
+          tabBackgroundColor: secondColor,
           gap: basePadding,
           padding: const EdgeInsets.all(allPadding),
           textStyle: const TextStyle(

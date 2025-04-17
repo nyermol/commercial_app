@@ -21,8 +21,6 @@ dependencies:
   hive_flutter: ^1.1.0
   google_nav_bar: ^5.0.6
   path: ^1.9.0
-  docx_template:
-    path: /Users/nikitaermolaev/StudioProjects/commercial_app/docx_template
   image: ^4.1.7
   flutter_typeahead: ^4.8.0
   http: ^1.2.1
@@ -32,6 +30,7 @@ dependencies:
   get_it: ^7.7.0
   flutter_lints: ^4.0.0
   connectivity_plus: ^3.0.2
+  pdf: ^3.11.2
   nested: any
 
 dev_dependencies:
@@ -43,13 +42,38 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/templates/shablon_akta.docx
-    - assets/gif/gifka.gif
+    - assets/images/evi_logo.png
+    - assets/images/small_divider.png
+    - assets/images/divider.png
+    - assets/images/document_0591_R.png
+    - assets/images/document_1951_V.png
+    - assets/images/document_0590_R.png
+    - assets/images/erik_diplom.png
+    - assets/images/viktor_diplom.png
+    - assets/images/erik_assertment.png
+    - assets/images/viktor_assertment.png
+    - assets/images/ooo_document.png
+    - assets/images/qr-code.png
+    - assets/images_for_readme/evi_1.png
+    - assets/images_for_readme/evi_3.png
+    - assets/images_for_readme/evi_5.png
+    - assets/images_for_readme/evi_6.png
+    - assets/images_for_readme/evi_7.png
+    - assets/images_for_readme/evi_8.png
+    - assets/images_for_readme/evi_9.png
+    - assets/images_for_readme/evi_10.png
     - assets/fonts/
   fonts:
     - family: Futura
       fonts:
         - asset: assets/fonts/futura-pt-book.ttf
+    - family: Arial
+      fonts:
+        - asset: assets/fonts/Arial-Regular.ttf
+        - asset: assets/fonts/Arial-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Arial-Italic.ttf
+          style: italic
 
 flutter_intl:
   enabled: true

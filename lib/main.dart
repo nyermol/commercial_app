@@ -24,7 +24,6 @@ Future<void> main() async {
   await Hive.openBox<Remark>('remarksBox');
   await Hive.openBox<Room>('roomsBox');
   await Hive.openBox<Uint8List>('imagesBox');
-  await Hive.openBox<List<int>>('documentsBox');
   // Инициализация зависимостей injection_container
   await init();
   final Connectivity connectivity = sl<Connectivity>();

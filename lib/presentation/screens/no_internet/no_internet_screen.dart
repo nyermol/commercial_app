@@ -19,7 +19,7 @@ class NoInternetScreen extends StatelessWidget {
             Icon(
               Icons.wifi_off,
               size: SizeConfig.screenHeight * 0.2,
-              color: const Color(0xFF24555E),
+              color: mainColor,
             ),
             SizedBox(
               height: SizeConfig.screenHeight * 0.1,

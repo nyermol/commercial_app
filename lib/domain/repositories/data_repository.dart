@@ -1,6 +1,3 @@
 abstract class DataRepository {
-  Future<void> saveText(
-    String key,
-    String text,
-  );
+  Future<void> saveText(String key, String text);
 }

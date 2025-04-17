@@ -7,102 +7,124 @@ import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/presentation/widgets/default_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RoomsSelection extends StatelessWidget {
   const RoomsSelection({super.key});
 
-  // Демонстрация диалогового окна со списком помещений
   void _showRoomSelectionDialog(BuildContext context, List<String> roomNames) {
     final RoomCubit roomCubit = context.read<RoomCubit>();
     roomCubit.syncTempSelectedRooms(roomNames);
-    final Map<String, TextEditingController> controllers =
-        <String, TextEditingController>{};
-    for (Room room in roomCubit.tempSelectedRooms) {
-      controllers[room.name] = TextEditingController(
-        text: room.isSelected && room.quantity > 1
-            ? room.quantity.toString()
-            : '',
-      );
-    }
     showCustomDialog(
       context: context,
       title: S.of(context).selectRoom,
-      content: StatefulBuilder(
-        builder: (context, setState) {
-          return SizedBox(
-            width: double.maxFinite,
-            child: ListView.builder(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              itemCount: roomNames.length,
-              itemBuilder: (BuildContext context, int index) {
-                final String roomName = roomNames[index];
-                final Room room = roomCubit.tempSelectedRooms.firstWhere(
-                  (Room r) => r.name == roomName,
-                  orElse: () => Room(name: roomName),
-                );
-                final bool isSelected = room.isSelected;
-                return ListTile(
-                  title: Text(
-                    room.name,
-                    style: const TextStyle(
-                      fontSize: mainFontSize,
+      content: SingleChildScrollView(
+        child: StatefulBuilder(
+          builder: (context, setState) {
+            return SizedBox(
+              width: double.maxFinite,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: roomNames.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final String roomName = roomNames[index];
+                  final Room room = roomCubit.tempSelectedRooms.firstWhere(
+                    (Room r) => r.name == roomName,
+                    orElse: () => Room(name: roomName),
+                  );
+                  final bool isSelected = room.isSelected;
+                  return ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      room.name,
+                      style: const TextStyle(
+                        fontSize: textFontSize,
+                      ),
                     ),
-                  ),
-                  // Если помещение выбрано, то показывается поле для указания количества
-                  trailing: isSelected
-                      ? SizedBox(
-                          width: SizeConfig.screenWidth * 0.1,
-                          child: TextField(
-                            controller: controllers[roomName],
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(2),
-                            ],
-                            decoration: const InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF24555E),
+                    trailing: isSelected
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Ink(
+                                decoration: ShapeDecoration(
+                                  color: Colors.grey[700],
+                                  shape: const CircleBorder(),
+                                ),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.remove,
+                                    color: room.quantity > 1
+                                        ? mainColor
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: room.quantity > 1
+                                      ? () {
+                                          setState(() {
+                                            roomCubit.updateRoomQuantity(
+                                              room,
+                                              room.quantity - 1,
+                                            );
+                                          });
+                                        }
+                                      : null,
                                 ),
                               ),
-                            ),
-                            cursorColor: const Color(0xFF24555E),
-                            style: const TextStyle(
-                              fontSize: mainFontSize,
-                            ),
-                            onChanged: (String value) {
-                              final int? quantity = int.tryParse(value);
-                              setState(() {
-                                roomCubit.updateRoomQuantity(
-                                  room,
-                                  quantity ?? 1,
-                                );
-                              });
-                            },
-                          ),
-                        )
-                      : null,
-                  // При нажатии помещение становится выбранным
-                  onTap: () {
-                    setState(() {
-                      roomCubit.toggleRoomSelection(room);
-                      if (!room.isSelected) {
-                        controllers[roomName]?.clear();
-                      }
-                    });
-                  },
-                  selected: isSelected,
-                  selectedColor: const Color(0xFF24555E),
-                );
-              },
-            ),
-          );
-        },
+                              Padding(
+                                padding: getHorizontalPadding(context, 0.05),
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: SizeConfig.screenWidth * 0.05,
+                                  ),
+                                  child: Text(
+                                    room.quantity.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: textFontSize,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Ink(
+                                decoration: ShapeDecoration(
+                                  color: Colors.grey[700],
+                                  shape: const CircleBorder(),
+                                ),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: mainColor,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      roomCubit.updateRoomQuantity(
+                                        room,
+                                        room.quantity + 1,
+                                      );
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          )
+                        : null,
+                    onTap: () {
+                      setState(() {
+                        roomCubit.toggleRoomSelection(room);
+                        if (room.isSelected && room.quantity < 1) {
+                          roomCubit.updateRoomQuantity(room, 1);
+                        }
+                      });
+                    },
+                    selected: isSelected,
+                    selectedColor: mainColor,
+                  );
+                },
+              ),
+            );
+          },
+        ),
       ),
-      // Сохранение выбранных помещений и их количества в локальное хранилище
       actions: <Widget>[
         TextButton(
           onPressed: () {
@@ -111,9 +133,9 @@ class RoomsSelection extends StatelessWidget {
           },
           child: Text(
             S.of(context).save,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: mainFontSize,
-              color: Color(0xFF24555E),
+              color: mainColor,
             ),
           ),
         ),
@@ -127,7 +149,6 @@ class RoomsSelection extends StatelessWidget {
       builder: (BuildContext context, Map<String, List<Room>> state) {
         final RoomCubit roomCubit = context.read<RoomCubit>();
         final List<Room> selectedRooms = roomCubit.selectedRooms;
-        // Изменение текста кнопки, если помещения были выбраны
         final String buttonText = roomCubit.hasSelectedRooms
             ? S.of(context).changeRoom
             : S.of(context).specifyRoom;
@@ -135,13 +156,12 @@ class RoomsSelection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              width: SizeConfig.screenWidth * 0.7,
+              width: SizeConfig.screenWidth * 0.8,
               child: DefaultButton(
                 text: buttonText,
                 onPressed: () => _showRoomSelectionDialog(context, roomNames),
               ),
             ),
-            // Отображение списка выбранных помещений с их количеством
             ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -149,8 +169,8 @@ class RoomsSelection extends StatelessWidget {
                 return ListTile(
                   title: Text(
                     room.name,
-                    style: const TextStyle(
-                      color: Color(0xFF24555E),
+                    style: TextStyle(
+                      color: mainColor,
                       fontSize: textFontSize,
                     ),
                   ),

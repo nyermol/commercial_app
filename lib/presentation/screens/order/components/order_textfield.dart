@@ -141,8 +141,8 @@ class _OrderTextFieldState extends State<OrderTextField> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: Theme.of(context).colorScheme.copyWith(
-                  primary: const Color(0xFF24555E),
-                  secondary: const Color(0xFF24555E),
+                  primary: mainColor,
+                  secondary: mainColor,
                 ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
@@ -176,7 +176,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
         margin: getContainerMargin(context, 0.02),
         child: TextField(
           focusNode: _focusNode,
-          cursorColor: const Color(0xFF24555E),
+          cursorColor: mainColor,
           style: const TextStyle(
             fontSize: mainFontSize,
           ),
@@ -193,7 +193,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
               color: showError
                   ? Colors.red
                   : _focusNode.hasFocus
-                      ? const Color(0xFF24555E)
+                      ? mainColor
                       : null,
             ),
             errorText: showError ? S.of(context).requiredField : null,

@@ -1,3 +1,4 @@
+import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -5,7 +6,7 @@ import 'package:flutter/services.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
-      primaryColor: const Color(0xFF24555E),
+      primaryColor: mainColor,
       textTheme: ThemeData.light().textTheme.apply(
             fontFamily: 'Futura',
           ),
@@ -14,7 +15,7 @@ class AppTheme {
 
   static ThemeData get darkTheme {
     return ThemeData.dark().copyWith(
-      primaryColor: const Color(0xFF24555E),
+      primaryColor: mainColor,
       textTheme: ThemeData.dark().textTheme.apply(
             fontFamily: 'Futura',
           ),

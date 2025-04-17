@@ -2,21 +2,21 @@ import 'package:commercial_app/core/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
 // Стиль поля ввода текста
-const InputDecoration baseInputDecoration = InputDecoration(
-  border: OutlineInputBorder(
+InputDecoration baseInputDecoration = InputDecoration(
+  border: const OutlineInputBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(15),
     ),
   ),
-  hintStyle: TextStyle(
+  hintStyle: const TextStyle(
     fontSize: mainFontSize,
   ),
   floatingLabelBehavior: FloatingLabelBehavior.always,
   focusedBorder: OutlineInputBorder(
     borderSide: BorderSide(
-      color: Color(0xFF24555E),
+      color: mainColor,
     ),
-    borderRadius: BorderRadius.all(
+    borderRadius: const BorderRadius.all(
       Radius.circular(15),
     ),
   ),

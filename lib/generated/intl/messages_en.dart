@@ -32,27 +32,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "airflowSpeed": MessageLookupByLibrary.simpleMessage("Airflow speed"),
         "ammoniaLevel": MessageLookupByLibrary.simpleMessage("Ammonia level"),
         "ammoniaSI": MessageLookupByLibrary.simpleMessage("mg/m3"),
+        "androidDisplayAbstract": MessageLookupByLibrary.simpleMessage(
+            "For Android, a notification about the successful download of the file will appear. \'\n\'The document will be located in Files - Download."),
         "authorization": MessageLookupByLibrary.simpleMessage("Auth"),
-        "badRequestError": MessageLookupByLibrary.simpleMessage(
-            "Incorrect request. Check the parameters."),
-        "balcony": MessageLookupByLibrary.simpleMessage("Balcony"),
-        "bath": MessageLookupByLibrary.simpleMessage("Bath"),
+        "back": MessageLookupByLibrary.simpleMessage("Back"),
         "bath1": MessageLookupByLibrary.simpleMessage("Bath №1"),
         "bath2": MessageLookupByLibrary.simpleMessage("Bath №2"),
         "bath3": MessageLookupByLibrary.simpleMessage("Bath №3"),
-        "bathroom": MessageLookupByLibrary.simpleMessage("Bathroom"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "changeRoom": MessageLookupByLibrary.simpleMessage("Change the rooms"),
+        "changeRoom":
+            MessageLookupByLibrary.simpleMessage("Change the room selection"),
+        "chooseAction":
+            MessageLookupByLibrary.simpleMessage("Choose an action"),
         "chooseCity": MessageLookupByLibrary.simpleMessage("Choose your city"),
+        "chooseDisplayDocument": MessageLookupByLibrary.simpleMessage(
+            "Choose the way to display the document"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
         "clearTheData": MessageLookupByLibrary.simpleMessage("Clear"),
         "clearTheDataAndStartOver":
             MessageLookupByLibrary.simpleMessage("Clear the data?"),
-        "close": MessageLookupByLibrary.simpleMessage("Close"),
-        "commercialSpace":
-            MessageLookupByLibrary.simpleMessage("Commercial space"),
-        "conversionError":
-            MessageLookupByLibrary.simpleMessage("Conversion error"),
         "customerName": MessageLookupByLibrary.simpleMessage("Customer name"),
         "customerNameEnter":
             MessageLookupByLibrary.simpleMessage("Enter customer name"),
@@ -61,28 +59,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataClearedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Data was cleared successfully"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "documentOpenWindowAbstract": MessageLookupByLibrary.simpleMessage(
+            "The document will be opened in a new window"),
+        "downloadDocument":
+            MessageLookupByLibrary.simpleMessage("Download the document"),
         "electricsItems": MessageLookupByLibrary.simpleMessage("Electrical"),
         "electromagneticFieldLevel":
             MessageLookupByLibrary.simpleMessage("EM field level"),
         "electromagneticFieldSI": MessageLookupByLibrary.simpleMessage("μT"),
         "entry": MessageLookupByLibrary.simpleMessage("Sign in"),
-        "errorLoginAndPasswordCheck": MessageLookupByLibrary.simpleMessage(
-            "Error login and password check"),
+        "errorDocumentGeneration":
+            MessageLookupByLibrary.simpleMessage("Document generation error"),
+        "externalDisplayAbstract": MessageLookupByLibrary.simpleMessage(
+            "If you have problems with generating a PDF, \'\n\'try to open the document in a new window."),
         "finishingItems": MessageLookupByLibrary.simpleMessage("Finish"),
-        "forbiddenError":
-            MessageLookupByLibrary.simpleMessage("Access is prohibited."),
         "geometryItems": MessageLookupByLibrary.simpleMessage("Geometry"),
-        "hall": MessageLookupByLibrary.simpleMessage("Hall"),
         "imagePreview": MessageLookupByLibrary.simpleMessage("Image preview"),
         "inspectionDate":
             MessageLookupByLibrary.simpleMessage("Inspection date"),
         "inspectionDateEnter":
             MessageLookupByLibrary.simpleMessage("Enter inspection date"),
-        "internalServerError": MessageLookupByLibrary.simpleMessage(
-            "Internal server error. Try again later."),
-        "kitchen": MessageLookupByLibrary.simpleMessage("Kitchen"),
-        "kitchenLivingRoom":
-            MessageLookupByLibrary.simpleMessage("Kitchen-living room"),
+        "iosDisplayAbstract": MessageLookupByLibrary.simpleMessage(
+            "For IOS, the document will be opened in a new winwow. \'\n\'You can save the document to the device using button \"Share\"."),
         "leave": MessageLookupByLibrary.simpleMessage("Leave"),
         "listEmpty": MessageLookupByLibrary.simpleMessage("List is empty"),
         "listLength": MessageLookupByLibrary.simpleMessage(
@@ -104,10 +102,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("No internet connection"),
-        "notFoundError":
-            MessageLookupByLibrary.simpleMessage("Resource not found."),
         "notSpecified": MessageLookupByLibrary.simpleMessage("Not specified"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
+        "openDocumentWindow": MessageLookupByLibrary.simpleMessage(
+            "Open in a new browser window"),
         "options": MessageLookupByLibrary.simpleMessage("Options"),
         "order": MessageLookupByLibrary.simpleMessage("Order"),
         "orderMainInf": MessageLookupByLibrary.simpleMessage(
@@ -123,10 +121,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordLabelText": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordTooShort":
             MessageLookupByLibrary.simpleMessage("Password is too short"),
-        "paymentRequiredError": MessageLookupByLibrary.simpleMessage(
-            "You have run out of free conversions."),
+        "pdfSuccessfullyOpened": MessageLookupByLibrary.simpleMessage(
+            "PDF document is successfully generated!"),
+        "phoneScreenAlert": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, откройте приложение по ссылке на смартфоне в \'\n          \'портретной ориентации"),
+        "photoPreviewForRemark": MessageLookupByLibrary.simpleMessage(
+            "Preview of images for a remark"),
         "photoWait": MessageLookupByLibrary.simpleMessage(
             "The photo is being uploaded. Please wait."),
+        "photosNotAdded":
+            MessageLookupByLibrary.simpleMessage("Photos are not added"),
         "plumbingEquipmentItems":
             MessageLookupByLibrary.simpleMessage("Plumbing"),
         "preview": MessageLookupByLibrary.simpleMessage("Act preview"),
@@ -148,34 +152,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "requiredField":
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "residence": MessageLookupByLibrary.simpleMessage("Residence"),
-        "room": MessageLookupByLibrary.simpleMessage("Living room"),
         "roomsNotSelected":
             MessageLookupByLibrary.simpleMessage("No selected rooms"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "saveDocx": MessageLookupByLibrary.simpleMessage("Save to docx"),
         "selectRoom": MessageLookupByLibrary.simpleMessage("Select the rooms"),
-        "serviceUnavailableError": MessageLookupByLibrary.simpleMessage(
-            "The service is temporarily unavailable."),
         "specialistName":
             MessageLookupByLibrary.simpleMessage("Specialist name"),
         "specialistNameEnter":
             MessageLookupByLibrary.simpleMessage("Enter specialist name"),
         "specifyRoom": MessageLookupByLibrary.simpleMessage("Сhoose the rooms"),
-        "taskExecutionError":
-            MessageLookupByLibrary.simpleMessage("Task execution error"),
         "thermalImagingConclusion": MessageLookupByLibrary.simpleMessage(
             "Is a thermal imaging inspection report required?"),
         "thermalImagingInspection": MessageLookupByLibrary.simpleMessage(
             "Was there a thermal imaging inspection?"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try again"),
-        "unauthorizedError": MessageLookupByLibrary.simpleMessage(
-            "Authorization error. Check the API key."),
         "underfloorHeating": MessageLookupByLibrary.simpleMessage(
             "Was the underfloor heating checked with a thermal imager?"),
-        "unknownError": MessageLookupByLibrary.simpleMessage("Unknown error"),
-        "unknownErrorOccurred": MessageLookupByLibrary.simpleMessage(
-            "An unknown error occurred (code: \$statusCode)."),
-        "wardrobe": MessageLookupByLibrary.simpleMessage("Wardrobe"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back!"),
         "welcomeBackInf": MessageLookupByLibrary.simpleMessage(
             "To sign in enter your login and password"),

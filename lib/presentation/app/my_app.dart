@@ -1,11 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, always_specify_types
 
+import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
+import 'package:commercial_app/data/enums/enums_export.dart';
 import 'package:commercial_app/data/models/models_export.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/injection_container.dart';
 import 'package:commercial_app/presentation/screens/no_internet/no_internet_screen.dart';
+import 'package:commercial_app/presentation/screens/phone_screen_alert/phone_screen_alert.dart';
 import 'package:commercial_app/presentation/screens/sign_in/sign_in_screen.dart';
 import 'package:commercial_app/presentation/theme/app_theme.dart';
 import 'package:commercial_app/presentation/widgets/snack_bar.dart';
@@ -37,6 +40,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // Инициализация проверки размеров экрана устройства
     SizeConfig().init(context);
+    final double screenWidth = SizeConfig.screenWidth;
+    final Orientation orientation = SizeConfig.orientation;
+    const double phoneMaxWidth = 600;
     // Получение системной темы
     final Brightness brightness = MediaQuery.of(context).platformBrightness;
     SystemChrome.setSystemUIOverlayStyle(
@@ -89,6 +95,11 @@ class _MyAppState extends State<MyApp> {
           darkTheme: AppTheme.darkTheme,
           navigatorKey: navigatorKey,
           builder: (BuildContext context, Widget? child) {
+            // Проверка, чтобы приложение открылось только на смартфоне с портретной ориентацией
+            if (orientation != Orientation.portrait ||
+                screenWidth > phoneMaxWidth) {
+              return const PhoneScreenAlert();
+            }
             // Очистка локальных хранилищ при инициализации
             if (!_clearDataCalled) {
               _clearDataCalled = true;
@@ -115,7 +126,7 @@ class _MyAppState extends State<MyApp> {
                   // Возможность очистить все данные при потере интернет-соединения
                   SnackBarAction action = SnackBarAction(
                     label: S.of(context).clearTheData,
-                    textColor: const Color(0xFF24555E),
+                    textColor: mainColor,
                     onPressed: () async {
                       try {
                         final SharedPreferences prefs =

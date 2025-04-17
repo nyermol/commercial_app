@@ -6,9 +6,7 @@ import 'package:commercial_app/data/models/models_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 
 class RemarksDisplay extends StatefulWidget {
   const RemarksDisplay({super.key});
@@ -18,58 +16,16 @@ class RemarksDisplay extends StatefulWidget {
 }
 
 class _RemarksDisplayState extends State<RemarksDisplay> {
-  // Демонстрация диалогового окна с предпросмотром изображения
-  Future<void> _showImagePreview(
+  // Открытие диалога просмотра изображений при долгом нажатии
+  Future<void> _showImagesGridDialog(
     BuildContext context,
-    Uint8List imageData,
-    String imageName,
     String key,
-    int itemIndex,
+    int index,
   ) async {
-    return showCustomDialog(
-      context: context,
-      title: S.of(context).imagePreview,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Image.memory(imageData),
-          Text(imageName),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          child: Text(
-            S.of(context).delete,
-            style: const TextStyle(
-              fontSize: mainFontSize,
-              color: Colors.red,
-            ),
-          ),
-          // Удаление изображения из локального хранилища
-          onPressed: () async {
-            await context
-                .read<RemarksCubit>()
-                .removeImage(key, itemIndex, imageName);
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          child: Text(
-            S.of(context).leave,
-            style: const TextStyle(
-              fontSize: mainFontSize,
-              color: Color(0xFF24555E),
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
+    await PhotoGallery.showImagesGridDialog(context, key, index);
   }
 
-  // build-метод отображения списка замечаний
+  // Метод построения списка замечаний
   Widget _buildCategoryList(
     List<Remark> items,
     String key,
@@ -94,57 +50,32 @@ class _RemarksDisplayState extends State<RemarksDisplay> {
         ),
       );
     } else {
-      // Группирование замечаний в список с нумерацией
       for (int i = 0; i < items.length; i++) {
         Remark remark = items[i];
         String subtitle =
             remark.subtitle.isNotEmpty ? ' (${remark.subtitle})' : '';
         String displayText = '${i + 1}. ${remark.title}';
-        TextSpan subtitleSpan = TextSpan(
-          text: subtitle,
-          style: const TextStyle(
-            color: Color(0xFF24555E),
-          ),
-        );
-        List<Widget> childrenList = <Widget>[
-          Text.rich(
-            TextSpan(
-              text: displayText,
-              children: <InlineSpan>[subtitleSpan],
-              style: secondaryLabelStyle,
-            ),
-          ),
-        ];
-        if (remark.images.isNotEmpty) {
-          for (String image in remark.images) {
-            childrenList.add(
-              // При нажатии появляется диалоговое окно с предпросмотром изображения
-              GestureDetector(
-                onTap: () async {
-                  final Box<Uint8List> imagesBox =
-                      Hive.box<Uint8List>('imagesBox');
-                  Uint8List? imageData = imagesBox.get(image);
-                  if (imageData != null) {
-                    _showImagePreview(context, imageData, image, key, i);
-                  }
-                },
-                child: Text(
-                  image,
-                  style: const TextStyle(
-                    color: Color(0xFF24555E),
-                    fontSize: remarksFontSize,
-                    decoration: TextDecoration.underline,
-                    decorationColor: Color(0xFF24555E),
-                  ),
-                ),
-              ),
-            );
-          }
-        }
         children.add(
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: childrenList,
+          GestureDetector(
+            onLongPress: () {
+              if (remark.images.isNotEmpty) {
+                _showImagesGridDialog(context, key, i);
+              }
+            },
+            child: Text.rich(
+              TextSpan(
+                text: displayText,
+                children: <InlineSpan>[
+                  TextSpan(
+                    text: subtitle,
+                    style: TextStyle(
+                      color: mainColor,
+                    ),
+                  ),
+                ],
+                style: secondaryLabelStyle,
+              ),
+            ),
           ),
         );
       }

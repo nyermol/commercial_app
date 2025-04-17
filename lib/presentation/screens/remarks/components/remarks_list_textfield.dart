@@ -86,7 +86,7 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
               textFieldConfiguration: TextFieldConfiguration(
                 controller: widget.controller,
                 focusNode: _focusNode,
-                cursorColor: const Color(0xFF24555E),
+                cursorColor: mainColor,
                 style: const TextStyle(
                   fontSize: textFontSize,
                 ),
@@ -109,10 +109,14 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                   hintStyle: const TextStyle(
                     fontSize: textFontSize,
                   ),
-                  focusedBorder: const UnderlineInputBorder(
+                  focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xFF24555E),
+                      color: mainColor,
                     ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: widget.onAdd,
                   ),
                 ),
               ),
@@ -121,7 +125,36 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                 if (query.isEmpty) {
                   return <RemarkApi?>[];
                 }
-                return await RemarkData.getRemarkSuggestions(query);
+                try {
+                  return await RemarkData.getRemarkSuggestions(query);
+                } catch (e) {
+                  showCustomDialog(
+                    context: context,
+                    title: 'Ошибка при получении списка совпадений',
+                    content: Text(
+                      e.toString(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: mainFontSize,
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'ОК',
+                          style: TextStyle(
+                            fontSize: mainFontSize,
+                            color: mainColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                  return <RemarkApi?>[];
+                }
               },
               // Построение списка элементов поля совпадений
               itemBuilder: (BuildContext context, RemarkApi? suggestion) {
@@ -138,16 +171,16 @@ class _RemarksListTextFieldState extends State<RemarksListTextField> {
                       fontSize: remarksFontSize,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    textStyleHighlight: const TextStyle(
-                      color: Color(0xFF24555E),
+                    textStyleHighlight: TextStyle(
+                      color: mainColor,
                       fontSize: remarksFontSize,
                     ),
                   ),
                   subtitle: SubstringHighlight(
                     text: remark.gost ?? '',
                     term: widget.controller.text,
-                    textStyleHighlight: const TextStyle(
-                      color: Color(0xFF24555E),
+                    textStyleHighlight: TextStyle(
+                      color: mainColor,
                       fontSize: remarksFontSize,
                     ),
                     textStyle: const TextStyle(

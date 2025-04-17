@@ -1,5 +1,4 @@
 import 'package:commercial_app/data/datasources/local/local_database_export.dart';
-import 'package:commercial_app/data/datasources/remote/convert_api.dart';
 import 'package:commercial_app/data/datasources/remote/remarks_remote_datasource.dart';
 import 'package:commercial_app/data/repositories/data_repository_export.dart';
 import 'package:commercial_app/domain/repositories/domain_repositories_export.dart';
@@ -104,11 +103,6 @@ Future<void> init() async {
       clearCubit: sl(),
     ),
   );
-  sl.registerLazySingleton<GenerateDocumentUsecase>(
-    () => GenerateDocumentUsecase(
-      sl(),
-    ),
-  );
   sl.registerLazySingleton<DeleteRemarkUsecase>(
     () => DeleteRemarkUsecase(
       sl(),
@@ -140,14 +134,6 @@ Future<void> init() async {
     () => RoomRepositoryImpl(
       roomLocalDatasource: sl(),
     ),
-  );
-  sl.registerLazySingleton<DocumentGeneratorRepository>(
-    () => DocumentRepositoryImpl(
-      documentConverterRepository: sl(),
-    ),
-  );
-  sl.registerLazySingleton<DocumentConverterRepository>(
-    () => ConvertAPI(),
   );
 
   // Datasources

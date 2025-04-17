@@ -28,38 +28,12 @@ class _OrderDisplayState extends State<OrderDisplay> {
             Row(
               children: <Widget>[
                 Text(
-                  S.of(context).city,
-                  style: mainLabelStyle,
-                ),
-                const Text(':'),
-                Text(
-                  ' ${state['city'] ?? S.of(context).notSpecified}',
-                  style: secondaryLabelStyle,
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
                   S.of(context).orderNumber,
                   style: mainLabelStyle,
                 ),
                 const Text(':'),
                 Text(
                   ' ${state['order_number'] ?? S.of(context).notSpecified}',
-                  style: secondaryLabelStyle,
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  S.of(context).inspectionDate,
-                  style: mainLabelStyle,
-                ),
-                const Text(':'),
-                Text(
-                  ' ${state['inspection_date'] ?? S.of(context).notSpecified}',
                   style: secondaryLabelStyle,
                 ),
               ],
@@ -99,6 +73,32 @@ class _OrderDisplayState extends State<OrderDisplay> {
                 const Text(':'),
                 Text(
                   ' ${S.of(context).residence} ${state['residence'] ?? S.of(context).notSpecified}',
+                  style: secondaryLabelStyle,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  S.of(context).inspectionDate,
+                  style: mainLabelStyle,
+                ),
+                const Text(':'),
+                Text(
+                  ' ${state['inspection_date'] ?? S.of(context).notSpecified}',
+                  style: secondaryLabelStyle,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  S.of(context).city,
+                  style: mainLabelStyle,
+                ),
+                const Text(':'),
+                Text(
+                  ' ${state['city'] ?? S.of(context).notSpecified}',
                   style: secondaryLabelStyle,
                 ),
               ],

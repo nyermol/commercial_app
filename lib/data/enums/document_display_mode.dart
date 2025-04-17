@@ -1,0 +1,4 @@
+enum DocumentDisplayMode {
+  download,
+  openNewWindow,
+}

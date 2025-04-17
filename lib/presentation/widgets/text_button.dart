@@ -1,3 +1,4 @@
+import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/domain/usecases/validation_usecase.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
@@ -98,9 +99,16 @@ class TextButtonWidget extends StatelessWidget {
             return child;
           },
         ),
-      );
+      ).then((_) {
+        // При возвращении с PreviewScreen очищаем дефолтные '-' значения
+        final RemarksCubit remarksCubit = context.read<RemarksCubit>();
+        remarksCubit.clearDefaultValues('electricsItems');
+        remarksCubit.clearDefaultValues('geometryItems');
+        remarksCubit.clearDefaultValues('plumbingEquipmentItems');
+        remarksCubit.clearDefaultValues('windowsAndDoorsItems');
+        remarksCubit.clearDefaultValues('finishingItems');
+      });
     } else {
-      // Если есть пустые поля, то показать сообщение с ошибкой
       context
           .read<ValidationCubit>()
           .updateFieldValidation('show_snackbar', true);
@@ -113,9 +121,9 @@ class TextButtonWidget extends StatelessWidget {
       onPressed: () => _validateAndNavigate(context),
       child: Text(
         S.of(context).previewButton,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 18,
-          color: Color(0xFF24555E),
+          color: mainColor,
         ),
       ),
     );

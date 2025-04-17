@@ -26,7 +26,6 @@ class RemarksList extends StatefulWidget {
 }
 
 class _RemarksListState extends State<RemarksList> {
-  final List<Remark> _itemsList = <Remark>[];
   final TextEditingController _listController = TextEditingController();
 
   // Инициализация значений
@@ -34,15 +33,7 @@ class _RemarksListState extends State<RemarksList> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final cubit = context.read<RemarksCubit>();
-      cubit.loadDataList(widget.itemsKey).then((_) {
-        if (!mounted) return;
-        setState(() {
-          final List<Remark> items = cubit.state[widget.itemsKey] ?? [];
-          _itemsList.clear();
-          _itemsList.addAll(items);
-        });
-      });
+      context.read<RemarksCubit>().loadDataList(widget.itemsKey);
     });
   }
 
@@ -57,32 +48,36 @@ class _RemarksListState extends State<RemarksList> {
   void _onTitleSave(String title, int index) {
     // Если значение пустое, то в локальное хранилище передается знак "-"
     final updatedTitle = (title.isEmpty || title == '-') ? '-' : title;
-    _itemsList[index] = Remark(
-      title: updatedTitle,
-      subtitle: _itemsList[index].subtitle,
-      gost: _itemsList[index].gost,
-      images: _itemsList[index].images,
-    );
-    context.read<RemarksCubit>().saveDataList(widget.itemsKey, _itemsList);
+    final currentList =
+        context.read<RemarksCubit>().state[widget.itemsKey] ?? [];
+    if (index < currentList.length) {
+      final updatedRemark = currentList[index].copyWith(title: updatedTitle);
+      final updatedList = List<Remark>.from(currentList);
+      updatedList[index] = updatedRemark;
+      context.read<RemarksCubit>().saveDataList(widget.itemsKey, updatedList);
+    }
   }
 
   // Метод добавления наименования помещений в качестве subtitle к замечанию
   void _addSubtitle(String subtitle, int index) {
-    _itemsList[index] = Remark(
-      title: _itemsList[index].title,
-      subtitle: subtitle,
-      gost: _itemsList[index].gost,
-      images: _itemsList[index].images,
-    );
-    context.read<RemarksCubit>().saveDataList(widget.itemsKey, _itemsList);
+    final currentList =
+        context.read<RemarksCubit>().state[widget.itemsKey] ?? [];
+    if (index < currentList.length) {
+      final updatedRemark = currentList[index].copyWith(subtitle: subtitle);
+      final updatedList = List<Remark>.from(currentList);
+      updatedList[index] = updatedRemark;
+      context.read<RemarksCubit>().saveDataList(widget.itemsKey, updatedList);
+    }
   }
 
   // Метод добавления нового замечания
   void _addItem() {
     String newItem = _listController.text.trim();
     if (newItem.isNotEmpty) {
-      setState(() {
-        _itemsList.add(
+      final currentList =
+          context.read<RemarksCubit>().state[widget.itemsKey] ?? [];
+      final updatedList = List<Remark>.from(currentList)
+        ..add(
           Remark(
             title: newItem,
             subtitle: '',
@@ -90,17 +85,18 @@ class _RemarksListState extends State<RemarksList> {
             images: [],
           ),
         );
-      });
       _listController.clear();
-      context.read<RemarksCubit>().saveDataList(widget.itemsKey, _itemsList);
-      _setRoom(_itemsList.length - 1);
+      context.read<RemarksCubit>().saveDataList(widget.itemsKey, updatedList);
+      _setRoom(updatedList.length - 1);
     }
   }
 
   // Метод добавления замечания из Firebase Firestore
   void _addRemark(String remarkText, String gost) {
-    setState(() {
-      _itemsList.add(
+    final currentList =
+        context.read<RemarksCubit>().state[widget.itemsKey] ?? [];
+    final updatedList = List<Remark>.from(currentList)
+      ..add(
         Remark(
           title: remarkText,
           subtitle: '',
@@ -108,17 +104,20 @@ class _RemarksListState extends State<RemarksList> {
           images: [],
         ),
       );
-    });
     _listController.clear();
-    context.read<RemarksCubit>().saveDataList(widget.itemsKey, _itemsList);
-    _setRoom(_itemsList.length - 1);
+    context.read<RemarksCubit>().saveDataList(widget.itemsKey, updatedList);
+    _setRoom(updatedList.length - 1);
   }
 
-  // Метод демонстрации диалогового окна со списком выбранных помещений
+  // Метод демонстрации диалогового окна для выбора помещения сразу после добавления замечания
   void _setRoom(int index) {
+    final currentList =
+        context.read<RemarksCubit>().state[widget.itemsKey] ?? [];
+    final currentSubtitle =
+        (index < currentList.length) ? currentList[index].subtitle : '';
     _showOptionsDialog(
       context: context,
-      currentItem: _itemsList[index].subtitle,
+      currentItem: currentSubtitle,
       index: index,
       addSubtitle: _addSubtitle,
     );
@@ -126,9 +125,6 @@ class _RemarksListState extends State<RemarksList> {
 
   // Метод удаления замечания по индексу
   void _deleteItem(int index) {
-    setState(() {
-      _itemsList.removeAt(index);
-    });
     context.read<RemarksCubit>().deleteRemark(widget.itemsKey, index);
   }
 
@@ -136,9 +132,7 @@ class _RemarksListState extends State<RemarksList> {
   void _onPickImage(int index) async {
     final html.FileUploadInputElement uploadInput =
         html.FileUploadInputElement();
-    // Прием только изображений
     uploadInput.accept = 'image/*';
-    // Использование камеры для загрузки изображения
     uploadInput.setAttribute(
       'capture',
       'camera',
@@ -147,86 +141,123 @@ class _RemarksListState extends State<RemarksList> {
     uploadInput.onChange.listen((
       html.Event event,
     ) async {
-      showCustomDialog(
+      final GlobalKey<ProgressDialogState> progressKey =
+          GlobalKey<ProgressDialogState>();
+      showDialog(
         context: context,
-        title: '',
         barrierDismissible: false,
-        content: SizedBox(
-          height: SizeConfig.screenHeight * 0.12,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                S.of(context).photoWait,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: SizeConfig.screenHeight * 0.01,
-              ),
-              const CircularProgressIndicator(
-                color: Color(0xFF24555E),
-              ),
-            ],
-          ),
-        ),
+        builder: (BuildContext dialogContext) {
+          return ProgressDialog(
+            key: progressKey,
+            message: S.of(context).photoWait,
+          );
+        },
       );
-      final List<html.File>? files = uploadInput.files;
-      if (files!.isNotEmpty) {
-        final html.FileReader reader = html.FileReader();
-        reader.readAsArrayBuffer(
-          files[0],
-        );
-        reader.onLoadEnd.listen((
-          html.ProgressEvent event,
-        ) async {
+      await Future.delayed(
+        const Duration(milliseconds: 150),
+      );
+      try {
+        final List<html.File>? files = uploadInput.files;
+        if (files != null && files.isNotEmpty) {
+          final html.FileReader reader = html.FileReader();
+          reader.readAsArrayBuffer(files[0]);
+          await reader.onLoadEnd.first;
           Uint8List imageData = reader.result as Uint8List;
-          img.Image? originalImage = img.decodeImage(imageData);
-          if (originalImage != null) {
-            // Обрезка изображения
-            img.Image croppedImage = cropImage(originalImage);
-            Uint8List croppedImageData = Uint8List.fromList(
-              img.encodeJpg(croppedImage),
+          Uint8List croppedImageData = await processImageWithProgress(
+            imageData,
+            (double newProgress) =>
+                progressKey.currentState?.updateProgress(newProgress),
+          );
+          String shortName = 'img_${DateTime.now().millisecondsSinceEpoch}.jpg';
+          final Box<Uint8List> imagesBox = Hive.box<Uint8List>('imagesBox');
+          await imagesBox.put(shortName, croppedImageData);
+          final currentList =
+              context.read<RemarksCubit>().state[widget.itemsKey] ?? [];
+          if (index < currentList.length) {
+            final updatedRemark = currentList[index].copyWith(
+              images: [...currentList[index].images, shortName],
             );
-            String shortName =
-                'img_${DateTime.now().millisecondsSinceEpoch}.jpg';
-            final Box<Uint8List> imagesBox = Hive.box<Uint8List>('imagesBox');
-            // Сохранение изображения
-            await imagesBox.put(shortName, croppedImageData);
-            // Добавление изображение к замечанию по индексу
-            setState(() {
-              _itemsList[index] = Remark(
-                title: _itemsList[index].title,
-                subtitle: _itemsList[index].subtitle,
-                gost: _itemsList[index].gost,
-                images: [..._itemsList[index].images, shortName],
-              );
-            });
-            Navigator.of(context).pop();
-            context
+            final updatedList = List<Remark>.from(currentList);
+            updatedList[index] = updatedRemark;
+            await context
                 .read<RemarksCubit>()
-                .saveDataList(widget.itemsKey, _itemsList);
-            setState(() {});
+                .saveDataList(widget.itemsKey, updatedList);
           }
-        });
+        }
+        Navigator.of(context).pop();
+      } catch (e) {
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
+        showCustomDialog(
+          context: context,
+          title: 'Ошибка при обработке изображения',
+          content: Text(
+            e.toString(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'ОК',
+                style: TextStyle(
+                  fontSize: mainFontSize,
+                  color: mainColor,
+                ),
+              ),
+            ),
+          ],
+        );
       }
     });
   }
 
-  // Метод обрезки изображения жо квадрата по наименьшей стороне
-  img.Image cropImage(img.Image originalImage) {
+  // Метод обрезки изображения до квадрата по наименьшей стороне
+  Future<Uint8List> processImageWithProgress(
+    Uint8List imageData,
+    Function(double) updateProgress,
+  ) async {
+    updateProgress(0.2);
+    final img.Image? originalImage = img.decodeImage(imageData);
+    if (originalImage == null) return imageData;
+    await Future.delayed(
+      const Duration(milliseconds: 50),
+    );
+    updateProgress(0.4);
     int width = originalImage.width;
     int height = originalImage.height;
-    // Выбор наименьшей стороны - стороны квадрата
     int size = width < height ? width : height;
     int xOffset = (width - size) ~/ 2;
     int yOffset = (height - size) ~/ 2;
-    return img.copyCrop(
+    await Future.delayed(
+      const Duration(milliseconds: 50),
+    );
+    updateProgress(0.6);
+    final img.Image croppedImage = img.copyCrop(
       originalImage,
       x: xOffset,
       y: yOffset,
       width: size,
       height: size,
     );
+    await Future.delayed(
+      const Duration(milliseconds: 50),
+    );
+    updateProgress(0.8);
+    final Uint8List encoded = Uint8List.fromList(
+      img.encodeJpg(croppedImage),
+    );
+    await Future.delayed(
+      const Duration(milliseconds: 50),
+    );
+    updateProgress(1);
+    return encoded;
   }
 
   // Метод демонстрации диалогового окна для редактирования замечания
@@ -244,7 +275,7 @@ class _RemarksListState extends State<RemarksList> {
       context: context,
       title: S.of(context).remarksEdit,
       content: TextField(
-        cursorColor: const Color(0xFF24555E),
+        cursorColor: mainColor,
         style: const TextStyle(
           fontSize: mainFontSize,
         ),
@@ -255,17 +286,13 @@ class _RemarksListState extends State<RemarksList> {
           Navigator.of(context).pop();
         },
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(
-            textRegExp,
-          ),
+          FilteringTextInputFormatter.allow(textRegExp),
         ],
         minLines: 1,
         maxLines: 5,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xFF24555E),
-            ),
+            borderSide: BorderSide(color: mainColor),
           ),
         ),
       ),
@@ -292,9 +319,9 @@ class _RemarksListState extends State<RemarksList> {
         TextButton(
           child: Text(
             S.of(context).save,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: mainFontSize,
-              color: Color(0xFF24555E),
+              color: mainColor,
             ),
           ),
           onPressed: () {
@@ -303,6 +330,55 @@ class _RemarksListState extends State<RemarksList> {
               index,
             );
             Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+
+  // Метод демонстрации диалогового окна для подтверждения удаления замечания
+  Future<void> _showDeleteConfirmationDialog({
+    required BuildContext context,
+    required int index,
+    required Function(int) onDelete,
+    required String currentItem,
+    required Function(String, int) onSave,
+  }) async {
+    return showCustomDialog(
+      context: context,
+      title: S.of(context).removeRemark,
+      content: const SizedBox.shrink(),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            S.of(context).yes,
+            style: const TextStyle(
+              fontSize: mainFontSize,
+              color: Colors.red,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            onDelete(index);
+          },
+        ),
+        TextButton(
+          child: Text(
+            S.of(context).no,
+            style: TextStyle(
+              fontSize: mainFontSize,
+              color: mainColor,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            _showEditDialog(
+              context: context,
+              currentItem: currentItem,
+              index: index,
+              onSave: onSave,
+              onDelete: onDelete,
+            );
           },
         ),
       ],
@@ -365,52 +441,135 @@ class _RemarksListState extends State<RemarksList> {
     );
   }
 
-  // Метод демонстрации диалогового окна для подтверждения удаления замечания
-  Future<void> _showDeleteConfirmationDialog({
-    required BuildContext context,
-    required int index,
-    required Function(int) onDelete,
-    required String currentItem,
-    required Function(String, int) onSave,
-  }) async {
+  // Метод демонстрации диалогового окна с вариантами при долгом нажатии
+  Future<void> _showRemarkOptionsDialog(int index) async {
+    final RoomCubit roomCubit = context.read<RoomCubit>();
+    final List<Room> selectedRooms = roomCubit.selectedRooms;
+    final bool roomsSelected = selectedRooms.isNotEmpty;
+    final List<Remark> currentList =
+        context.read<RemarksCubit>().state[widget.itemsKey] ?? [];
+    final Remark remark = currentList[index];
+    final bool hasImages = remark.images.isNotEmpty;
     return showCustomDialog(
       context: context,
-      title: S.of(context).removeRemark,
-      content: const SizedBox.shrink(),
+      title: S.of(context).chooseAction,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          GestureDetector(
+            onTap: roomsSelected
+                ? () async {
+                    Navigator.of(context).pop();
+                    await _showOptionsDialogWithBack(index);
+                  }
+                : null,
+            child: Text(
+              roomsSelected
+                  ? S.of(context).changeRoom
+                  : S.of(context).roomsNotSelected,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: mainFontSize,
+                color: roomsSelected ? mainColor : Colors.grey,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: SizeConfig.screenHeight * 0.03,
+          ),
+          GestureDetector(
+            onTap: hasImages
+                ? () async {
+                    Navigator.of(context).pop();
+                    await _showImagesGridDialog(index);
+                  }
+                : null,
+            child: Text(
+              hasImages
+                  ? S.of(context).photoPreviewForRemark
+                  : S.of(context).photosNotAdded,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: mainFontSize,
+                color: hasImages ? mainColor : Colors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Метод выбора помещения с кнопкой "Назад"
+  Future<void> _showOptionsDialogWithBack(int index) async {
+    return showCustomDialog(
+      context: context,
+      title: S.of(context).specifyRoom,
+      content: BlocBuilder<RoomCubit, Map<String, List<Room>>>(
+        builder: (BuildContext context, Map<String, List<Room>> state) {
+          final List<Room> selectedRooms = state['selectedRooms'] ?? <Room>[];
+          if (selectedRooms.isEmpty) {
+            return SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    S.of(context).roomsNotSelected,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: mainFontSize,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return SingleChildScrollView(
+              child: ListBody(
+                children: List.generate(
+                  selectedRooms.length,
+                  (int i) => ListTile(
+                    title: Text(
+                      selectedRooms[i].name,
+                      style: const TextStyle(
+                        fontSize: mainFontSize,
+                      ),
+                    ),
+                    onTap: () {
+                      _addSubtitle(selectedRooms[i].name, index);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ),
+            );
+          }
+        },
+      ),
       actions: <Widget>[
         TextButton(
           child: Text(
-            S.of(context).yes,
-            style: const TextStyle(
+            S.of(context).back,
+            style: TextStyle(
               fontSize: mainFontSize,
-              color: Colors.red,
+              color: mainColor,
             ),
           ),
           onPressed: () {
             Navigator.of(context).pop();
-            onDelete(index);
-          },
-        ),
-        TextButton(
-          child: Text(
-            S.of(context).no,
-            style: const TextStyle(
-              fontSize: mainFontSize,
-              color: Color(0xFF24555E),
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-            _showEditDialog(
-              context: context,
-              currentItem: currentItem,
-              index: index,
-              onSave: onSave,
-              onDelete: onDelete,
-            );
+            _showRemarkOptionsDialog(index);
           },
         ),
       ],
+    );
+  }
+
+  // Метод демонстрации фотографий к замечанию списком
+  Future<void> _showImagesGridDialog(int index) async {
+    await PhotoGallery.showImagesGridDialog(
+      context,
+      widget.itemsKey,
+      index,
     );
   }
 
@@ -418,8 +577,7 @@ class _RemarksListState extends State<RemarksList> {
   Widget build(BuildContext context) {
     return BlocBuilder<RemarksCubit, Map<String, List<Remark>>>(
       builder: (BuildContext context, Map<String, List<Remark>> state) {
-        List<Remark> itemList = state[widget.itemsKey] ?? <Remark>[];
-
+        final List<Remark> itemList = state[widget.itemsKey] ?? <Remark>[];
         return Container(
           margin: getContainerMargin(context, 0.01),
           child: SingleChildScrollView(
@@ -471,7 +629,8 @@ class _RemarksListState extends State<RemarksList> {
                             _deleteItem(index);
                           },
                         ),
-                        onLongPress: (int index) => _setRoom(index),
+                        onLongPress: (int index) =>
+                            _showRemarkOptionsDialog(index),
                         iconPressed: (int index) => _onPickImage(index),
                         itemsKey: widget.itemsKey,
                       ),

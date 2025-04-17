@@ -750,96 +750,6 @@ class S {
     );
   }
 
-  /// `Commercial space`
-  String get commercialSpace {
-    return Intl.message(
-      'Commercial space',
-      name: 'commercialSpace',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Living room`
-  String get room {
-    return Intl.message(
-      'Living room',
-      name: 'room',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Kitchen`
-  String get kitchen {
-    return Intl.message(
-      'Kitchen',
-      name: 'kitchen',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Kitchen-living room`
-  String get kitchenLivingRoom {
-    return Intl.message(
-      'Kitchen-living room',
-      name: 'kitchenLivingRoom',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Hall`
-  String get hall {
-    return Intl.message(
-      'Hall',
-      name: 'hall',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Balcony`
-  String get balcony {
-    return Intl.message(
-      'Balcony',
-      name: 'balcony',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Bath`
-  String get bath {
-    return Intl.message(
-      'Bath',
-      name: 'bath',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Bathroom`
-  String get bathroom {
-    return Intl.message(
-      'Bathroom',
-      name: 'bathroom',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Wardrobe`
-  String get wardrobe {
-    return Intl.message(
-      'Wardrobe',
-      name: 'wardrobe',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `No measurement was made`
   String get measurementIsNotTaken {
     return Intl.message(
@@ -940,16 +850,6 @@ class S {
     );
   }
 
-  /// `Error login and password check`
-  String get errorLoginAndPasswordCheck {
-    return Intl.message(
-      'Error login and password check',
-      name: 'errorLoginAndPasswordCheck',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Are you sure delete this remark?`
   String get removeRemark {
     return Intl.message(
@@ -970,141 +870,11 @@ class S {
     );
   }
 
-  /// `Conversion error`
-  String get conversionError {
-    return Intl.message(
-      'Conversion error',
-      name: 'conversionError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Save to docx`
-  String get saveDocx {
-    return Intl.message(
-      'Save to docx',
-      name: 'saveDocx',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Close`
-  String get close {
-    return Intl.message(
-      'Close',
-      name: 'close',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Task execution error`
-  String get taskExecutionError {
-    return Intl.message(
-      'Task execution error',
-      name: 'taskExecutionError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Incorrect request. Check the parameters.`
-  String get badRequestError {
-    return Intl.message(
-      'Incorrect request. Check the parameters.',
-      name: 'badRequestError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Authorization error. Check the API key.`
-  String get unauthorizedError {
-    return Intl.message(
-      'Authorization error. Check the API key.',
-      name: 'unauthorizedError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You have run out of free conversions.`
-  String get paymentRequiredError {
-    return Intl.message(
-      'You have run out of free conversions.',
-      name: 'paymentRequiredError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Access is prohibited.`
-  String get forbiddenError {
-    return Intl.message(
-      'Access is prohibited.',
-      name: 'forbiddenError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Resource not found.`
-  String get notFoundError {
-    return Intl.message(
-      'Resource not found.',
-      name: 'notFoundError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Internal server error. Try again later.`
-  String get internalServerError {
-    return Intl.message(
-      'Internal server error. Try again later.',
-      name: 'internalServerError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The service is temporarily unavailable.`
-  String get serviceUnavailableError {
-    return Intl.message(
-      'The service is temporarily unavailable.',
-      name: 'serviceUnavailableError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `An unknown error occurred (code: $statusCode).`
-  String get unknownErrorOccurred {
-    return Intl.message(
-      'An unknown error occurred (code: \$statusCode).',
-      name: 'unknownErrorOccurred',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Change the rooms`
+  /// `Change the room selection`
   String get changeRoom {
     return Intl.message(
-      'Change the rooms',
+      'Change the room selection',
       name: 'changeRoom',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Unknown error`
-  String get unknownError {
-    return Intl.message(
-      'Unknown error',
-      name: 'unknownError',
       desc: '',
       args: [],
     );
@@ -1145,6 +915,146 @@ class S {
     return Intl.message(
       'Residence',
       name: 'residence',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preview of images for a remark`
+  String get photoPreviewForRemark {
+    return Intl.message(
+      'Preview of images for a remark',
+      name: 'photoPreviewForRemark',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Photos are not added`
+  String get photosNotAdded {
+    return Intl.message(
+      'Photos are not added',
+      name: 'photosNotAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get back {
+    return Intl.message(
+      'Back',
+      name: 'back',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose an action`
+  String get chooseAction {
+    return Intl.message(
+      'Choose an action',
+      name: 'chooseAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose the way to display the document`
+  String get chooseDisplayDocument {
+    return Intl.message(
+      'Choose the way to display the document',
+      name: 'chooseDisplayDocument',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For IOS, the document will be opened in a new winwow. '\n'You can save the document to the device using button "Share".`
+  String get iosDisplayAbstract {
+    return Intl.message(
+      'For IOS, the document will be opened in a new winwow. \'\n\'You can save the document to the device using button "Share".',
+      name: 'iosDisplayAbstract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For Android, a notification about the successful download of the file will appear. '\n'The document will be located in Files - Download.`
+  String get androidDisplayAbstract {
+    return Intl.message(
+      'For Android, a notification about the successful download of the file will appear. \'\n\'The document will be located in Files - Download.',
+      name: 'androidDisplayAbstract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have problems with generating a PDF, '\n'try to open the document in a new window.`
+  String get externalDisplayAbstract {
+    return Intl.message(
+      'If you have problems with generating a PDF, \'\n\'try to open the document in a new window.',
+      name: 'externalDisplayAbstract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download the document`
+  String get downloadDocument {
+    return Intl.message(
+      'Download the document',
+      name: 'downloadDocument',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The document will be opened in a new window`
+  String get documentOpenWindowAbstract {
+    return Intl.message(
+      'The document will be opened in a new window',
+      name: 'documentOpenWindowAbstract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open in a new browser window`
+  String get openDocumentWindow {
+    return Intl.message(
+      'Open in a new browser window',
+      name: 'openDocumentWindow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PDF document is successfully generated!`
+  String get pdfSuccessfullyOpened {
+    return Intl.message(
+      'PDF document is successfully generated!',
+      name: 'pdfSuccessfullyOpened',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Document generation error`
+  String get errorDocumentGeneration {
+    return Intl.message(
+      'Document generation error',
+      name: 'errorDocumentGeneration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Пожалуйста, откройте приложение по ссылке на смартфоне в '\n          'портретной ориентации`
+  String get phoneScreenAlert {
+    return Intl.message(
+      'Пожалуйста, откройте приложение по ссылке на смартфоне в \'\n          \'портретной ориентации',
+      name: 'phoneScreenAlert',
       desc: '',
       args: [],
     );

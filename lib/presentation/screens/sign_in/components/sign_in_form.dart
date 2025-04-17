@@ -27,28 +27,28 @@ class _SignInFormState extends State<SignInForm> {
   bool _showPassword = false;
   FocusNode loginFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
+  late final VoidCallback _loginFocusListener;
+  late final VoidCallback _passwordFocusListener;
 
   // Инициализация значений
   @override
   void initState() {
     super.initState();
-    loginFocusNode.addListener(() {
+    _loginFocusListener = () {
       setState(() {});
-    });
-    passwordFocusNode.addListener(() {
+    };
+    loginFocusNode.addListener(_loginFocusListener);
+    _passwordFocusListener = () {
       setState(() {});
-    });
+    };
+    passwordFocusNode.addListener(_passwordFocusListener);
   }
 
   // Освобождение памяти
   @override
   void dispose() {
-    loginFocusNode.removeListener(() {
-      setState(() {});
-    });
-    passwordFocusNode.removeListener(() {
-      setState(() {});
-    });
+    loginFocusNode.removeListener(_loginFocusListener);
+    passwordFocusNode.removeListener(_passwordFocusListener);
     loginFocusNode.dispose();
     passwordFocusNode.dispose();
     super.dispose();
@@ -81,6 +81,9 @@ class _SignInFormState extends State<SignInForm> {
 
   // Проверка логина и пароля при помощи Firebase Firestore
   Future<void> _onCheckLogin() async {
+    setState(() {
+      errors.clear();
+    });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       try {
@@ -123,7 +126,7 @@ class _SignInFormState extends State<SignInForm> {
           _addError(error: S.of(context).wrongLogin);
         }
       } catch (e) {
-        _addError(error: S.of(context).errorLoginAndPasswordCheck);
+        _addError(error: e.toString());
       }
     }
   }
@@ -141,46 +144,38 @@ class _SignInFormState extends State<SignInForm> {
       // Скрытие ошибки при выполнении одного из условий для логина
       onChanged: (String value) {
         if (value.isNotEmpty) {
-          _removeError(
-            error: S.of(context).loginIsNotEmpty,
-          );
-        } else if (value.length >= 11) {
-          _removeError(
-            error: S.of(context).loginTooLong,
-          );
-        } else if (value.length <= 11) {
-          _removeError(
-            error: S.of(context).loginTooShort,
-          );
+          _removeError(error: S.of(context).loginIsNotEmpty);
+        }
+        if (value.length == 11) {
+          _removeError(error: S.of(context).loginTooLong);
+          _removeError(error: S.of(context).loginTooShort);
+        } else if (value.length > 11) {
+          _removeError(error: S.of(context).loginTooShort);
+        } else if (value.length < 11) {
+          _removeError(error: S.of(context).loginTooLong);
         }
       },
       // Отображение ошибки при выполнении одного из условий для логина
       validator: (String? value) {
         if (value!.isEmpty) {
-          _addError(
-            error: S.of(context).loginIsNotEmpty,
-          );
+          _addError(error: S.of(context).loginIsNotEmpty);
           return '';
         } else if (value.length > 11) {
-          _addError(
-            error: S.of(context).loginTooLong,
-          );
+          _addError(error: S.of(context).loginTooLong);
           return '';
         } else if (value.length < 11) {
-          _addError(
-            error: S.of(context).loginTooShort,
-          );
+          _addError(error: S.of(context).loginTooShort);
           return '';
         }
         return null;
       },
-      cursorColor: const Color(0xFF24555E),
+      cursorColor: mainColor,
       decoration: baseInputDecoration.copyWith(
         labelText: S.of(context).loginLabelText,
         hintText: S.of(context).loginHintText,
         labelStyle: TextStyle(
           fontSize: mainFontSize,
-          color: loginFocusNode.hasFocus ? const Color(0xFF24555E) : null,
+          color: loginFocusNode.hasFocus ? mainColor : null,
         ),
       ),
       style: const TextStyle(
@@ -208,36 +203,29 @@ class _SignInFormState extends State<SignInForm> {
       // Скрытие ошибки при выполнении одного из условий для пароля
       onChanged: (String value) {
         if (value.isNotEmpty) {
-          _removeError(
-            error: S.of(context).passwordIsNotEmpty,
-          );
-        } else if (value.length >= 8) {
-          _removeError(
-            error: S.of(context).passwordTooShort,
-          );
+          _removeError(error: S.of(context).passwordIsNotEmpty);
+        }
+        if (value.length >= 8) {
+          _removeError(error: S.of(context).passwordTooShort);
         }
       },
       // Отображение ошибки при выполнении одного из условий для пароля
       validator: (String? value) {
         if (value!.isEmpty) {
-          _addError(
-            error: S.of(context).passwordIsNotEmpty,
-          );
+          _addError(error: S.of(context).passwordIsNotEmpty);
           return '';
         } else if (value.length < 8) {
-          _addError(
-            error: S.of(context).passwordTooShort,
-          );
+          _addError(error: S.of(context).passwordTooShort);
           return '';
         }
         return null;
       },
-      cursorColor: const Color(0xFF24555E),
+      cursorColor: mainColor,
       decoration: baseInputDecoration.copyWith(
         labelText: S.of(context).passwordLabelText,
         labelStyle: TextStyle(
           fontSize: mainFontSize,
-          color: passwordFocusNode.hasFocus ? const Color(0xFF24555E) : null,
+          color: passwordFocusNode.hasFocus ? mainColor : null,
         ),
         hintText: S.of(context).passwordHintText,
         // Кнопка смены видимости пароля

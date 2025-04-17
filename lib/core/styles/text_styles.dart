@@ -8,8 +8,8 @@ const double remarksFontSize = 14;
 const double signInMainFontSize = 36;
 
 // Стили текста
-const TextStyle titleStyle = TextStyle(
-  color: Color(0xFF24555E),
+TextStyle titleStyle = TextStyle(
+  color: mainColor,
   fontSize: subtitleFontSize,
 );
 
@@ -21,3 +21,7 @@ TextStyle mainLabelStyle = const TextStyle(
 TextStyle secondaryLabelStyle = const TextStyle(
   fontSize: remarksFontSize,
 );
+
+// Основные цвета
+Color mainColor = const Color(0xFF24555E);
+Color secondColor = const Color(0xFF3C676F);

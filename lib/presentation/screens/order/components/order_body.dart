@@ -55,17 +55,6 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
               child: Column(
                 children: <Widget>[
                   OrderTextField(
-                    labelText: S.of(context).city,
-                    hintText: S.of(context).chooseCity,
-                    onTextChanged: (String value) {
-                      setState(() {
-                        city = value;
-                      });
-                    },
-                    dataKey: 'city',
-                    isCityField: true,
-                  ),
-                  OrderTextField(
                     labelText: S.of(context).orderNumber,
                     hintText: S.of(context).orderNumberEnter,
                     inputFormatters: <TextInputFormatter>[
@@ -79,17 +68,6 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                     focusNode: _orderNumberFocus,
                     nextFocusNode: _specialistNameFocus,
                     dataKey: 'order_number',
-                  ),
-                  OrderTextField(
-                    labelText: S.of(context).inspectionDate,
-                    hintText: S.of(context).inspectionDateEnter,
-                    onTextChanged: (String value) {
-                      setState(() {
-                        inspectionDate = value;
-                      });
-                    },
-                    dataKey: 'inspection_date',
-                    isDateField: true,
                   ),
                   OrderTextField(
                     labelText: S.of(context).specialistName,
@@ -146,6 +124,28 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                     dataKey: 'residence',
                     focusNode: _residenceFocus,
                     textInputAction: TextInputAction.done,
+                  ),
+                  OrderTextField(
+                    labelText: S.of(context).inspectionDate,
+                    hintText: S.of(context).inspectionDateEnter,
+                    onTextChanged: (String value) {
+                      setState(() {
+                        inspectionDate = value;
+                      });
+                    },
+                    dataKey: 'inspection_date',
+                    isDateField: true,
+                  ),
+                  OrderTextField(
+                    labelText: S.of(context).city,
+                    hintText: S.of(context).chooseCity,
+                    onTextChanged: (String value) {
+                      setState(() {
+                        city = value;
+                      });
+                    },
+                    dataKey: 'city',
+                    isCityField: true,
                   ),
                 ],
               ),
