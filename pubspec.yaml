@@ -31,6 +31,8 @@ dependencies:
   flutter_lints: ^4.0.0
   connectivity_plus: ^3.0.2
   pdf: ^3.11.2
+  mocktail: ^1.0.4
+  fake_cloud_firestore: ^2.5.2
   nested: any
 
 dev_dependencies:
