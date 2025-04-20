@@ -2,8 +2,11 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   analyze:
@@ -12,7 +15,7 @@ jobs:
     steps:
       - name: Чекаут
         uses: actions/checkout@v3
-      - name: Утановка Flutter 3.19.6
+      - name: Установка Flutter 3.19.6
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.19.6
@@ -21,7 +24,7 @@ jobs:
       - name: Анализ кода
         run: flutter analyze
   test_unit:
-    name: Запуск unit-тестов
+    name: Запуск unit тестов
     needs: analyze
     runs-on: ubuntu-latest
     steps:
@@ -33,10 +36,10 @@ jobs:
           flutter-version: 3.19.6
       - name: Получение зависимостей
         run: flutter pub get
-      - name: Запуск тестов с отчтетом
+      - name: Запуск тестов с покрытием
         run: flutter test --coverage
-      - name: Получение отчета
+      - name: Заливка отчёта покрытия
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
-          path: coverage/
+          paths: coverage
