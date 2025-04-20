@@ -7,24 +7,36 @@ on:
 
 jobs:
   analyze:
+    name: Cтатичный анализ
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with: { flutter-version: "3.19.6" }
-      - run: flutter pub get
-      - run: flutter analyze
-
+      - name: Чекаут
+        uses: actions/checkout@v3
+      - name: Утановка Flutter 3.19.6
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.19.6
+      - name: Получение зависимостей
+        run: flutter pub get
+      - name: Анализ кода
+        run: flutter analyze
   test_unit:
+    name: Запуск unit-тестов
     needs: analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with: { flutter-version: "3.19.6" }
-      - run: flutter pub get
-      - run: flutter test --coverage
-      - uses: actions/upload-artifact@v3
+      - name: Чекаут
+        uses: actions/checkout@v3
+      - name: Установка Flutter 3.19.6
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.19.6
+      - name: Получение зависимостей
+        run: flutter pub get
+      - name: Запуск тестов с отчтетом
+        run: flutter test --coverage
+      - name: Получение отчета
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: coverage/
