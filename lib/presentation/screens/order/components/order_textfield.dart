@@ -2,6 +2,8 @@ import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
+import 'package:commercial_app/injection_container.dart';
+import 'package:commercial_app/services/service_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +46,7 @@ class OrderTextField extends StatefulWidget {
 class _OrderTextFieldState extends State<OrderTextField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+  final DatePickerService _datePickerService = sl<DatePickerService>();
 
   // Инициализация значений
   @override
@@ -124,45 +127,10 @@ class _OrderTextFieldState extends State<OrderTextField> {
   }
 
   // Указание даты при помощи DatePicker
-  Future<void> _selectDate(
-    BuildContext context,
-    TextEditingController controller,
-  ) async {
-    DateTime initialDate = DateTime.now();
-    DateTime? picked;
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-      helpText: S.of(context).inspectionDateEnter,
-      builder: (BuildContext context, Widget? child) {
-        // Настройка тема календаря
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-                  primary: mainColor,
-                  secondary: mainColor,
-                ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                textStyle: const TextStyle(
-                  fontSize: subtitleFontSize,
-                ),
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    // Проверка условий выбранной даты и передача в локальное хранилище
-    if (pickedDate != null && pickedDate != initialDate) {
-      picked = pickedDate;
-    }
-    // Установка формата даты
+  Future<void> _selectDate() async {
+    final DateTime? picked = await _datePickerService.pickDate(context);
     if (picked != null) {
-      controller.text = DateFormat('dd.MM.yyyy').format(picked);
+      _controller.text = DateFormat('dd.MM.yyyy').format(picked);
     }
   }
 
@@ -217,7 +185,7 @@ class _OrderTextFieldState extends State<OrderTextField> {
             if (widget.isCityField) {
               _selectCity(context);
             } else if (widget.isDateField) {
-              _selectDate(context, _controller);
+              _selectDate();
             }
           },
           textInputAction: widget.textInputAction,

@@ -1,7 +1,5 @@
 import 'package:commercial_app/generated/l10n.dart';
-import 'package:commercial_app/presentation/widgets/custom_button.dart';
 import 'package:commercial_app/core/styles/styles_export.dart';
-import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,70 +34,53 @@ class _OptionsSelectionState extends State<OptionsSelection> {
   Future<void> _loadInitialState() async {
     final ButtonCubit buttonCubit = context.read<ButtonCubit>();
     await buttonCubit.loadSelection(context, widget.selectionKey);
-    // Установка выбранного значения
     setState(() {
       selectedYes = buttonCubit.getSelection(context, widget.selectionKey) ==
           S.of(context).yes;
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(
-        allMargin,
-      ),
-      child: Column(
-        children: <Widget>[
-          Text(
-            widget.title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: mainFontSize,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(
-              allPadding,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildButton(
-                  S.of(context).yes,
-                  true,
-                ),
-                SizedBox(
-                  width: SizeConfig.screenWidth * 0.05,
-                ),
-                _buildButton(
-                  S.of(context).no,
-                  false,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+  // Сохранение положения переключателя
+  void _onSwitchChanged(bool value) {
+    setState(() {
+      selectedYes = value;
+    });
+    final ButtonCubit buttonCubit = context.read<ButtonCubit>();
+    buttonCubit.saveSelection(
+      context,
+      widget.selectionKey,
+      value ? S.of(context).yes : S.of(context).no,
     );
   }
 
-  // build-метод кнопок
-  Widget _buildButton(String text, bool value) {
-    return CustomButton(
-      isSelected: selectedYes == value,
-      text: text,
-      onTap: () {
-        // Установка выбранного значения
-        setState(() {
-          selectedYes = value;
-        });
-        // Загрузка выбранного значения в локальное хранилище
-        context
-            .read<ButtonCubit>()
-            .saveSelection(context, widget.selectionKey, text);
-      },
+  @override
+  Widget build(BuildContext context) {
+    final Color? activeTextColor =
+        Theme.of(context).textTheme.bodyMedium?.color;
+    final Color disableTextColor = Theme.of(context).disabledColor;
+
+    return Container(
+      margin: getContainerMargin(context, 0.015),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: textFontSize,
+                fontStyle: FontStyle.italic,
+                color: selectedYes ? activeTextColor : disableTextColor,
+              ),
+            ),
+          ),
+          Switch.adaptive(
+            value: selectedYes,
+            onChanged: _onSwitchChanged,
+            activeColor: mainColor,
+          ),
+        ],
+      ),
     );
   }
 }

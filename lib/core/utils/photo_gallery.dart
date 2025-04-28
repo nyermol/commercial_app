@@ -3,6 +3,7 @@ import 'package:commercial_app/core/utils/utils_export.dart';
 import 'package:commercial_app/data/models/models_export.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
 import 'package:commercial_app/generated/l10n.dart';
+import 'package:commercial_app/services/service_export.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -163,11 +164,24 @@ class PhotoGallery {
             ),
           ),
           onPressed: () async {
-            await context
-                .read<RemarksCubit>()
-                .removeImage(remarkKey, remarkIndex, imageName);
-            // ignore: use_build_context_synchronously
             Navigator.of(context).pop();
+            // Демонстрации диалогового окна для подтверждения удаления элемента
+            showDeleteConfirmationDialog(
+              context: context,
+              index: remarkIndex,
+              currentItem: imageName,
+              onDelete: (_) async {
+                await context
+                    .read<RemarksCubit>()
+                    .removeImage(remarkKey, remarkIndex, imageName);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pop();
+              },
+              onSave: (_, __) {},
+              onCancel: () {
+                Navigator.of(context).pop();
+              },
+            );
           },
         ),
         TextButton(

@@ -22,19 +22,22 @@ class RoomAdapter extends TypeAdapter<Room> {
       name: fields[0] as String,
       isSelected: fields[1] as bool,
       controllerValue: fields[2] as String,
+      quantity: fields[3] == null ? 1 : fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Room obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
       ..write(obj.isSelected)
       ..writeByte(2)
-      ..write(obj.controllerValue);
+      ..write(obj.controllerValue)
+      ..writeByte(3)
+      ..write(obj.quantity);
   }
 
   @override

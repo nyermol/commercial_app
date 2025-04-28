@@ -4,6 +4,7 @@ import 'package:commercial_app/data/repositories/data_repository_export.dart';
 import 'package:commercial_app/domain/repositories/domain_repositories_export.dart';
 import 'package:commercial_app/domain/usecases/usecases_export.dart';
 import 'package:commercial_app/domain/cubit/cubit_export.dart';
+import 'package:commercial_app/services/service_export.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -166,5 +167,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton<Connectivity>(
     () => Connectivity(),
+  );
+  sl.registerLazySingleton<ImagePickerService>(
+    () => getImagePickerService(),
+  );
+  sl.registerLazySingleton<DatePickerService>(
+    () => getDatePickerService(),
+  );
+  sl.registerLazySingleton<DocumentService>(
+    () => getDocumentService(),
   );
 }

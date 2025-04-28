@@ -105,7 +105,7 @@ class _OrderScreenBodyState extends State<OrderScreenBody> {
                     dataKey: 'customer_name',
                     focusNode: _customerNameFocus,
                     nextFocusNode: _residenceFocus,
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                   ),
                   OrderTextField(
                     labelText: S.of(context).nameOfResidence,

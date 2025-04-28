@@ -7,7 +7,7 @@ Future<void> showCustomDialog({
   required String title,
   required Widget content,
   List<Widget>? actions,
-  bool barrierDismissible = true,
+  bool barrierDismissible = false,
 }) async {
   return showDialog<void>(
     context: context,

@@ -23,13 +23,14 @@ class RemarkAdapter extends TypeAdapter<Remark> {
       subtitle: fields[1] as String,
       gost: fields[2] as String,
       images: (fields[3] as List).cast<String>(),
+      isGeneralRemark: fields[4] == null ? false : fields[4] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Remark obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -37,7 +38,9 @@ class RemarkAdapter extends TypeAdapter<Remark> {
       ..writeByte(2)
       ..write(obj.gost)
       ..writeByte(3)
-      ..write(obj.images);
+      ..write(obj.images)
+      ..writeByte(4)
+      ..write(obj.isGeneralRemark);
   }
 
   @override

@@ -38,6 +38,26 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
           itemCount: itemList.length,
           itemBuilder: (BuildContext context, int index) {
             Remark item = itemList[index];
+            Widget subtitleWidget;
+            if (item.isGeneralRemark) {
+              subtitleWidget = const SizedBox.shrink();
+            } else if (item.subtitle.isEmpty) {
+              subtitleWidget = const Text(
+                'Укажите помещение',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: remarksFontSize,
+                ),
+              );
+            } else {
+              subtitleWidget = Text(
+                item.subtitle,
+                style: TextStyle(
+                  color: mainColor,
+                  fontSize: remarksFontSize,
+                ),
+              );
+            }
             return ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(
@@ -50,13 +70,7 @@ class _RemarksListDisplayState extends State<RemarksListDisplay> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    item.subtitle,
-                    style: TextStyle(
-                      color: mainColor,
-                      fontSize: remarksFontSize,
-                    ),
-                  ),
+                  subtitleWidget,
                   if (item.images.isNotEmpty)
                     ...item.images.map(
                       (String path) => Text(

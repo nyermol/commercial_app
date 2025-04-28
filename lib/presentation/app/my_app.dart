@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, always_specify_types
+// ignore_for_file: always_specify_types, use_build_context_synchronously
 
 import 'package:commercial_app/core/styles/styles_export.dart';
 import 'package:commercial_app/core/utils/utils_export.dart';
@@ -13,10 +13,12 @@ import 'package:commercial_app/presentation/screens/sign_in/sign_in_screen.dart'
 import 'package:commercial_app/presentation/theme/app_theme.dart';
 import 'package:commercial_app/presentation/widgets/snack_bar.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:nested/nested.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,6 +36,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   bool _clearDataCalled = false;
 
   @override
@@ -47,6 +51,21 @@ class _MyAppState extends State<MyApp> {
     final Brightness brightness = MediaQuery.of(context).platformBrightness;
     SystemChrome.setSystemUIOverlayStyle(
       AppTheme.getSystemUiOverlayStyle(brightness),
+    );
+    // Темы для IOS
+    final ThemeData materialLight = ThemeData.light();
+    final ThemeData materialDark = ThemeData.dark();
+    final MaterialBasedCupertinoThemeData cupertinoLight =
+        MaterialBasedCupertinoThemeData(
+      materialTheme: materialLight,
+    );
+    final MaterialBasedCupertinoThemeData cupertinoDark =
+        MaterialBasedCupertinoThemeData(
+      materialTheme: materialDark.copyWith(
+        cupertinoOverrideTheme: const CupertinoThemeData(
+          brightness: Brightness.dark,
+        ),
+      ),
     );
     // Инициализация кубитов
     return MultiBlocProvider(
@@ -79,89 +98,106 @@ class _MyAppState extends State<MyApp> {
         value: AppTheme.getSystemUiOverlayStyle(
           Theme.of(context).brightness,
         ),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          // Локализация приложения
-          localizationsDelegates: const <LocalizationsDelegate>[
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
+        child: PlatformProvider(
+          settings: PlatformSettingsData(
+            iosUsesMaterialWidgets: true,
+          ),
           // Темы приложения
-          themeMode: ThemeMode.system,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          navigatorKey: navigatorKey,
-          builder: (BuildContext context, Widget? child) {
-            // Проверка, чтобы приложение открылось только на смартфоне с портретной ориентацией
-            if (orientation != Orientation.portrait ||
-                screenWidth > phoneMaxWidth) {
-              return const PhoneScreenAlert();
-            }
-            // Очистка локальных хранилищ при инициализации
-            if (!_clearDataCalled) {
-              _clearDataCalled = true;
-              WidgetsBinding.instance.addPostFrameCallback((_) async {
-                final ClearCubit clearCubit = sl<ClearCubit>();
-                await clearCubit.clearAllDataOnStart(context);
-                context.read<ButtonCubit>().initializeDefaults(context);
-              });
-            }
-            // Проверка интернет-соединения
-            return BlocListener<InternetCubit, InternetState>(
-              listener: (BuildContext context, InternetState state) {
-                final NavigatorState? navigator = navigatorKey.currentState;
-                if (state.type == InternetTypes.offline) {
-                  navigator?.pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => const NoInternetScreen()),
-                    (Route route) => false,
-                  );
-                } else if (state.type == InternetTypes.connected) {
-                  navigator?.pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => const SignInScreen()),
-                    (Route route) => false,
-                  );
-                  // Возможность очистить все данные при потере интернет-соединения
-                  SnackBarAction action = SnackBarAction(
-                    label: S.of(context).clearTheData,
-                    textColor: mainColor,
-                    onPressed: () async {
-                      try {
-                        final SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await prefs.setBool('manualClearRequested', true);
-                        await context
-                            .read<ClearCubit>()
-                            .clearAllDataOnStart(context);
-                        setState(() {});
-                        showCustomSnackBar(
-                          context,
-                          S.of(context).dataClearedSuccessfully,
-                          Colors.green,
+          builder: (BuildContext context) => PlatformTheme(
+            themeMode: ThemeMode.system,
+            materialLightTheme: AppTheme.lightTheme,
+            materialDarkTheme: AppTheme.darkTheme,
+            cupertinoLightTheme: cupertinoLight,
+            cupertinoDarkTheme: cupertinoDark,
+            matchCupertinoSystemChromeBrightness: true,
+            builder: (BuildContext context) => PlatformApp(
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: const <LocalizationsDelegate>[
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              navigatorKey: navigatorKey,
+              builder: (BuildContext context, Widget? child) {
+                // Проверка, чтобы приложение открылось только на смартфоне с портретной ориентацией
+                if (orientation != Orientation.portrait ||
+                    screenWidth > phoneMaxWidth) {
+                  return const PhoneScreenAlert();
+                }
+                // Очистка локальных хранилищ при инициализации
+                if (!_clearDataCalled) {
+                  _clearDataCalled = true;
+                  WidgetsBinding.instance.addPostFrameCallback((_) async {
+                    final ClearCubit clearCubit = sl<ClearCubit>();
+                    await clearCubit.clearAllDataOnStart(context);
+                    context.read<ButtonCubit>().initializeDefaults(context);
+                  });
+                }
+                // Проверка интернет-соединения
+                return ScaffoldMessenger(
+                  key: scaffoldMessengerKey,
+                  child: BlocListener<InternetCubit, InternetState>(
+                    listener: (BuildContext context, InternetState state) {
+                      final NavigatorState? navigator =
+                          navigatorKey.currentState;
+                      if (state.type == InternetTypes.offline) {
+                        navigator?.pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => const NoInternetScreen(),
+                          ),
+                          (_) => false,
                         );
-                      } catch (e) {
+                      } else if (state.type == InternetTypes.connected) {
+                        navigator?.pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => const SignInScreen(),
+                          ),
+                          (_) => false,
+                        );
+                        // Возможность очистить все данные при потере интернет-соединения
+                        SnackBarAction action = SnackBarAction(
+                          label: S.of(context).clearTheData,
+                          textColor: mainColor,
+                          onPressed: () async {
+                            try {
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.setBool('manualClearRequested', true);
+                              await context
+                                  .read<ClearCubit>()
+                                  .clearAllDataOnStart(context);
+                              setState(() {});
+                              showCustomSnackBar(
+                                context,
+                                S.of(context).dataClearedSuccessfully,
+                                Colors.green,
+                              );
+                            } catch (e) {
+                              showCustomSnackBar(
+                                context,
+                                S.of(context).dataCleaningError,
+                                Colors.red,
+                              );
+                            }
+                          },
+                        );
                         showCustomSnackBar(
                           context,
-                          S.of(context).dataCleaningError,
-                          Colors.red,
+                          S.of(context).clearTheDataAndStartOver,
+                          Colors.grey,
+                          action: action,
                         );
                       }
                     },
-                  );
-                  showCustomSnackBar(
-                    context,
-                    S.of(context).clearTheDataAndStartOver,
-                    Colors.grey,
-                    action: action,
-                  );
-                }
+                    child: child,
+                  ),
+                );
               },
-              child: child,
-            );
-          },
-          home: const SignInScreen(),
+              home: const SignInScreen(),
+            ),
+          ),
         ),
       ),
     );

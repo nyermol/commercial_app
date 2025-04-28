@@ -33,7 +33,7 @@ jobs:
           flutter-version: 3.19.6
       - name: Получение зависимостей
         run: flutter pub get
-      - name: Запуск тестов с отчтетом
+      - name: Запуск тестов с отчетом
         run: flutter test --coverage
       - name: Получение отчета
         uses: actions/upload-artifact@v4

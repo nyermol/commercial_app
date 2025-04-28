@@ -33,7 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ammoniaLevel": MessageLookupByLibrary.simpleMessage("Ammonia level"),
         "ammoniaSI": MessageLookupByLibrary.simpleMessage("mg/m3"),
         "androidDisplayAbstract": MessageLookupByLibrary.simpleMessage(
-            "For Android, a notification about the successful download of the file will appear. \'\n\'The document will be located in Files - Download."),
+            "For Android, a notification about the successful download of the file will appear.\nThe document will be located in Files - Download."),
         "authorization": MessageLookupByLibrary.simpleMessage("Auth"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
         "bath1": MessageLookupByLibrary.simpleMessage("Bath №1"),
@@ -70,8 +70,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "entry": MessageLookupByLibrary.simpleMessage("Sign in"),
         "errorDocumentGeneration":
             MessageLookupByLibrary.simpleMessage("Document generation error"),
+        "errorProcessingImage": MessageLookupByLibrary.simpleMessage(
+            "Error while processing the image"),
         "externalDisplayAbstract": MessageLookupByLibrary.simpleMessage(
-            "If you have problems with generating a PDF, \'\n\'try to open the document in a new window."),
+            "If you have problems with generating a PDF,\ntry to open the document in a new window."),
         "finishingItems": MessageLookupByLibrary.simpleMessage("Finish"),
         "geometryItems": MessageLookupByLibrary.simpleMessage("Geometry"),
         "imagePreview": MessageLookupByLibrary.simpleMessage("Image preview"),
@@ -80,7 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inspectionDateEnter":
             MessageLookupByLibrary.simpleMessage("Enter inspection date"),
         "iosDisplayAbstract": MessageLookupByLibrary.simpleMessage(
-            "For IOS, the document will be opened in a new winwow. \'\n\'You can save the document to the device using button \"Share\"."),
+            "For IOS, the document will be opened in a new winwow.\nYou can save the document to the device using button \"Share\"."),
         "leave": MessageLookupByLibrary.simpleMessage("Leave"),
         "listEmpty": MessageLookupByLibrary.simpleMessage("List is empty"),
         "listLength": MessageLookupByLibrary.simpleMessage(
@@ -124,7 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pdfSuccessfullyOpened": MessageLookupByLibrary.simpleMessage(
             "PDF document is successfully generated!"),
         "phoneScreenAlert": MessageLookupByLibrary.simpleMessage(
-            "Пожалуйста, откройте приложение по ссылке на смартфоне в \'\n          \'портретной ориентации"),
+            "Please open the application via the link on\nthe smartphone in portrait orientation"),
         "photoPreviewForRemark": MessageLookupByLibrary.simpleMessage(
             "Preview of images for a remark"),
         "photoWait": MessageLookupByLibrary.simpleMessage(
@@ -145,8 +147,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("List of disadvanteges"),
         "remarksNotFound":
             MessageLookupByLibrary.simpleMessage("No disadvantages found"),
-        "removeRemark": MessageLookupByLibrary.simpleMessage(
-            "Are you sure delete this remark?"),
+        "removeRemark":
+            MessageLookupByLibrary.simpleMessage("Are you sure delete?"),
         "requiredAllField": MessageLookupByLibrary.simpleMessage(
             "Please fill in all the required fields"),
         "requiredField":

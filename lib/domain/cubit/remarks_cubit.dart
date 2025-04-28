@@ -63,8 +63,9 @@ class RemarksCubit extends Cubit<Map<String, List<Remark>>> {
         state.map((String key, List<Remark> remarks) {
       final List<Remark> updatedRemarks = remarks.map((Remark remark) {
         if (remark.subtitle.isNotEmpty &&
+            !remark.isGeneralRemark &&
             !selectedRoomNames.contains(remark.subtitle)) {
-          return remark.copyWith(subtitle: '');
+          return remark.copyWith(subtitle: '', isGeneralRemark: false);
         }
         return remark;
       }).toList();

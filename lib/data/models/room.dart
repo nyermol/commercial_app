@@ -14,7 +14,7 @@ class Room {
   @HiveField(2)
   String controllerValue;
 
-  @HiveField(3)
+  @HiveField(3, defaultValue: 1)
   int quantity;
 
   Room({

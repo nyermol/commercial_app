@@ -34,7 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ammoniaLevel": MessageLookupByLibrary.simpleMessage("Уровень аммиака"),
         "ammoniaSI": MessageLookupByLibrary.simpleMessage("мг/м3"),
         "androidDisplayAbstract": MessageLookupByLibrary.simpleMessage(
-            "Для Android - появится уведомление об успешной загрузке файла. \'\n\'Сам документ расположен в Мои файлы (Файлы) - Загрузки."),
+            "Для Android - появится уведомление об успешной загрузке файла.\nСам документ расположен в Мои файлы (Файлы) - Загрузки."),
         "authorization": MessageLookupByLibrary.simpleMessage("Авторизация"),
         "back": MessageLookupByLibrary.simpleMessage("Назад"),
         "bath1": MessageLookupByLibrary.simpleMessage("В с/у №1"),
@@ -71,8 +71,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "entry": MessageLookupByLibrary.simpleMessage("Войти"),
         "errorDocumentGeneration": MessageLookupByLibrary.simpleMessage(
             "Ошибка при генерации документа"),
+        "errorProcessingImage": MessageLookupByLibrary.simpleMessage(
+            "Ошибка при обработке изображения"),
         "externalDisplayAbstract": MessageLookupByLibrary.simpleMessage(
-            "Если произошли проблемы с генерацией PDF документа, \'\n\'то попробуйте открыть документ в новом окне."),
+            "Если произошли проблемы с генерацией PDF документа,\nто попробуйте открыть документ в новом окне."),
         "finishingItems": MessageLookupByLibrary.simpleMessage("Отделка"),
         "geometryItems": MessageLookupByLibrary.simpleMessage("Геометрия"),
         "imagePreview":
@@ -81,7 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inspectionDateEnter":
             MessageLookupByLibrary.simpleMessage("Введите дату осмотра"),
         "iosDisplayAbstract": MessageLookupByLibrary.simpleMessage(
-            "Для IOS - документ будет открыт в новом окне. \'\n\'Сохранить документ на устройство можно через кнопку \"Поделиться\"."),
+            "Для IOS - документ будет открыт в новом окне.\nСохранить документ на устройство можно через кнопку \"Поделиться\"."),
         "leave": MessageLookupByLibrary.simpleMessage("Оставить"),
         "listEmpty": MessageLookupByLibrary.simpleMessage("Список пуст"),
         "listLength": MessageLookupByLibrary.simpleMessage(
@@ -125,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pdfSuccessfullyOpened": MessageLookupByLibrary.simpleMessage(
             "PDF документ успешно сформирован!"),
         "phoneScreenAlert": MessageLookupByLibrary.simpleMessage(
-            "Пожалуйста, откройте приложение по ссылке на смартфоне в \'\n          \'портретной ориентации"),
+            "Пожалуйста, откройте приложение по ссылке на смартфоне в\nпортретной ориентации"),
         "photoPreviewForRemark": MessageLookupByLibrary.simpleMessage(
             "Предпросмотр изображений к недостатку"),
         "photoWait": MessageLookupByLibrary.simpleMessage(
@@ -147,7 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "remarksNotFound":
             MessageLookupByLibrary.simpleMessage("Недостатки не найдены"),
         "removeRemark": MessageLookupByLibrary.simpleMessage(
-            "Вы действительно хотите удалить этот недостаток?"),
+            "Вы действительно хотите удалить?"),
         "requiredAllField": MessageLookupByLibrary.simpleMessage(
             "Пожалуйта, заполните все обязательные поля"),
         "requiredField":

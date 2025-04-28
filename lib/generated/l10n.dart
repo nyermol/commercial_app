@@ -850,10 +850,10 @@ class S {
     );
   }
 
-  /// `Are you sure delete this remark?`
+  /// `Are you sure delete?`
   String get removeRemark {
     return Intl.message(
-      'Are you sure delete this remark?',
+      'Are you sure delete?',
       name: 'removeRemark',
       desc: '',
       args: [],
@@ -970,30 +970,30 @@ class S {
     );
   }
 
-  /// `For IOS, the document will be opened in a new winwow. '\n'You can save the document to the device using button "Share".`
+  /// `For IOS, the document will be opened in a new winwow.\nYou can save the document to the device using button "Share".`
   String get iosDisplayAbstract {
     return Intl.message(
-      'For IOS, the document will be opened in a new winwow. \'\n\'You can save the document to the device using button "Share".',
+      'For IOS, the document will be opened in a new winwow.\nYou can save the document to the device using button "Share".',
       name: 'iosDisplayAbstract',
       desc: '',
       args: [],
     );
   }
 
-  /// `For Android, a notification about the successful download of the file will appear. '\n'The document will be located in Files - Download.`
+  /// `For Android, a notification about the successful download of the file will appear.\nThe document will be located in Files - Download.`
   String get androidDisplayAbstract {
     return Intl.message(
-      'For Android, a notification about the successful download of the file will appear. \'\n\'The document will be located in Files - Download.',
+      'For Android, a notification about the successful download of the file will appear.\nThe document will be located in Files - Download.',
       name: 'androidDisplayAbstract',
       desc: '',
       args: [],
     );
   }
 
-  /// `If you have problems with generating a PDF, '\n'try to open the document in a new window.`
+  /// `If you have problems with generating a PDF,\ntry to open the document in a new window.`
   String get externalDisplayAbstract {
     return Intl.message(
-      'If you have problems with generating a PDF, \'\n\'try to open the document in a new window.',
+      'If you have problems with generating a PDF,\ntry to open the document in a new window.',
       name: 'externalDisplayAbstract',
       desc: '',
       args: [],
@@ -1050,11 +1050,21 @@ class S {
     );
   }
 
-  /// `Пожалуйста, откройте приложение по ссылке на смартфоне в '\n          'портретной ориентации`
+  /// `Please open the application via the link on\nthe smartphone in portrait orientation`
   String get phoneScreenAlert {
     return Intl.message(
-      'Пожалуйста, откройте приложение по ссылке на смартфоне в \'\n          \'портретной ориентации',
+      'Please open the application via the link on\nthe smartphone in portrait orientation',
       name: 'phoneScreenAlert',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error while processing the image`
+  String get errorProcessingImage {
+    return Intl.message(
+      'Error while processing the image',
+      name: 'errorProcessingImage',
       desc: '',
       args: [],
     );

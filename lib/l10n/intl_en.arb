@@ -79,7 +79,7 @@
   "tryAgain": "Try again",
   "wrongPassword": "Wrong password",
   "wrongLogin": "Wrong login",
-  "removeRemark": "Are you sure delete this remark?",
+  "removeRemark": "Are you sure delete?",
   "photoWait": "The photo is being uploaded. Please wait.",
   "changeRoom": "Change the room selection",
   "city": "City",
@@ -91,13 +91,14 @@
   "back": "Back",
   "chooseAction": "Choose an action",
   "chooseDisplayDocument": "Choose the way to display the document",
-  "iosDisplayAbstract": "For IOS, the document will be opened in a new winwow. '\n'You can save the document to the device using button \"Share\".",
-  "androidDisplayAbstract": "For Android, a notification about the successful download of the file will appear. '\n'The document will be located in Files - Download.",
-  "externalDisplayAbstract": "If you have problems with generating a PDF, '\n'try to open the document in a new window.",
+  "iosDisplayAbstract": "For IOS, the document will be opened in a new winwow.\nYou can save the document to the device using button \"Share\".",
+  "androidDisplayAbstract": "For Android, a notification about the successful download of the file will appear.\nThe document will be located in Files - Download.",
+  "externalDisplayAbstract": "If you have problems with generating a PDF,\ntry to open the document in a new window.",
   "downloadDocument": "Download the document",
   "documentOpenWindowAbstract": "The document will be opened in a new window",
   "openDocumentWindow": "Open in a new browser window",
   "pdfSuccessfullyOpened": "PDF document is successfully generated!",
   "errorDocumentGeneration": "Document generation error",
-  "phoneScreenAlert": "Пожалуйста, откройте приложение по ссылке на смартфоне в '\n          'портретной ориентации"
+  "phoneScreenAlert": "Please open the application via the link on\nthe smartphone in portrait orientation",
+  "errorProcessingImage": "Error while processing the image"
 }
